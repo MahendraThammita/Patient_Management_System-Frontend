@@ -9,6 +9,7 @@ import {
 
 //components
 import DocTemplate from './components/doctor/DocTemplate';
+import RegisterStaff from './components/Support_Staff/Staff_Registration/RegisterStaff';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
       <Switch>
         <Route path="/doctor">
           <DocTemplate />
+        </Route>
+        <Route path="/RegisterStaff">
+          <RegisterStaff />
         </Route>
       </Switch>
     </div>
