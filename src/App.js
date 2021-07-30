@@ -10,6 +10,7 @@ import {
 //components
 import DocTemplate from './components/doctor/DocTemplate';
 import RegisterStaff from './components/Support_Staff/Staff_Registration/RegisterStaff';
+import ReceptionistRegister from "./components/Receptionist/Register";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
         <Route path="/RegisterStaff">
           <RegisterStaff />
         </Route>
+          <Route path="/receptionist-register">
+              <ReceptionistRegister />
+          </Route>
       </Switch>
     </div>
   </Router>
