@@ -11,6 +11,8 @@ import {
 import DocTemplate from './components/doctor/DocTemplate';
 import RegisterStaff from './components/Support_Staff/Staff_Registration/RegisterStaff';
 import ReceptionistRegister from "./components/Receptionist/Register";
+import ReceptionistLogin from "./components/Receptionist/Login";
+import AddDoctor from "./components/Receptionist/AddDoctor";
 
 function App() {
   return (
@@ -25,6 +27,12 @@ function App() {
         </Route>
           <Route path="/receptionist-register">
               <ReceptionistRegister />
+          </Route>
+          <Route path="/add-doctor">
+              <AddDoctor />
+          </Route>
+          <Route path="/receptionist-login">
+              <ReceptionistLogin />
           </Route>
       </Switch>
     </div>
