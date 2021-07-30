@@ -13,3 +13,37 @@
     border-radius: 10px;
     background-color: darkslategrey;
 }
+
+.uditha-left-form-container{
+    position: absolute;
+    top: 60%;
+    margin-left: 30%;
+    float: left;
+    width: 50%;
+    min-height: 400px;
+    height: auto;
+    padding: 40px;
+    color: azure;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0,0,0,.8);
+    border-radius: 10px;
+    background-color: darkslategrey;
+}
+
+.uditha-site-card-border-less-wrapper{
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    margin-left: 30%;
+    background: transparent;
+    float: right;
+}
+
+.uditha-time-picker{
+    position: absolute;
+    top: 30%;
+    left: 5%;
+    margin-left: 50%;
+    z-index: 99;
+}
