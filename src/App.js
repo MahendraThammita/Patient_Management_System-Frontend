@@ -13,6 +13,7 @@ import RegisterStaff from './components/Support_Staff/Staff_Registration/Registe
 import ReceptionistRegister from "./components/Receptionist/Register";
 import ReceptionistLogin from "./components/Receptionist/Login";
 import AddDoctor from "./components/Receptionist/AddDoctor";
+import PatientDash from './components/patient/PatientDash';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
       <Switch>
         <Route path="/doctor">
           <DocTemplate />
+        </Route> 
+        <Route path="/patient">
+          <PatientDash />
         </Route>
         <Route path="/RegisterStaff">
           <RegisterStaff />
