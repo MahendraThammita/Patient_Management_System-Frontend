@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Form, Input, PageHeader , Button } from 'antd';
-import '../../assets/css/uditha.css'
+import '../../../assets/css/uditha.css'
 
 const layout = {
     labelCol: {

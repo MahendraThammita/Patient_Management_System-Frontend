@@ -10,8 +10,8 @@ import {
 //components
 import DocTemplate from './components/doctor/DocTemplate';
 import RegisterStaff from './components/Support_Staff/Staff_Registration/RegisterStaff';
-import ReceptionistRegister from "./components/Receptionist/Register";
-import ReceptionistLogin from "./components/Receptionist/Login";
+import ReceptionistRegister from "./components/Receptionist/Authontications/Register";
+import ReceptionistLogin from "./components/Receptionist/Authontications/Login";
 import AddDoctor from "./components/Receptionist/AddDoctor";
 import Dashboard from "./components/Receptionist/Dashboard/Base";
 
