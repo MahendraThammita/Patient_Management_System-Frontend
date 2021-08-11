@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Typography , Image } from 'antd';
+import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Typography, Image } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import '../../../assets/css/mahen_general.css';
 import Logo from '../../../assets/img/PMS.Temp.logo.png'
+import { green } from '@material-ui/core/colors';
 
 const { Option } = Select;
 const { Header, Content, Sider } = Layout;
@@ -16,10 +18,10 @@ export default class RegisterStaff extends Component {
     }
 
     componentDidUpdate() {
-        document.querySelector("body").style.backgroundColor = "#c0c0c0";
+        document.querySelector("body").style.backgroundColor = "#f0f0f0";
     }
     componentDidMount() {
-        document.querySelector("body").style.backgroundColor = "#c0c0c0";
+        document.querySelector("body").style.backgroundColor = "#f0f0f0";
     }
 
 
@@ -32,6 +34,12 @@ export default class RegisterStaff extends Component {
                 sm: {
                     span: 8,
                 },
+                md: {
+                    span: 12,
+                },
+                lg: {
+                    span: 12,
+                },
             },
             wrapperCol: {
                 xs: {
@@ -39,6 +47,12 @@ export default class RegisterStaff extends Component {
                 },
                 sm: {
                     span: 16,
+                },
+                md: {
+                    span: 24,
+                },
+                lg: {
+                    span: 24,
                 },
             },
         };
@@ -57,14 +71,29 @@ export default class RegisterStaff extends Component {
         const onFinish = (values) => {
             console.log('Received values of form: ', values);
         };
+        const prefixSelector = (
+            <Form.Item name="prefix" noStyle>
+                <Select
+                    style={{
+                        width: 70,
+                    }}
+                >
+                    <Option value="86">+94</Option>
+                    <Option value="87">+87</Option>
+                </Select>
+            </Form.Item>
+        );
         return (
             <React.Fragment className="general-background">
                 <Row justify="start" align="bottom">
+                    <Col span={1}>
+                        <Button type="link" icon={<ArrowLeftOutlined style={{ fontSize: '30px', color: '#08c' }}/> } style={{marginBottom: 30 , marginLeft:20}}/>
+                    </Col>
                     <Col span={2}>
-                        <Title>PMS</Title>
+                        <Title style={{marginTop: 20}}>PMS</Title>
                     </Col>
                     <Col span={10}>
-                        <Title level={4} type="secondary">Welcome to PMS Patient Management System</Title>
+                        <Title level={4} type="secondary" style={{marginBottom: 23}}>Welcome to PMS Patient Management System</Title>
                     </Col>
                 </Row>
                 <Row justify="space-around" align="middle">
@@ -73,8 +102,6 @@ export default class RegisterStaff extends Component {
                             className="content-general"
                             style={{
                                 padding: 24,
-                                margin: 0,
-                                minHeight: 280,
                             }}
                         >
                             <Row justify="center" align="bottom">
@@ -93,11 +120,15 @@ export default class RegisterStaff extends Component {
                                     PMS Medical Staff Registration
                                 </Title>
                             </Row>
-                            <Row justify="center" align="bottom">
+                            <Row justify="center" align="bottom" style={{
+                                        padding: 0,
+                                        marginBottom: 20
+                                    }}>
                                 <Title level={4} type="secondary">Register with your medical staff role</Title>
                             </Row>
                             <Form
                                 {...formItemLayout}
+                                layout="vertical"
                                 name="register"
                                 onFinish={onFinish}
                                 initialValues={{
@@ -106,120 +137,186 @@ export default class RegisterStaff extends Component {
                                 }}
                                 scrollToFirstError
                             >
-                                <Form.Item
-                                    name="email"
-                                    label="E-mail"
-                                    rules={[
-                                        {
-                                            type: 'email',
-                                            message: 'The input is not valid E-mail!',
-                                        },
-                                        {
-                                            required: true,
-                                            message: 'Please input your E-mail!',
-                                        },
-                                    ]}
-                                >
-                                    <Input />
-                                </Form.Item>
+                                <Row justify="space-between" align="bottom" >
+                                    <Col span={11}>
+                                        <Form.Item
+                                            name="fName"
+                                            label="First Name"
+                                            required
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please enter your first name!',
+                                                },
+                                            ]}
+                                            tooltip="Your first name as in the NIC">
+                                            <Input placeholder="First Name" />
+                                        </Form.Item>
 
-                                <Form.Item
-                                    name="password"
-                                    label="Password"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Please input your password!',
-                                        },
-                                    ]}
-                                    hasFeedback
-                                >
-                                    <Input.Password />
-                                </Form.Item>
+                                    </Col>
+                                    <Col span={11}>
+                                        <Form.Item
+                                            name="lName"
+                                            label="Last Name"
+                                            required
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please enter your last name!',
+                                                },
+                                            ]}
+                                            tooltip={{ title: 'Your last name as in the NIC' }}
+                                        >
+                                            <Input placeholder="Last Name" />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
 
-                                <Form.Item
-                                    name="confirm"
-                                    label="Confirm Password"
-                                    dependencies={['password']}
-                                    hasFeedback
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Please confirm your password!',
-                                        },
-                                        ({ getFieldValue }) => ({
-                                            validator(_, value) {
-                                                if (!value || getFieldValue('password') === value) {
-                                                    return Promise.resolve();
-                                                }
-                                                return Promise.reject(new Error('The two passwords that you entered do not match!'));
-                                            },
-                                        }),
-                                    ]}
-                                >
-                                    <Input.Password />
-                                </Form.Item>
+                                <Row justify="space-between" align="bottom">
+                                    <Col span={24}>
+                                        <Form.Item
+                                            span={24}
+                                            name="email"
+                                            label="E-mail"
+                                            tooltip={{ title: 'Enter your personal Email address' }}
+                                            rules={[
+                                                {
+                                                    type: 'email',
+                                                    message: 'The input is not valid E-mail!',
+                                                },
+                                                {
+                                                    required: true,
+                                                    message: 'Please input your E-mail!',
+                                                },
+                                            ]}
+                                        >
+                                            <Input placeholder="Ex : yourname@abc.com" />
+                                        </Form.Item>
 
-                                <Form.Item
-                                    name="nickname"
-                                    label="Nickname"
-                                    tooltip="What do you want others to call you?"
-                                    rules={[{ required: true, message: 'Please input your nickname!', whitespace: true }]}
-                                >
-                                    <Input />
-                                </Form.Item>
+                                    </Col>
+                                </Row>
 
+                                <Row justify="space-between" align="bottom">
+                                    <Col span={11}>
+                                        <Form.Item
+                                            name="phone"
+                                            label="Phone Number"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please input your phone number!',
+                                                },
+                                                {
+                                                    len: 9,
+                                                    message: 'Please enter a valid phone number!',
+                                                },
+                                            ]}
+                                        >
+                                            <Input
+                                                addonBefore={prefixSelector}
+                                                style={{
+                                                    width: '100%',
+                                                }}
+                                            />
+                                        </Form.Item>
 
+                                    </Col>
+                                    <Col span={11}>
+                                        <Form.Item
+                                            name="NIC"
+                                            label="NIC" 
+                                            required
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please entrt your NIC!',
+                                                },
+                                                // {
+                                                //     len: 10,
+                                                //     message: 'Please enter a valid NIC!',
+                                                // },
+                                                {
+                                                    pattern: /[0-9]{9}[V|v|x|X]/,
+                                                    message: 'Please enter a valid NIC!',
+                                                },
+                                            ]}
+                                            tooltip={{ title: 'Enter your NIC with ther letter "V" at the end.' }}
+                                        >
+                                            <Input placeholder="NIC" />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                                <Row justify="space-between" align="bottom">
+                                    <Col span={11}>
+                                        <Form.Item
+                                            name="role"
+                                            label="Medical Staff Role"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please select your Medical Staff Role!',
+                                                },
+                                            ]}
+                                        >
+                                            <Select defaultValue="Select role">
+                                                <Option value="Nurse">Nurse</Option>
+                                                <Option value="Laboratory Staff">Laboratory Staff</Option>
+                                                <Option value="Pharmacist" >Pharmacist</Option>
+                                            </Select>
+                                        </Form.Item>
 
-                                <Form.Item
-                                    name="gender"
-                                    label="Gender"
-                                    rules={[{ required: true, message: 'Please select gender!' }]}
-                                >
-                                    <Select placeholder="select your gender">
-                                        <Option value="male">Male</Option>
-                                        <Option value="female">Female</Option>
-                                        <Option value="other">Other</Option>
-                                    </Select>
-                                </Form.Item>
+                                    </Col>
+                                </Row>
+                                <Row justify="space-between" align="bottom">
+                                    <Col span={11}>
+                                        <Form.Item
+                                            name="password"
+                                            label="Password"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please input your password!',
+                                                },
+                                            ]}
+                                            hasFeedback
+                                        >
+                                            <Input.Password />
+                                        </Form.Item>
 
-                                <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-                                    <Row gutter={8}>
-                                        <Col span={12}>
-                                            <Form.Item
-                                                name="captcha"
-                                                noStyle
-                                                rules={[{ required: true, message: 'Please input the captcha you got!' }]}
-                                            >
-                                                <Input />
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Button>Get captcha</Button>
-                                        </Col>
-                                    </Row>
-                                </Form.Item>
+                                    </Col>
+                                    <Col span={11}>
+                                        <Form.Item
+                                            name="confirm"
+                                            label="Confirm Password"
+                                            dependencies={['password']}
+                                            hasFeedback
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please confirm your password!',
+                                                },
+                                                ({ getFieldValue }) => ({
+                                                    validator(_, value) {
+                                                        if (!value || getFieldValue('password') === value) {
+                                                            return Promise.resolve();
+                                                        }
+                                                        return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                                                    },
+                                                }),
+                                            ]}
+                                        >
+                                            <Input.Password />
+                                        </Form.Item>
 
-                                <Form.Item
-                                    name="agreement"
-                                    valuePropName="checked"
-                                    rules={[
-                                        {
-                                            validator: (_, value) =>
-                                                value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                                        },
-                                    ]}
-                                    {...tailFormItemLayout}
-                                >
-                                    <Checkbox>
-                                        I have read the <a href="">agreement</a>
-                                    </Checkbox>
-                                </Form.Item>
-                                <Form.Item {...tailFormItemLayout}>
-                                    <Button type="primary" htmlType="submit">
-                                        Register
-                                    </Button>
-                                </Form.Item>
+                                    </Col>
+                                </Row>
+                                <Row justify="end" align="bottom" style={{ marginRight: 30 }}>
+                                    <Form.Item {...tailFormItemLayout}>
+                                        <Button type="primary" htmlType="submit">
+                                            Register
+                                        </Button>
+                                    </Form.Item>
+                                </Row>
                             </Form>
                         </Content>
                     </Col>
