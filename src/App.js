@@ -15,6 +15,8 @@ import ReceptionistLogin from "./components/Receptionist/Login";
 import AddDoctor from "./components/Receptionist/AddDoctor";
 import PatientDash from './components/patient/PatientDash';
 import PatientLogin from './components/patient/PatientLogin';
+import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
+
 
 function App() {
   return (
@@ -41,6 +43,9 @@ function App() {
           </Route>
           <Route path="/receptionist-login">
               <ReceptionistLogin />
+          </Route>
+          <Route path="/staff-login">
+              <LoginStaff />
           </Route>
       </Switch>
     </div>
