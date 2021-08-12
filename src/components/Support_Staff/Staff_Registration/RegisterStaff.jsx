@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Typography, Image } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import 'antd/dist/antd.css';
 import '../../../assets/css/mahen_general.css';
 import Logo from '../../../assets/img/PMS.Temp.logo.png'
 import { green } from '@material-ui/core/colors';
 
 const { Option } = Select;
-const { Header, Content, Sider } = Layout;
-const { Title, Text } = Typography;
+const { Content } = Layout;
+const { Title } = Typography;
 
 export default class RegisterStaff extends Component {
     constructor(props) {
