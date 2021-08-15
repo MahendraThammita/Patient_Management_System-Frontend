@@ -14,8 +14,11 @@ import ReceptionistRegister from "./components/Receptionist/Register";
 import ReceptionistLogin from "./components/Receptionist/Login";
 import AddDoctor from "./components/Receptionist/AddDoctor";
 import PatientDash from './components/patient/PatientDash';
+import PatientLogin from './components/patient/PatientLogin';
 import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
 import NurseDashboard from './components/Support_Staff/Nurse_Dashboard/NurseDashboard';
+import Patientregister from './components/patient/PatientRegister';
+
 
 function App() {
   return (
@@ -25,6 +28,12 @@ function App() {
         <Route path="/doctor">
           <DocTemplate />
         </Route> 
+        <Route path="/patientreg">
+          <Patientregister/>
+        </Route>
+        <Route path="/patientlogin">
+          <PatientLogin />
+        </Route>
         <Route path="/patient">
           <PatientDash />
         </Route>
