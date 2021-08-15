@@ -139,7 +139,6 @@ class PatientRegister extends Component {
           <div style={{marginLeft:"10%", marginTop:"5%", width:"60%", textAlign:"center"}}>
           <Form
             {...formItemLayout}
-            form={form}
             name="register"
             onFinish={onFinish}
             initialValues={{
@@ -260,7 +259,7 @@ class PatientRegister extends Component {
                 },
                 ]}
             >
-                <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
+                <AutoComplete placeholder="website">
                 <Input />
                 </AutoComplete>
             </Form.Item>
