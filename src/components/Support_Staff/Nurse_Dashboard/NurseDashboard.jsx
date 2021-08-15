@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { Form, Row, Col, Button, Layout, Typography, Image, Menu, Breadcrumb, Avatar } from 'antd';
-import { UserOutlined, NotificationOutlined, LaptopOutlined, AntDesignOutlined } from '@ant-design/icons';
+import { Form, Row, Col, Button, Layout, Typography, Divider, Menu, Breadcrumb, Avatar } from 'antd';
+import { UserOutlined, NotificationOutlined, LaptopOutlined, SnippetsOutlined, CarryOutOutlined, ExperimentOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
+import { Pie } from '@ant-design/charts';
 import '../../../assets/css/mahen_general.css';
-import Logo from '../../../assets/img/PMS.Temp.logo.png'
+import WelcomeSection from '../DashboardCommon/WelcomeSection'
+import SummerySection from '../DashboardCommon/SummerySection'
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 export default class NurseDashboard extends Component {
@@ -18,6 +20,47 @@ export default class NurseDashboard extends Component {
 
 
     render() {
+        var data = [
+            {
+              type: 'Compleated',
+              value: 27,
+            },
+            {
+              type: 'To be Compleated',
+              value: 25,
+            },
+          ];
+        var config = {
+            appendPadding: 0,
+            data: data,
+            angleField: 'value',
+            colorField: 'type',
+            radius: 1,
+            innerRadius: 0.7,
+            legend: false,
+            label: {
+              type:'inner',
+              offset: '-50%',
+              content: '{value}',
+              style: {
+                textAlign: 'center',
+                fontSize: 10,
+              },
+            },
+            interactions: [{ type: 'element-selected' }, { type: 'element-active' }],
+            statistic: {
+              title: false,
+              content: {
+                style: {
+                  whiteSpace: 'pre-wrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  fontSize: 24,
+                },
+                content: '28%',
+              },
+            },
+          };
         return (
             <div>
                 <Layout>
@@ -54,44 +97,30 @@ export default class NurseDashboard extends Component {
                             </Menu>
                         </Sider>
                         <Layout style={{ padding: '0 24px 24px' }}>
-                            <Content
-                                className="site-layout-background"
-                                style={{
-                                    padding: 24,
-                                    margin: 16,
-                                    minHeight: 80,
-                                }}
-                            >
-                                <Breadcrumb>
-                                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                                </Breadcrumb>
-                                <Title level={3}>PMS OPD</Title>
-                                <Row>
-                                    <Col span={12}>
-                                        <Row>
-                                            <Col span={6}>
-                                                <Avatar
-                                                    src="https://image.pngaaa.com/408/81408-middle.png"
-                                                    size={{ xs: 24, sm: 32, md: 40, lg: 100, xl: 100, xxl: 100 }}
-                                                />,
-                                            </Col>
-                                            <Col span={18}>
-                                                <Row>
-                                                    <Title level={4}>Good morning, Jenny Keller, have a great day!</Title>
-                                                </Row>
-                                                <Row>
-                                                    <Title level={5}>Assistant Nursing Officer / OPD</Title>
-                                                </Row>
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                    <Col span={12}>
-
-                                    </Col>
-                                </Row>
-                            </Content>
+                            <WelcomeSection />
+                            <Row>
+                                <Col span={6}>
+                                    <SummerySection />
+                                </Col>
+                                <Col span={18}>
+                                    <Row>
+                                        <Col span={8}>
+                                            <Content
+                                                className="site-layout-background"
+                                                style={{
+                                                    paddingLeft: 24,
+                                                    paddingRight:24,
+                                                    paddingTop:0,
+                                                    margin: 16,
+                                                }}
+                                            >
+                                                <Pie {...config} />
+                                                <Title level={3} type="secondary">Appontment</Title>
+                                            </Content>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
                         </Layout>
                     </Layout>
                 </Layout>,
