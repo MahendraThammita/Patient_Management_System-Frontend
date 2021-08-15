@@ -16,6 +16,7 @@ import AddDoctor from "./components/Receptionist/AddDoctor";
 import PatientDash from './components/patient/PatientDash';
 import PatientLogin from './components/patient/PatientLogin';
 import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
+import Patientregister from './components/patient/PatientRegister';
 
 
 function App() {
@@ -26,6 +27,9 @@ function App() {
         <Route path="/doctor">
           <DocTemplate />
         </Route> 
+        <Route path="/patientreg">
+          <Patientregister/>
+        </Route>
         <Route path="/patientlogin">
           <PatientLogin />
         </Route>
