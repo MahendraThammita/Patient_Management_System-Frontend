@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { Form, Input, PageHeader , Button } from 'antd';
 import '../../../assets/css/uditha.css'
+import axios from "axios";
+import {useHistory} from "react-router-dom";
 
 const layout = {
     labelCol: {
@@ -13,6 +15,7 @@ const layout = {
 
 const ReceptionistLogin = () => {
 
+    const  history = useHistory();
 
     const [employeeID, setEmpID] = useState('');
     const [password, setPassword] = useState('');
@@ -23,15 +26,26 @@ const ReceptionistLogin = () => {
 
 
     const onFinish = (e) => {
+        const user = {
+            employeeID: employeeID,
+            password: password
+        }
 
-
-        const formData = new FormData();
-        formData.append("employeeID",employeeID);
-        formData.append("password",password);
-
-        console.log(formData);
-
-        const url = "";
+        const url = "http://localhost:8090/receptionist/login";
+        axios.post(url, user).then((res) => {
+            if(res.data.status === 200){
+                history.push("/receptionist-dashboard");
+            }
+            else if(res.data.status === 401){
+                alert("Invalid credentials!");
+            }
+            else if(res.data.status === 404){
+                alert("User does not exist!");
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
     };
 
     return (
