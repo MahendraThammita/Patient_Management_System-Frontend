@@ -16,6 +16,7 @@ import AddDoctor from "./components/Receptionist/AddDoctor";
 import PatientDash from './components/patient/PatientDash';
 import PatientLogin from './components/patient/PatientLogin';
 import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
+import NurseDashboard from './components/Support_Staff/Nurse_Dashboard/NurseDashboard';
 import Patientregister from './components/patient/PatientRegister';
 
 
@@ -27,9 +28,9 @@ function App() {
         <Route path="/doctor">
           <DocTemplate />
         </Route> 
-        <Route path="/patientreg">
+        {/* <Route path="/patientreg">
           <Patientregister/>
-        </Route>
+        </Route> */}
         <Route path="/patientlogin">
           <PatientLogin />
         </Route>
@@ -50,6 +51,9 @@ function App() {
           </Route>
           <Route path="/staff-login">
               <LoginStaff />
+          </Route>
+          <Route path="/NurseDashboard">
+              <NurseDashboard />
           </Route>
       </Switch>
     </div>
