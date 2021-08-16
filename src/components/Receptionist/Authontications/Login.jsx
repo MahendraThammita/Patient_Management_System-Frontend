@@ -13,13 +13,12 @@ const layout = {
 
 const ReceptionistLogin = () => {
 
-    const [fullName, setFullname] = useState('');
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
+
+    const [employeeID, setEmpID] = useState('');
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        document.body.style.backgroundColor = "#282c34"
+        document.body.style.backgroundColor = "white"
     })
 
 
@@ -27,7 +26,7 @@ const ReceptionistLogin = () => {
 
 
         const formData = new FormData();
-        formData.append("username",username);
+        formData.append("employeeID",employeeID);
         formData.append("password",password);
 
         console.log(formData);
@@ -46,16 +45,16 @@ const ReceptionistLogin = () => {
                 subTitle="Sign In as a Receptionist"
 
             />
-            <Form {...layout}  onFinish={onFinish} >
-                <Form.Item label="Username">
-                    <Input onChange={(e) => {setUsername(e.target.value)}} />
+            <Form {...layout} style={{marginLeft:"20%", marginTop:"10%"}} onFinish={onFinish} >
+                <Form.Item>
+                    <Input placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
                 </Form.Item>
 
-                <Form.Item label="Password">
-                    <Input type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
+                <Form.Item >
+                    <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
                 </Form.Item>
 
-                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
                     <Button type="primary" htmlType="submit">
                         Sign In
                     </Button>
