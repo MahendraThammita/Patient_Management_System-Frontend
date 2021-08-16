@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { Form, Input, PageHeader , Button } from 'antd';
 import '../../../assets/css/uditha.css'
+import axios from "axios";
+import {useHistory} from "react-router-dom";;
 
 const layout = {
     labelCol: {
@@ -13,10 +15,12 @@ const layout = {
 
 const ReceptionistRegister = () => {
 
-    const [employeeID, setEmpID] = useState('');
-    const [mobile, setMobile] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const  history = useHistory();
+
+    const [employeeID, setEmpID] = useState();
+    const [mobile, setMobile] = useState();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
 
     useEffect(() => {
         document.body.style.backgroundColor = "white"
@@ -25,16 +29,27 @@ const ReceptionistRegister = () => {
 
     const onFinish = (e) => {
 
-
-        const formData = new FormData();
-        formData.append("employeeID",employeeID);
-        formData.append("mobileNumber",mobile);
-        formData.append("username",username);
-        formData.append("password",password);
+        const formData = {
+            employeeID: employeeID,
+            mobileNumber: mobile,
+            username: username,
+            password: password
+        }
 
         console.log(formData);
 
-        const url = "";
+        const url = "http://localhost:8090/receptionist/register";
+        axios.post(url, formData).then((res) => {
+            if(res.data.status === 201){
+                history.push("/receptionist-login");
+            }
+            else if(res.data.status === 401){
+                alert("User Already Exist");
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
     };
 
     return (
