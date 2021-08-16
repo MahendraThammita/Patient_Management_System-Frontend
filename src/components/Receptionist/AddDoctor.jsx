@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Form, Input, PageHeader , Button } from 'antd';
+import { Form, Input, PageHeader , Button, Avatar } from 'antd';
 import '../../assets/css/uditha.css'
 import TimeSlots from "./TimeSlots";
 
@@ -18,14 +18,38 @@ const AddDoctor = () => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [doctor_image, setImage] = useState("");
+
+    const [selectedFile, setSelectedFile] = useState()
+    const [preview, setPreview] = useState()
 
     useEffect(() => {
         document.body.style.backgroundColor = "#282c34"
     })
 
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreview(undefined)
+            return
+        }
+
+        const objectUrl = URL.createObjectURL(selectedFile)
+        setPreview(objectUrl)
+
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [selectedFile])
+
+    const onSelectFile = e => {
+        if (!e.target.files || e.target.files.length === 0) {
+            setSelectedFile(undefined)
+            return
+        }
+
+        setSelectedFile(e.target.files[0])
+        setImage(e.target.files[0])
+    }
 
     const onFinish = (e) => {
-
 
         const formData = new FormData();
         formData.append("fullname",fullName);
@@ -51,21 +75,29 @@ const AddDoctor = () => {
                 title="Add Doctor to System"
 
             />
+
+            <Avatar style={{marginBottom:'10px', marginRight:'5px'}}
+                size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+                src={preview}
+            />
+
+            <input type="file" onChange={onSelectFile}/>
+
             <Form {...layout}  onFinish={onFinish} >
-                <Form.Item label="Full Name">
-                    <Input onChange={(e) => {setFullname(e.target.value)}} />
+                <Form.Item>
+                    <Input placeholder="Full Name" onChange={(e) => {setFullname(e.target.value)}} />
                 </Form.Item>
 
-                <Form.Item label="Email">
-                    <Input onChange={(e) => {setEmail(e.target.value)}} />
+                <Form.Item>
+                    <Input placeholder="Email" onChange={(e) => {setEmail(e.target.value)}} />
                 </Form.Item>
 
-                <Form.Item label="User Name">
-                    <Input onChange={(e) => {setUsername(e.target.value)}} />
+                <Form.Item>
+                    <Input placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
                 </Form.Item>
 
-                <Form.Item label="Password">
-                    <Input type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
+                <Form.Item>
+                    <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
