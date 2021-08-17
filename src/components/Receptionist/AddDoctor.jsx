@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from "react";
-import { Form, Input, PageHeader , Button, Avatar } from 'antd';
+import { Form, Input, PageHeader , Button, Avatar, Select  } from 'antd';
 import '../../assets/css/uditha.css'
 import TimeSlots from "./TimeSlots";
+import axios from "axios";
+import {useHistory} from "react-router-dom";
 
 const layout = {
     labelCol: {
@@ -14,17 +16,23 @@ const layout = {
 
 const AddDoctor = () => {
 
-    const [fullName, setFullname] = useState('');
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [doctor_image, setImage] = useState("");
+    const  history = useHistory();
+
+    const [doctorID, setDoctorID] = useState();
+    const [fullName, setFullname] = useState();
+    const [email, setEmail] = useState();
+    const [mobile, setMobile] = useState();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const [specialty, setSpecialty] = useState();
+    const [doctor_image, setImage] = useState();
 
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState()
+    const { Option } = Select;
 
     useEffect(() => {
-        document.body.style.backgroundColor = "#282c34"
+        document.body.style.backgroundColor = "whiteSmoke"
     })
 
     useEffect(() => {
@@ -49,17 +57,36 @@ const AddDoctor = () => {
         setImage(e.target.files[0])
     }
 
+
+    const onSpecialtyChange = (value) => {
+       setSpecialty(value);
+        }
+
     const onFinish = (e) => {
 
         const formData = new FormData();
-        formData.append("fullname",fullName);
+        formData.append("doctorID",doctorID);
+        formData.append("fullName",fullName);
         formData.append("email",email);
+        formData.append("mobileNumber",mobile);
+        formData.append("specialty",specialty);
         formData.append("username",username);
         formData.append("password",password);
+        formData.append('profileImage', doctor_image);
 
-        console.log(formData);
 
-        const url = "";
+        const url = "http://localhost:8090/doctor/add";
+        axios.post(url, formData).then((res) => {
+            if(res.data.status === 201){
+                history.push("/receptionist-dashboard");
+            }
+            else if(res.data.status === 401){
+                alert("User Already Exist");
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
     };
 
     return (
@@ -85,11 +112,31 @@ const AddDoctor = () => {
 
             <Form {...layout}  onFinish={onFinish} >
                 <Form.Item>
+                    <Input placeholder="Doctor ID" onChange={(e) => {setDoctorID(e.target.value)}} />
+                </Form.Item>
+
+                <Form.Item>
                     <Input placeholder="Full Name" onChange={(e) => {setFullname(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item>
                     <Input placeholder="Email" onChange={(e) => {setEmail(e.target.value)}} />
+                </Form.Item>
+
+                <Form.Item>
+                    <Input placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
+                </Form.Item>
+
+                <Form.Item name="specialty"  rules={[{ required: true }]}>
+                    <Select
+                        placeholder="Specialty"
+                        onChange={onSpecialtyChange}
+                        allowClear
+                    >
+                        <Option value="ENT">ENT</Option>
+                        <Option value="other">other</Option>
+                        <Option value="fhgj">fhgj</Option>
+                    </Select>
                 </Form.Item>
 
                 <Form.Item>
