@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { Form, Input, PageHeader , Button } from 'antd';
 import '../../../assets/css/uditha.css'
+import axios from "axios";
+import {useHistory} from "react-router-dom";;
 
 const layout = {
     labelCol: {
@@ -13,28 +15,41 @@ const layout = {
 
 const ReceptionistRegister = () => {
 
-    const [fullName, setFullname] = useState('');
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const  history = useHistory();
+
+    const [employeeID, setEmpID] = useState();
+    const [mobile, setMobile] = useState();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
 
     useEffect(() => {
-        document.body.style.backgroundColor = "#282c34"
+        document.body.style.backgroundColor = "white"
     })
 
 
     const onFinish = (e) => {
 
-
-        const formData = new FormData();
-        formData.append("fullname",fullName);
-        formData.append("email",email);
-        formData.append("username",username);
-        formData.append("password",password);
+        const formData = {
+            employeeID: employeeID,
+            mobileNumber: mobile,
+            username: username,
+            password: password
+        }
 
         console.log(formData);
 
-        const url = "";
+        const url = "http://localhost:8090/receptionist/register";
+        axios.post(url, formData).then((res) => {
+            if(res.data.status === 201){
+                history.push("/receptionist-login");
+            }
+            else if(res.data.status === 401){
+                alert("User Already Exist");
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
     };
 
     return (
@@ -48,30 +63,30 @@ const ReceptionistRegister = () => {
                 subTitle="Sign Up as a Receptionist"
 
             />
-        <Form {...layout}  onFinish={onFinish} >
-            <Form.Item label="Full Name">
-                <Input onChange={(e) => {setFullname(e.target.value)}} />
-            </Form.Item>
+            <Form {...layout} style={{marginLeft:"20%"}}  onFinish={onFinish} >
+                <Form.Item >
+                    <Input placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
+                </Form.Item>
 
-            <Form.Item label="Email">
-                <Input onChange={(e) => {setEmail(e.target.value)}} />
-            </Form.Item>
+                <Form.Item>
+                    <Input placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
+                </Form.Item>
 
-            <Form.Item label="User Name">
-                <Input onChange={(e) => {setUsername(e.target.value)}} />
-            </Form.Item>
+                <Form.Item >
+                    <Input placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
+                </Form.Item>
 
-            <Form.Item label="Password">
-                <Input type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
-            </Form.Item>
+                <Form.Item >
+                    <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
+                </Form.Item>
 
-            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                <Button type="primary" htmlType="submit">
-                    Sign Up
-                </Button>
-            </Form.Item>
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
+                    <Button type="primary" htmlType="submit">
+                        Sign Up
+                    </Button>
+                </Form.Item>
 
-        </Form>
+            </Form>
         </div>
     );
 };

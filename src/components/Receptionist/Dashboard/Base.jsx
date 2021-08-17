@@ -4,6 +4,10 @@ import Doctors from "./Doctors";
 
 const Dashboard = () => {
 
+    useEffect(() => {
+        document.body.style.backgroundColor = "white"
+    })
+
     return(
         <div>
             <Doctors/>

@@ -6,12 +6,16 @@ import '../../../assets/css/uditha.css'
 const Doctors = () => {
 
     const { Meta } = Card;
+    const { Search } = Input;
+
+    const onSearch = value => console.log(value);
 
     return(
-        <div style={{float:"left"}}>
+        <div style={{float:"left", marginLeft: '10px', marginTop:'5%'}}>
+            <Search style={{marginBottom: '5px'}} placeholder="Search Doctors" onSearch={onSearch} enterButton />
             <Card
 
-                style={{ width: 400, height:400 }}
+                style={{ width: 400, height:500 }}
                 cover={
                     <img
                         alt="example"
