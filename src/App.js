@@ -14,6 +14,12 @@ import ReceptionistRegister from "./components/Receptionist/Authontications/Regi
 import ReceptionistLogin from "./components/Receptionist/Authontications/Login";
 import AddDoctor from "./components/Receptionist/AddDoctor";
 import Dashboard from "./components/Receptionist/Dashboard/Base";
+import PatientDash from './components/patient/PatientDash';
+import PatientLogin from './components/patient/PatientLogin';
+import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
+import NurseDashboard from './components/Support_Staff/Nurse_Dashboard/NurseDashboard';
+import Patientregister from './components/patient/PatientRegister';
+
 
 function App() {
   return (
@@ -22,6 +28,15 @@ function App() {
       <Switch>
         <Route path="/doctor">
           <DocTemplate />
+        </Route>
+        <Route path="/patientreg">
+          <Patientregister/>
+        </Route>
+        <Route path="/patientlogin">
+          <PatientLogin />
+        </Route>
+        <Route path="/patient">
+          <PatientDash />
         </Route>
         <Route path="/RegisterStaff">
           <RegisterStaff />
@@ -34,6 +49,12 @@ function App() {
           </Route>
           <Route path="/receptionist-login">
               <ReceptionistLogin />
+          </Route>
+          <Route path="/staff-login">
+              <LoginStaff />
+          </Route>
+          <Route path="/NurseDashboard">
+              <NurseDashboard />
           </Route>
           <Route path="/receptionist-dashboard">
               <Dashboard />
