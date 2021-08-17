@@ -47,3 +47,8 @@
     margin-left: 50%;
     z-index: 99;
 }
+
+.uditha-dashboard-align{
+    display:flex;
+    flex-direction:row;
+}
