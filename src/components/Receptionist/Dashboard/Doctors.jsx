@@ -25,7 +25,7 @@ const Doctors = () => {
             >
                 <Meta
                     avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                    title="Card title"
+                    title="Dr John Doe"
                 />
             </Card>,
         </div>
