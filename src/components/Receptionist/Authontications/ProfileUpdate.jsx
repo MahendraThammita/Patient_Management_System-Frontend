@@ -25,11 +25,22 @@ const ReceptionistProfile = (props) => {
     const [oldPassword, setOldPassword] = useState();
     const [newPassword, setNewPassword] = useState();
 
+
     const userID = params.userID;
 
     useEffect(() => {
         document.body.style.backgroundColor = "white"
     })
+
+    useEffect(() => {
+        const url = "http://localhost:8090/receptionist/" + userID ;
+        axios.get(url).then((res) => {
+
+            setUsername(res.data.user.username);
+            setMobile(res.data.user.mobileNumber);
+
+        })
+    },[])
 
 
     const onFinish = (e) => {
@@ -44,6 +55,7 @@ const ReceptionistProfile = (props) => {
         const url = "http://localhost:8090/receptionist/update/" + userID;
         axios.put(url, formData).then((res) => {
             if(res.data.status === 200){
+                alert('Profile updated successfully')
                 history.push("/receptionist-dashboard");
             }
             else if(res.data.status === 401){
@@ -69,11 +81,11 @@ const ReceptionistProfile = (props) => {
             <Form {...layout} style={{marginLeft:"20%"}}  onFinish={onFinish} >
 
                 <Form.Item>
-                    <Input placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
+                    <Input placeholder="Mobile Number" value={mobile} onChange={(e) => {setMobile(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item >
-                    <Input placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
+                    <Input placeholder="Username" value={username} onChange={(e) => {setUsername(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item >
