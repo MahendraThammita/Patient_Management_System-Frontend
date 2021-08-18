@@ -5,9 +5,8 @@ import 'antd/dist/antd.css';
 import Highlighter from 'react-highlight-words';
 import '../../../assets/css/mahen_general.css';
 
-const { Title, Text, Link } = Typography;
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const { Title} = Typography;
+const { Content} = Layout;
 
 export default class CompleteAppointmentListComponant extends Component {
     constructor(props) {
