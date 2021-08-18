@@ -34,6 +34,8 @@ const ReceptionistLogin = () => {
         const url = "http://localhost:8090/receptionist/login";
         axios.post(url, user).then((res) => {
             if(res.data.status === 200){
+                localStorage.setItem("user-id",res.data.user._id);
+                localStorage.setItem("user-name",res.data.user.username);
                 history.push("/receptionist-dashboard");
             }
             else if(res.data.status === 401){

@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
-import { Form, Input, PageHeader , Button } from 'antd';
+import {Button, Form, Input, PageHeader} from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
-import {useHistory} from "react-router-dom";;
+import {useHistory, useParams } from "react-router-dom";
+
+;
 
 const layout = {
     labelCol: {
@@ -16,11 +18,14 @@ const layout = {
 const ReceptionistProfile = (props) => {
 
     const  history = useHistory();
+    const params = useParams();
 
     const [mobile, setMobile] = useState();
     const [username, setUsername] = useState();
     const [oldPassword, setOldPassword] = useState();
     const [newPassword, setNewPassword] = useState();
+
+    const userID = params.userID;
 
     useEffect(() => {
         document.body.style.backgroundColor = "white"
@@ -38,7 +43,7 @@ const ReceptionistProfile = (props) => {
 
         console.log(formData);
 
-        const url = "http://localhost:8090/receptionist/update" + props.match.params.userID;
+        const url = "http://localhost:8090/receptionist/update" + userID;
         axios.put(url, formData).then((res) => {
             if(res.data.status === 201){
                 history.push("/receptionist-dashboard");
