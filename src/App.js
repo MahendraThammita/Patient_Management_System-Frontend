@@ -13,6 +13,7 @@ import RegisterStaff from './components/Support_Staff/Staff_Registration/Registe
 import ReceptionistRegister from "./components/Receptionist/Authontications/Register";
 import ReceptionistLogin from "./components/Receptionist/Authontications/Login";
 import AddDoctor from "./components/Receptionist/AddDoctor";
+import Dashboard from "./components/Receptionist/Dashboard/Base";
 import PatientDash from './components/patient/PatientDash';
 import PatientLogin from './components/patient/PatientLogin';
 import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
@@ -25,9 +26,24 @@ function App() {
     <Router>
       <div>
       <Switch>
+        <Route path="/doctor">
+          <DocTemplate />
+        </Route>
+        <Route path="/patientreg">
+          <Patientregister/>
+        </Route>
+        <Route path="/patientlogin">
+          <PatientLogin />
+        </Route>
+        <Route path="/patient">
+          <PatientDash />
+        </Route>
+        <Route path="/RegisterStaff">
+          <RegisterStaff />
+        </Route>
           <Route path="/doctor">
             <DocTemplate />
-          </Route> 
+          </Route>
           <Route path="/patientreg">
             <Patientregister/>
           </Route>
@@ -54,6 +70,9 @@ function App() {
           </Route>
           <Route path="/NurseDashboard">
               <NurseDashboard />
+          </Route>
+          <Route path="/receptionist-dashboard">
+              <Dashboard />
           </Route>
           <Route path="/Nurse-appointments">
               <AppointmentsTab />
