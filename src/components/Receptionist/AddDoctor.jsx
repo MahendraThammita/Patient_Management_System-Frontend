@@ -26,6 +26,7 @@ const AddDoctor = () => {
     const [password, setPassword] = useState();
     const [specialty, setSpecialty] = useState();
     const [doctor_image, setImage] = useState();
+    const [status, setStatus] = useState('In');
 
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState()
@@ -65,7 +66,6 @@ const AddDoctor = () => {
     const onFinish = (e) => {
 
         const formData = new FormData();
-        formData.append("doctorID",doctorID);
         formData.append("fullName",fullName);
         formData.append("email",email);
         formData.append("mobileNumber",mobile);
@@ -73,12 +73,14 @@ const AddDoctor = () => {
         formData.append("username",username);
         formData.append("password",password);
         formData.append('profileImage', doctor_image);
+        formData.append('status', status);
 
 
         const url = "http://localhost:8090/doctor/add";
         axios.post(url, formData).then((res) => {
             if(res.data.status === 201){
-                history.push("/receptionist-dashboard");
+                setDoctorID(res.data.doctor._id);
+                alert('Doctor profile saved!')
             }
             else if(res.data.status === 401){
                 alert("User Already Exist");
@@ -89,10 +91,14 @@ const AddDoctor = () => {
         })
     };
 
+    const onSubmit = () => {
+        history.push('/receptionist-dashboard')
+    }
+
     return (
 
         <div>
-            <TimeSlots/>
+            <TimeSlots doctorID={doctorID}/>
 
         <div className="uditha-left-form-container">
 
@@ -103,17 +109,16 @@ const AddDoctor = () => {
 
             />
 
-            <Avatar style={{marginBottom:'10px', marginRight:'5px'}}
-                size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+            <div className="uditha-dashboard-align">
+            <Avatar className="uditha-avatar-align"
+                size={80}
                 src={preview}
             />
 
-            <input type="file" onChange={onSelectFile}/>
+            <input  style={{marginTop:'25px'}} type="file" onChange={onSelectFile}/>
+            </div>
 
-            <Form {...layout}  onFinish={onFinish} >
-                <Form.Item>
-                    <Input placeholder="Doctor ID" onChange={(e) => {setDoctorID(e.target.value)}} />
-                </Form.Item>
+            <Form style={{marginLeft:'20%'}} {...layout}  onFinish={onFinish} >
 
                 <Form.Item>
                     <Input placeholder="Full Name" onChange={(e) => {setFullname(e.target.value)}} />
@@ -147,9 +152,12 @@ const AddDoctor = () => {
                     <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
                 </Form.Item>
 
-                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
                     <Button type="primary" htmlType="submit">
-                         Submit
+                         Save
+                    </Button>
+                    <Button onClick={onSubmit} style={{marginLeft:'10px'}} type="primary" htmlType="submit">
+                        Submit schedule
                     </Button>
                 </Form.Item>
 

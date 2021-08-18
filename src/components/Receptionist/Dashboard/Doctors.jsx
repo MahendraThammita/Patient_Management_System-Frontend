@@ -1,12 +1,37 @@
 import React, {useEffect, useState} from "react";
-import { Form, Input, PageHeader , Button,  Card, Avatar } from 'antd';
+import {Form, Input, PageHeader, Button, Card, Avatar, List, Tag} from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import '../../../assets/css/uditha.css'
+import axios from "axios";
 
 const Doctors = () => {
 
-    const { Meta } = Card;
     const { Search } = Input;
+    const[doctors, setDoctors] = useState([]);
+
+
+    useEffect(() => {
+        const url = "http://localhost:8090/doctor";
+        axios.get(url).then((res) => {
+
+            setDoctors(res.data.doctors);
+        })
+    },[])
+
+    const data = [
+        {
+            title: 'Ant Design Title 1',
+        },
+        {
+            title: 'Ant Design Title 2',
+        },
+        {
+            title: 'Ant Design Title 3',
+        },
+        {
+            title: 'Ant Design Title 4',
+        },
+    ];
 
     const onSearch = value => console.log(value);
 
@@ -14,8 +39,7 @@ const Doctors = () => {
         <div style={{float:"left", marginLeft: '60px', marginTop:'5%'}}>
             <Search style={{marginBottom: '5px'}} placeholder="Search Doctors" onSearch={onSearch} enterButton />
             <Card
-
-                style={{ width: 400, height:500 }}
+                style={{ width: 400, height:'auto' }}
                 cover={
                     <img
                         alt="example"
@@ -23,11 +47,24 @@ const Doctors = () => {
                     />
                 }
             >
-                <Meta
-                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                    title="Dr John Doe"
-                />
-            </Card>,
+                <List
+                    itemLayout="horizontal"
+                    dataSource={doctors}
+                    renderItem={doctor => (
+
+                        <List.Item
+                            actions={[<a key="list-loadmore-more">View</a>]}
+                        >
+                            <List.Item.Meta
+                                avatar={<Avatar src={"http://localhost:8090/" + doctor.profileImage} />}
+                                title={<a href="https://ant.design">{doctor.fullName}</a>}
+                                description={doctor.specialty}
+                            />
+                        </List.Item>
+                    )}
+                />,
+
+            </Card>
         </div>
     )
 }

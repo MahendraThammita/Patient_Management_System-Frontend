@@ -7,31 +7,30 @@ const CurrentAppointment = () => {
 
     const data = [
         {
-            title: 'Ant Design Title 1',
+            title: 'Mr Leo Doe',
         },
         {
-            title: 'Ant Design Title 2',
+            title: 'Mr Leo Doe',
         },
         {
-            title: 'Ant Design Title 3',
+            title: 'Mr Leo Doe',
         },
         {
-            title: 'Ant Design Title 4',
+            title: 'Mr Leo Doe',
         },
     ];
 
 
     const { Search } = Input;
 
-    const[doctors, setList] = useState([]);
-    const[initLoading, setInitLoading] = useState();
+    const[appointments, setAppointments] = useState([]);
+
 
     useEffect(() => {
-        const url = "https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat&noinfo";
+        const url = "http://localhost:8090/doctor";
         axios.get(url).then((res) => {
 
-          setList(res.data.results);
-          setInitLoading(false);
+            setAppointments(res.data);
 
         })
     })
@@ -62,9 +61,8 @@ const CurrentAppointment = () => {
                             actions={[<Tag color="purple">04.00 pm</Tag>, <a key="list-loadmore-more">View</a>]}
                         >
                             <List.Item.Meta
-                                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                                 title={<a href="https://ant.design">{item.title}</a>}
-                                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                description="with Dr John Doe"
                             />
                         </List.Item>
                     )}
