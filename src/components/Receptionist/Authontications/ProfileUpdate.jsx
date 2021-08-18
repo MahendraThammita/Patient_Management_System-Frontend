@@ -41,15 +41,13 @@ const ReceptionistProfile = (props) => {
             newPassword: newPassword
         }
 
-        console.log(formData);
-
-        const url = "http://localhost:8090/receptionist/update" + userID;
+        const url = "http://localhost:8090/receptionist/update/" + userID;
         axios.put(url, formData).then((res) => {
-            if(res.data.status === 201){
+            if(res.data.status === 200){
                 history.push("/receptionist-dashboard");
             }
             else if(res.data.status === 401){
-                alert("User Already Exist");
+                alert("Incorrect Password");
             }
             else{
                 alert("Something went wrong");
