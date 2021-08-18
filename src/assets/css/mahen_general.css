@@ -6,7 +6,7 @@
     background: #c0c0c0;
 }
 
-#components-layout-demo-top-side-2 .logo {
+#components-layout-demo-top-side-2{
     float: left;
     width: 120px;
     height: 31px;
@@ -21,4 +21,10 @@
   
   .site-layout-background {
     background: #fff;
+  }
+
+.logo {
+    height: 32px;
+    margin: 12px;
+    background: rgba(255, 255, 255, 0.2);
   }
