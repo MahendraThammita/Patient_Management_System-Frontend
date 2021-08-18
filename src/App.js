@@ -20,6 +20,7 @@ import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
 import NurseDashboard from './components/Support_Staff/Nurse_Dashboard/NurseDashboard';
 import Patientregister from './components/patient/PatientRegister';
 import AppointmentsTab from './components/Support_Staff/Nurse_Dashboard/AppointmentsTab';
+import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/SampleColectionsTab';
 
 function App() {
   return (
@@ -76,6 +77,9 @@ function App() {
           </Route>
           <Route path="/Nurse-appointments">
               <AppointmentsTab />
+          </Route>
+          <Route path="/Nurse-samples">
+              <SampleColectionsTab />
           </Route>
       </Switch>
     </div>
