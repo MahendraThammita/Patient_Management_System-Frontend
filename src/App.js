@@ -13,12 +13,14 @@ import RegisterStaff from './components/Support_Staff/Staff_Registration/Registe
 import ReceptionistRegister from "./components/Receptionist/Authontications/Register";
 import ReceptionistLogin from "./components/Receptionist/Authontications/Login";
 import AddDoctor from "./components/Receptionist/AddDoctor";
+import Dashboard from "./components/Receptionist/Dashboard/Base";
 import PatientDash from './components/patient/PatientDash';
 import PatientLogin from './components/patient/PatientLogin';
 import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
 import NurseDashboard from './components/Support_Staff/Nurse_Dashboard/NurseDashboard';
 import Patientregister from './components/patient/PatientRegister';
 import AppointmentsTab from './components/Support_Staff/Nurse_Dashboard/AppointmentsTab';
+import ReceptionistProfile from "./components/Receptionist/Authontications/ProfileUpdate";
 import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/SampleColectionsTab';
 import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
 
@@ -29,7 +31,7 @@ function App() {
       <Switch>
         <Route path="/doctor">
           <DocTemplate />
-        </Route> 
+        </Route>
         <Route path="/patientreg">
           <Patientregister/>
         </Route>
@@ -42,6 +44,21 @@ function App() {
         <Route path="/RegisterStaff">
           <RegisterStaff />
         </Route>
+          <Route path="/doctor">
+            <DocTemplate />
+          </Route>
+          <Route path="/patientreg">
+            <Patientregister/>
+          </Route>
+          <Route path="/patientlogin">
+            <PatientLogin />
+          </Route>
+          <Route path="/patient">
+            <PatientDash />
+          </Route>
+          <Route path="/RegisterStaff">
+            <RegisterStaff />
+          </Route>
           <Route path="/receptionist-register">
               <ReceptionistRegister />
           </Route>
@@ -57,6 +74,9 @@ function App() {
           <Route path="/NurseDashboard">
               <NurseDashboard />
           </Route>
+          <Route path="/receptionist-dashboard">
+              <Dashboard />
+          </Route>
           <Route path="/Nurse-appointments">
               <AppointmentsTab />
           </Route>
@@ -66,6 +86,9 @@ function App() {
           <Route path="/create-prescription">
               <CreatePrescriptionComponant />
           </Route>
+        <Route path="/receptionist-profile/:userID">
+          <ReceptionistProfile/>
+        </Route>
       </Switch>
     </div>
   </Router>

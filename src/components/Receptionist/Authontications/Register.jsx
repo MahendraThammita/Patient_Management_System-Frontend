@@ -63,30 +63,30 @@ const ReceptionistRegister = () => {
                 subTitle="Sign Up as a Receptionist"
 
             />
-        <Form {...layout} style={{marginLeft:"20%"}}  onFinish={onFinish} >
-            <Form.Item >
-                <Input placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
-            </Form.Item>
+            <Form {...layout} style={{marginLeft:"20%"}}  onFinish={onFinish} >
+                <Form.Item >
+                    <Input placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
+                </Form.Item>
 
-            <Form.Item>
-                <Input placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
-            </Form.Item>
+                <Form.Item>
+                    <Input placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
+                </Form.Item>
 
-            <Form.Item >
-                <Input placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
-            </Form.Item>
+                <Form.Item >
+                    <Input placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
+                </Form.Item>
 
-            <Form.Item >
-                <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
-            </Form.Item>
+                <Form.Item >
+                    <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
+                </Form.Item>
 
-            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
-                <Button type="primary" htmlType="submit">
-                    Sign Up
-                </Button>
-            </Form.Item>
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
+                    <Button type="primary" htmlType="submit">
+                        Sign Up
+                    </Button>
+                </Form.Item>
 
-        </Form>
+            </Form>
         </div>
     );
 };
