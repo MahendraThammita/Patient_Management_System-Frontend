@@ -21,8 +21,8 @@ import NurseDashboard from './components/Support_Staff/Nurse_Dashboard/NurseDash
 import Patientregister from './components/patient/PatientRegister';
 import AppointmentsTab from './components/Support_Staff/Nurse_Dashboard/AppointmentsTab';
 import ReceptionistProfile from "./components/Receptionist/Authontications/ProfileUpdate";
-
 import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/SampleColectionsTab';
+import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
 
 function App() {
   return (
@@ -82,6 +82,9 @@ function App() {
           </Route>
           <Route path="/Nurse-samples">
               <SampleColectionsTab />
+          </Route>
+          <Route path="/create-prescription">
+              <CreatePrescriptionComponant />
           </Route>
         <Route path="/receptionist-profile/:userID">
           <ReceptionistProfile/>
