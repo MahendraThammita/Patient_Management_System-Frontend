@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Form, Input, PageHeader , Button, Avatar, Select  } from 'antd';
+import { Form, Input, PageHeader , Button, Avatar, Select, Switch   } from 'antd';
 import '../../assets/css/uditha.css'
 import TimeSlots from "./TimeSlots";
 import axios from "axios";
@@ -91,6 +91,16 @@ const AddDoctor = () => {
         })
     };
 
+    function onChange(checked) {
+
+        if(checked === false){
+            setStatus('Out');
+        }
+        else{
+            setStatus('In');
+        }
+    }
+
     const onSubmit = () => {
         history.push('/receptionist-dashboard')
     }
@@ -106,6 +116,7 @@ const AddDoctor = () => {
                 className="site-page-header"
                 onBack={() => null}
                 title="Add Doctor to System"
+                extra={ [ <p>Doctor is {status} </p>,<Switch defaultChecked onChange={onChange}/>]}
 
             />
 
