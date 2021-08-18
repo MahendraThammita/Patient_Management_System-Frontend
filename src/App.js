@@ -25,21 +25,21 @@ function App() {
     <Router>
       <div>
       <Switch>
-        <Route path="/doctor">
-          <DocTemplate />
-        </Route> 
-        {/* <Route path="/patientreg">
-          <Patientregister/>
-        </Route> */}
-        <Route path="/patientlogin">
-          <PatientLogin />
-        </Route>
-        <Route path="/patient">
-          <PatientDash />
-        </Route>
-        <Route path="/RegisterStaff">
-          <RegisterStaff />
-        </Route>
+          <Route path="/doctor">
+            <DocTemplate />
+          </Route> 
+          <Route path="/patientreg">
+            <Patientregister/>
+          </Route>
+          <Route path="/patientlogin">
+            <PatientLogin />
+          </Route>
+          <Route path="/patient">
+            <PatientDash />
+          </Route>
+          <Route path="/RegisterStaff">
+            <RegisterStaff />
+          </Route>
           <Route path="/receptionist-register">
               <ReceptionistRegister />
           </Route>
