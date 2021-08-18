@@ -4,327 +4,135 @@ import { Layout } from 'antd';
 import Logo from './../../assets/img/pmslogo.png'
 import Logo2 from './../../assets/img/outlined logo.png'
 
-import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
-const { Option } = Select;
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+import {
+    Form,
+    Input,
+    Button,
+    Radio,
+    Select,
+    Cascader,
+    DatePicker,
+    InputNumber,
+    TreeSelect,
+    Switch,
+} from 'antd';
 
-const formItemLayout = {
-    labelCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 8,
-      },
-    },
-    wrapperCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 16,
-      },
-    },
-  };
-  const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-        offset: 0,
-      },
-      sm: {
-        span: 16,
-        offset: 8,
-      },
-    },
-  };
-
-  
 const { Header } = Layout;
 
 class PatientRegister extends Component {
-
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
-            autoCompleteResult:"",
-            setAutoCompleteResult:""
+            componentSize: 'default'
         }
     }
+    
 
   render() {
 
-    // const [form] = Form.useForm();
+    const onFormLayoutChange = ({ size }) => {
+        this.state.setComponentSize(size);
+      };
 
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
-
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    </Form.Item>
-  );
-//   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-
-//   const onWebsiteChange = (value) => {
-//     if (!value) {
-//       setAutoCompleteResult([]);
-//     } else {
-//       setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
-//     }
-//   };
-
-//   const websiteOptions = autoCompleteResult.map((website) => ({
-//     label: website,
-//     value: website,
-//   }));
+    const onFinish = (values) => {
+      console.log('Success:', values);
+    };
+  
+    const onFinishFailed = (errorInfo) => {
+      console.log('Failed:', errorInfo);
+    };
 
     return (
 
       <div style={{backgroundColor:"#EDEDED"}}>
 
-        <Header className="site-layout-background" style={{ padding: "1.2%", display:"flex"}} >
-          <img src={Logo} alt="" style={{marginLeft:"2%", marginRight:"2%"}} /> 
+        <Header className="site-layout-background" style={{ padding: "1.2%", display:"flex",backgroundColor:"#001529"}} >
+          <img src={Logo2} alt="" style={{marginLeft:"2%", marginRight:"2%"}} /> 
             <h5 style={{color:"white",marginTop:"0.1%"}}>Patient Management System</h5>
             {/* <h6 style={{color:"white"}}>Logout</h6> */}
         </Header>
 
         <div className="log-card" style={{width:"80%", margin:"3% 10% 2% 10%", backgroundColor:"white", borderRadius:"2%", padding:"5%"}}>
           <div className="heading" style={{display:"flex", margin: "auto", width: "40%"}}>
-            <h2 style={{marginTop:"1.5%"}}>Welcome to</h2>
-            <img src={Logo2} alt="" style={{width:"150px", height:"50px", marginLeft:"3%",marginTop:"0.5%"}}/>
+            <h2 style={{marginTop:"3%"}}>WELCOME TO</h2>
+            <img src={Logo2} alt="" style={{width:"150px", height:"50px", marginLeft:"5%",marginTop:"1%"}}/>
           </div>
 
-          <div style={{marginLeft:"10%", marginTop:"5%", width:"60%", textAlign:"center"}}>
-          <Form
-            {...formItemLayout}
-            name="register"
-            onFinish={onFinish}
-            initialValues={{
-                residence: ['zhejiang', 'hangzhou', 'xihu'], 
-                prefix: '86',
-            }}
-            scrollToFirstError
-            >
-            <Form.Item
-                name="email"
-                label="E-mail"
-                rules={[
-                {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!',
-                },
-                {
-                    required: true,
-                    message: 'Please input your E-mail!',
-                },
-                ]}
-            >
-                <Input />
-            </Form.Item>
-
-            <Form.Item
-                name="password"
-                label="Password"
-                rules={[
-                {
-                    required: true,
-                    message: 'Please input your password!',
-                },
-                ]}
-                hasFeedback
-            >
-                <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-                name="confirm"
-                label="Confirm Password"
-                dependencies={['password']}
-                hasFeedback
-                rules={[
-                {
-                    required: true,
-                    message: 'Please confirm your password!',
-                },
-                ({ getFieldValue }) => ({
-                    validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
-                        return Promise.resolve();
-                    }
-
-                    return Promise.reject(new Error('The two passwords that you entered do not match!'));
-                    },
-                }),
-                ]}
-            >
-                <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-                name="nickname"
-                label="Nickname"
-                tooltip="What do you want others to call you?"
-                rules={[
-                {
-                    required: true,
-                    message: 'Please input your nickname!',
-                    whitespace: true,
-                },
-                ]}
-            >
-                <Input />
-            </Form.Item>
-
-            <Form.Item
-                name="residence"
-                label="Habitual Residence"
-                rules={[
-                {
-                    type: 'array',
-                    required: true,
-                    message: 'Please select your habitual residence!',
-                },
-                ]}
-            >
-                <Cascader options={residences} />
-            </Form.Item>
-
-            <Form.Item
-                name="phone"
-                label="Phone Number"
-                rules={[
-                {
-                    required: true,
-                    message: 'Please input your phone number!',
-                },
-                ]}
-            >
-                <Input
-                addonBefore={prefixSelector}
-                style={{
-                    width: '100%',
+          <div style={{marginLeft:"10%", marginTop:"5%", width:"90%", textAlign:"center"}}>
+            <Form
+                labelCol={{
+                span: 4,
                 }}
-                />
-            </Form.Item>
-
-            <Form.Item
-                name="website"
-                label="Website"
-                rules={[
-                {
-                    required: true,
-                    message: 'Please input website!',
-                },
-                ]}
+                wrapperCol={{
+                span: 14,
+                }}
+                layout="horizontal"
+                initialValues={{
+                size: this.state.componentSize,
+                }}
+                onValuesChange={onFormLayoutChange}
+                size={this.state.componentSize}
             >
-                <AutoComplete placeholder="website">
+                <Form.Item label="Form Size" name="size">
+                <Radio.Group>
+                    <Radio.Button value="small">Small</Radio.Button>
+                    <Radio.Button value="default">Default</Radio.Button>
+                    <Radio.Button value="large">Large</Radio.Button>
+                </Radio.Group>
+                </Form.Item>
+                <Form.Item label="Input">
                 <Input />
-                </AutoComplete>
-            </Form.Item>
-
-            <Form.Item
-                name="gender"
-                label="Gender"
-                rules={[
-                {
-                    required: true,
-                    message: 'Please select gender!',
-                },
-                ]}
-            >
-                <Select placeholder="select your gender">
-                <Option value="male">Male</Option>
-                <Option value="female">Female</Option>
-                <Option value="other">Other</Option>
+                </Form.Item>
+                <Form.Item label="Select">
+                <Select>
+                    <Select.Option value="demo">Demo</Select.Option>
                 </Select>
-            </Form.Item>
-
-            <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-                <Row gutter={8}>
-                <Col span={12}>
-                    <Form.Item
-                    name="captcha"
-                    noStyle
-                    rules={[
+                </Form.Item>
+                <Form.Item label="TreeSelect">
+                <TreeSelect
+                    treeData={[
+                    {
+                        title: 'Light',
+                        value: 'light',
+                        children: [
                         {
-                        required: true,
-                        message: 'Please input the captcha you got!',
+                            title: 'Bamboo',
+                            value: 'bamboo',
                         },
+                        ],
+                    },
                     ]}
-                    >
-                    <Input />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Button>Get captcha</Button>
-                </Col>
-                </Row>
-            </Form.Item>
-
-            <Form.Item
-                name="agreement"
-                valuePropName="checked"
-                rules={[
-                {
-                    validator: (_, value) =>
-                    value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                },
-                ]}
-                {...tailFormItemLayout}
-            >
-                <Checkbox>
-                I have read the <a href="">agreement</a>
-                </Checkbox>
-            </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
-                Register
-                </Button>
-            </Form.Item>
+                />
+                </Form.Item>
+                <Form.Item label="Cascader">
+                <Cascader
+                    options={[
+                    {
+                        value: 'zhejiang',
+                        label: 'Zhejiang',
+                        children: [
+                        {
+                            value: 'hangzhou',
+                            label: 'Hangzhou',
+                        },
+                        ],
+                    },
+                    ]}
+                />
+                </Form.Item>
+                <Form.Item label="DatePicker">
+                <DatePicker />
+                </Form.Item>
+                <Form.Item label="InputNumber">
+                <InputNumber />
+                </Form.Item>
+                <Form.Item label="Switch">
+                <Switch />
+                </Form.Item>
+                <Form.Item label="Button">
+                <Button>Button</Button>
+                </Form.Item>
             </Form>
-            
           </div>
         </div>
         

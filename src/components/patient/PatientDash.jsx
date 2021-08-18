@@ -58,7 +58,7 @@ class PatientDash extends Component {
                 </Menu>
                 </Sider>
                 <Layout className="site-layout">
-                    <Header className="site-layout-background" style={{ padding: "1.2%", display:"flex"}} >
+                    <Header className="site-layout-background" style={{ padding: "1.2%", display:"flex",backgroundColor:"#001529"}} >
                         <h4 style={{color:"white"}}>Patient Management System</h4>
                         {/* <h6 style={{color:"white"}}>Logout</h6> */}
                     </Header>
