@@ -20,6 +20,8 @@ import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
 import NurseDashboard from './components/Support_Staff/Nurse_Dashboard/NurseDashboard';
 import Patientregister from './components/patient/PatientRegister';
 import AppointmentsTab from './components/Support_Staff/Nurse_Dashboard/AppointmentsTab';
+import ReceptionistProfile from "./components/Receptionist/Authontications/ProfileUpdate";
+
 import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/SampleColectionsTab';
 
 function App() {
@@ -81,6 +83,9 @@ function App() {
           <Route path="/Nurse-samples">
               <SampleColectionsTab />
           </Route>
+        <Route path="/receptionist-profile/:userID">
+          <ReceptionistProfile/>
+        </Route>
       </Switch>
     </div>
   </Router>
