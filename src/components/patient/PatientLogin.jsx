@@ -24,8 +24,8 @@ class PatientLogin extends Component {
 
       <div style={{backgroundColor:"#EDEDED"}}>
 
-        <Header className="site-layout-background" style={{ padding: "1.2%", display:"flex"}} >
-          <img src={Logo} alt="" style={{marginLeft:"2%", marginRight:"2%"}} /> 
+        <Header className="site-layout-background" style={{ padding: "1.2%", display:"flex", backgroundColor:"#001529"}} >
+          <img src={Logo2} alt="" style={{marginLeft:"2%", marginRight:"2%"}} /> 
             <h5 style={{color:"white",marginTop:"0.1%"}}>Patient Management System</h5>
             {/* <h6 style={{color:"white"}}>Logout</h6> */}
         </Header>
