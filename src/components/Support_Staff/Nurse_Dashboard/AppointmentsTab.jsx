@@ -225,7 +225,7 @@ export default class AppointmentsTab extends Component {
 
                         </Layout>
                     </Layout>
-                </Layout>,
+                </Layout>
             </div>
         )
     }
