@@ -20,6 +20,8 @@ import LoginStaff from './components/Support_Staff/Staff_Login/LoginStaff';
 import NurseDashboard from './components/Support_Staff/Nurse_Dashboard/NurseDashboard';
 import Patientregister from './components/patient/PatientRegister';
 import AppointmentsTab from './components/Support_Staff/Nurse_Dashboard/AppointmentsTab';
+import ReceptionistProfile from "./components/Receptionist/Authontications/ProfileUpdate";
+
 
 function App() {
   return (
@@ -77,6 +79,9 @@ function App() {
           <Route path="/Nurse-appointments">
               <AppointmentsTab />
           </Route>
+        <Route path="/receptionist-profile/:userID">
+          <ReceptionistProfile/>
+        </Route>
       </Switch>
     </div>
   </Router>
