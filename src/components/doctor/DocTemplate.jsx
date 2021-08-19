@@ -18,7 +18,8 @@ class DocTemplate extends Component {
       loadings: [],
       h : '',
       m : '',
-      s : ''
+      s : '',
+      data : []
     }
   }
 
@@ -59,6 +60,17 @@ class DocTemplate extends Component {
     }, 6000);
   };
 
+  fetchUsernames = () =>{
+    fetch('http://localhost:8000/doctorA/get-my-name').then(res => res.json()).then(data =>{
+      this.setState({data : data})
+    }).catch(err =>{
+      console.log(err);
+    })
+  }
+
+  componentDidMount(){
+    this.fetchUsernames()
+  }
 
 
   render() {
@@ -100,9 +112,9 @@ class DocTemplate extends Component {
                           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
                       >
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="tom">Tom</Option>
+                        {this.state.data.map(item =>{
+                          return(<Option value={item._id}>{item.email}</Option>)
+                        })}
                       </Select>
                     </Form.Item>
 

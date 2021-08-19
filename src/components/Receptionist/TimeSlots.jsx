@@ -4,9 +4,13 @@ import moment from 'moment';
 import '../../assets/css/uditha.css'
 import axios from "axios";
 import {CloseCircleOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import {useHistory,useParams} from "react-router-dom";
 
 
 function TimeSlots(props){
+
+    const params = useParams();
+    const userID = params.userID;
 
     const [visible, setVisible] = useState("none");
     const [timeSlot, setTime] = useState();
@@ -14,6 +18,14 @@ function TimeSlots(props){
     const [schedule, setSchedule] = useState([]);
     const format = 'HH:mm';
     const doctorID = props.doctorID;
+
+    useEffect(() => {
+        const url = "http://localhost:8090/doctor/"+userID;
+        axios.get(url).then((res) => {
+
+            setSchedule(res.data.doctor[0].timeSlots);
+        })
+    },[])
 
     function onChange(time, timeString) {
 

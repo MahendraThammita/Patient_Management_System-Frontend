@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Form, Input, PageHeader, Button, Card, Avatar, List, Tag} from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import {Form, Input, Button, Card, Avatar, List, Tag} from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
+import {Link, useHistory} from "react-router-dom";
 
 const Doctors = () => {
 
@@ -18,25 +18,10 @@ const Doctors = () => {
         })
     },[])
 
-    const data = [
-        {
-            title: 'Ant Design Title 1',
-        },
-        {
-            title: 'Ant Design Title 2',
-        },
-        {
-            title: 'Ant Design Title 3',
-        },
-        {
-            title: 'Ant Design Title 4',
-        },
-    ];
-
     const onSearch = value => console.log(value);
 
     return(
-        <div style={{float:"left", marginLeft: '60px', marginTop:'5%'}}>
+        <div style={{float:"left", marginLeft: '5%', marginTop:'5%'}}>
             <Search style={{marginBottom: '5px'}} placeholder="Search Doctors" onSearch={onSearch} enterButton />
             <Card
                 style={{ width: 400, height:'auto' }}
@@ -53,7 +38,8 @@ const Doctors = () => {
                     renderItem={doctor => (
 
                         <List.Item
-                            actions={[<a key="list-loadmore-more">View</a>]}
+                            actions={[ <Link to ={`doctor-profile/${doctor._id}`}>
+                                <a key="list-loadmore-more">View</a></Link>]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={"http://localhost:8090/" + doctor.profileImage} />}
