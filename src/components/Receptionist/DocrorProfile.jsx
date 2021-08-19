@@ -49,7 +49,7 @@ const DoctorProfile = () => {
             setMobile(res.data.doctor[0].mobileNumber);
             setSpecialty(res.data.doctor[0].specialty);
             setStatus(res.data.doctor[0].status);
-            setPreview(res.data.doctor[0].profileImage);
+            setPreview("http://localhost:8090/" + res.data.doctor[0].profileImage);
 
         })
     },[])
@@ -98,6 +98,7 @@ const DoctorProfile = () => {
             if(res.data.status === 200){
 
                 alert('Doctor profile updated!')
+                history.push('/receptionist-dashboard');
             }
             else if(res.data.status === 400){
                 alert("Something went wrong");
@@ -164,7 +165,7 @@ const DoctorProfile = () => {
                         <Input placeholder="Mobile Number" value={specialty} onChange={(e) => {setMobile(e.target.value)}} />
                     </Form.Item>
 
-                    <Form.Item name="specialty"  rules={[{ required: true }]}>
+                    <Form.Item name="specialty">
                         <Select
                             placeholder="Specialty"
                             onChange={onSpecialtyChange}
