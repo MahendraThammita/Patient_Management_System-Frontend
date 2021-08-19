@@ -23,6 +23,7 @@ import AppointmentsTab from './components/Support_Staff/Nurse_Dashboard/Appointm
 import ReceptionistProfile from "./components/Receptionist/Authontications/ProfileUpdate";
 import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/SampleColectionsTab';
 import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
+import NurseLabRequestComponant from './components/Support_Staff/Nurse_Dashboard/NurseLabRequestComponant'
 import DoctorProfile from "./components/Receptionist/DocrorProfile";
 
 function App() {
@@ -89,6 +90,9 @@ function App() {
           </Route>
         <Route path="/receptionist-profile/:userID">
           <ReceptionistProfile/>
+        </Route>
+        <Route path="/test-request">
+          <NurseLabRequestComponant/>
         </Route>
         <Route path="/doctor-profile/:userID">
           <DoctorProfile/>
