@@ -25,10 +25,10 @@ const DoctorProfile = () => {
     const [email, setEmail] = useState();
     const [mobile, setMobile] = useState();
     const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
     const [specialty, setSpecialty] = useState();
     const [doctor_image, setImage] = useState();
-    const [status, setStatus] = useState('In');
+    const [status, setStatus] = useState();
+    const [check, setCheck] = useState();
 
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState()
@@ -50,6 +50,13 @@ const DoctorProfile = () => {
             setSpecialty(res.data.doctor[0].specialty);
             setStatus(res.data.doctor[0].status);
             setPreview("http://localhost:8090/" + res.data.doctor[0].profileImage);
+            if(res.data.doctor[0].status == "In"){
+                setCheck(true);
+            }
+            else{
+                setCheck(false)
+            }
+
 
         })
     },[])
@@ -113,14 +120,12 @@ const DoctorProfile = () => {
 
         if(checked === false){
             setStatus('Out');
+            setCheck(false);
         }
         else{
             setStatus('In');
+            setCheck(true);
         }
-    }
-
-    const onSubmit = () => {
-        history.push('/receptionist-dashboard')
     }
 
     return (
@@ -134,7 +139,7 @@ const DoctorProfile = () => {
                     className="site-page-header"
                     onBack={() => null}
                     title="Doctor Profile"
-                    extra={ [ <p>Doctor is {status} </p>,<Switch defaultChecked onChange={onChange}/>]}
+                    extra={ [ <p>Doctor is {status} </p>,<Switch checked={check} onChange={onChange}/>]}
 
                 />
 

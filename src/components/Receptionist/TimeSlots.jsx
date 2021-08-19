@@ -20,7 +20,6 @@ function TimeSlots(props){
     const doctorID = props.doctorID;
 
     useEffect(() => {
-        console.log(props);
         const url = "http://localhost:8090/doctor/"+userID;
         axios.get(url).then((res) => {
 
