@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import '../../../assets/css/mahen_general.css';
 import WelcomeSection from '../DashboardCommon/WelcomeSection'
 import OverviewCard from '../DashboardCommon/OverviewCard'
+import PatientCard from '../DashboardCommon/PatientCard'
 import Logo from '../../../assets/img/pmslogo.png'
 
 const { Title, Text, Link } = Typography;
@@ -204,7 +205,7 @@ export default class CreatePrescriptionComponant extends Component {
                                 </Col>
                                 <Col span={6}>
                                     <OverviewCard />
-                                    <OverviewCard />
+                                    <PatientCard />
                                 </Col>
                             </Row>
 
