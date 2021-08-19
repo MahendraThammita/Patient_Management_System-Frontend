@@ -19,12 +19,19 @@ class DocTemplate extends Component {
       h : '',
       m : '',
       s : '',
-      data : []
+      data : [],
+      email : '',
+      password : ''
     }
   }
 
   onChange = (value) => {
     console.log(`selected ${value}`);
+    this.setState({email : value})
+  }
+
+  onChangeText = (e) =>{
+    this.setState({[e.target.name]:e.target.value})
   }
 
   onBlur = () => {
@@ -39,10 +46,11 @@ class DocTemplate extends Component {
     console.log('search:', val);
   }
 
-  enterLoading = index => {
+
+  handleSubmit = () =>{
     this.setState(({ loadings }) => {
       const newLoadings = [...loadings];
-      newLoadings[index] = true;
+      newLoadings[0] = true;
 
       return {
         loadings: newLoadings,
@@ -51,14 +59,37 @@ class DocTemplate extends Component {
     setTimeout(() => {
       this.setState(({ loadings }) => {
         const newLoadings = [...loadings];
-        newLoadings[index] = false;
+        newLoadings[0] = false;
 
         return {
           loadings: newLoadings,
         };
       });
     }, 6000);
-  };
+
+    //data
+    const data = {
+      email : this.state.email,
+      password : this.state.password
+    }
+
+    fetch('http://localhost:8000/doctor/signin',{
+      method : 'POST',
+      headers : {
+        'Content-type' : 'Application/json'
+      },
+      body : JSON.stringify(data)
+    }).then(res =>res.json()).then(data =>{
+      if(data.token){
+        window.localStorage.setItem('token',data.token)
+        window.location.replace('/doctor/dashboard')
+      }
+      console.log(data);
+    }).catch(err =>{
+      console.log(err);
+    })
+
+  }
 
   fetchUsernames = () =>{
     fetch('http://localhost:8000/doctorA/get-my-name').then(res => res.json()).then(data =>{
@@ -113,7 +144,7 @@ class DocTemplate extends Component {
                         }
                       >
                         {this.state.data.map(item =>{
-                          return(<Option value={item._id}>{item.email}</Option>)
+                          return(<Option value={item.email}>{item.email}</Option>)
                         })}
                       </Select>
                     </Form.Item>
@@ -123,10 +154,10 @@ class DocTemplate extends Component {
                       name="password"
                       rules={[{ required: true, message: 'Please input your password!' }]}
                     >
-                      <Input.Password />
+                      <Input.Password name="password" onChange={this.onChangeText} />
                     </Form.Item>
 
-                    <Button type="primary" loading={loadings[0]} onClick={() => this.enterLoading(0)} block>
+                    <Button type="primary" loading={loadings[0]} onClick={this.handleSubmit} block>
                       LOG IN
                     </Button>
                   </Form>

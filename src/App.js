@@ -24,14 +24,18 @@ import ReceptionistProfile from "./components/Receptionist/Authontications/Profi
 import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/SampleColectionsTab';
 import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
 import DoctorProfile from "./components/Receptionist/DocrorProfile";
+import DocDashboard from './components/doctor/DocDashboard';
 
 function App() {
   return (
     <Router>
       <div>
       <Switch>
-        <Route path="/doctor">
+        <Route exact path="/doctor">
           <DocTemplate />
+        </Route>
+        <Route path="/doctor/dashboard">
+          <DocDashboard/>
         </Route>
         <Route path="/patientreg">
           <Patientregister/>
