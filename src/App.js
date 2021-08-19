@@ -23,6 +23,7 @@ import AppointmentsTab from './components/Support_Staff/Nurse_Dashboard/Appointm
 import ReceptionistProfile from "./components/Receptionist/Authontications/ProfileUpdate";
 import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/SampleColectionsTab';
 import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
+import DoctorProfile from "./components/Receptionist/DocrorProfile";
 
 function App() {
   return (
@@ -88,6 +89,9 @@ function App() {
           </Route>
         <Route path="/receptionist-profile/:userID">
           <ReceptionistProfile/>
+        </Route>
+        <Route path="/doctor-profile/:userID">
+          <DoctorProfile/>
         </Route>
       </Switch>
     </div>
