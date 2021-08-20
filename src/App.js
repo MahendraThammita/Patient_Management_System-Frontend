@@ -24,6 +24,7 @@ import ReceptionistProfile from "./components/Receptionist/Authontications/Profi
 import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/SampleColectionsTab';
 import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
 import DoctorProfile from "./components/Receptionist/DocrorProfile";
+import ViewAppointment from "./components/Receptionist/Appointments/ViewAppointment";
 
 function App() {
   return (
@@ -92,6 +93,9 @@ function App() {
         </Route>
         <Route path="/doctor-profile/:userID">
           <DoctorProfile/>
+        </Route>
+        <Route path="/appointment/view/:appointmentID">
+          <ViewAppointment/>
         </Route>
       </Switch>
     </div>
