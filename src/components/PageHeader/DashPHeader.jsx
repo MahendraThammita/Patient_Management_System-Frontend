@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { PageHeader, Button, Descriptions } from 'antd';
+import { PageHeader, Button, Descriptions, Typography } from 'antd';
 import { Avatar } from 'antd';
 import { QuestionCircleTwoTone, NotificationTwoTone } from '@ant-design/icons';
 import { Menu, Dropdown } from 'antd';
+
+const { Title } = Typography;
 
 const menu = (
     <Menu>
@@ -36,7 +38,8 @@ class DashPHeader extends Component {
                         <NotificationTwoTone style={{ fontSize: '25px', padding:'0 10px 0 10px' }} />,
                         <Dropdown overlay={menu} placement="bottomRight" arrow>
                             <Avatar style={{margin:"0 10px 0 20px"}}>U</Avatar>
-                        </Dropdown>
+                        </Dropdown>,
+                        
                     ]}
                 >
                 </PageHeader>

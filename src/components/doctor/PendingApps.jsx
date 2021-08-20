@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { Table, Tag, Space } from 'antd';
+import { Popconfirm, message } from 'antd';
+import { Link } from 'react-router-dom';
 
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        title: 'App ID',
+        dataIndex: 'id',
+        key: 'id',
         render: text => <a>{text}</a>,
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Patient Name',
+        dataIndex: 'pName',
+        key: 'pName',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
+        title: 'Time',
+        dataIndex: 'time',
+        key: 'time',
     },
     {
         title: 'Tags',
@@ -26,9 +28,9 @@ const columns = [
         render: tags => (
             <>
                 {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
+                    let color = tag.length > 5 ? 'green' : 'green';
+                    if (tag === 'urgent') {
+                        color = 'red';
                     }
                     return (
                         <Tag color={color} key={tag}>
@@ -44,35 +46,38 @@ const columns = [
         key: 'action',
         render: (text, record) => (
             <Space size="middle">
-                <a>Invite {record.name}</a>
-                <a>Delete</a>
+                <Link to={"/appointment/" + record.id }>Show Appointment</Link>
+                <Popconfirm
+                    title="Are you sure to delete this task?"
+                    onConfirm={confirm}
+                    onCancel={cancel}
+                    okText="Yes"
+                    cancelText="No"
+                >
+                    <a href="#" style={{color:'red'}}>Delete</a>
+                </Popconfirm>
             </Space>
         ),
     },
 ];
 
+function confirm(e) {
+    console.log(e);
+    message.success('Click on Yes');
+  }
+  
+  function cancel(e) {
+    console.log(e);
+    message.error('Click on No');
+  }
+
 const data = [
     {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
+        id: '1213-3kjn',
+        pName: 'John Brown',
+        time: '2021-10-10 9:30am',
+        tags: ['urgent', 'pending'],
+    }
 ];
 
 
