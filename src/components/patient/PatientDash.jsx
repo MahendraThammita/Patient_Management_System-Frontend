@@ -11,6 +11,9 @@ import {
   CheckSquareOutlined
 } from '@ant-design/icons';
 
+import MakeAppointments from './MakeAppointments'
+import MyAppointments from './MyAppointments'
+
 import Logo from './../../assets/img/pmslogo.png'
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -33,9 +36,9 @@ class PatientDash extends Component {
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
-                <div className="logo">
+                {/* <div className="logo"> */}
                     <img src={Logo} alt="" style={{width:"70%", paddingLeft:"20%", paddingTop:"5%", paddingBottom:"5%"}}/>
-                </div>
+                {/* </div> */}
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1" icon={<UserOutlined />}>
                         My Profile
@@ -46,7 +49,7 @@ class PatientDash extends Component {
                     <SubMenu key="sub1" icon={<MinusSquareOutlined />} title="Appointments">
                         <Menu.Item key="3" icon={<CheckSquareOutlined />} >My Appointments</Menu.Item>
                         <Menu.Item key="4" icon={<PlusCircleOutlined />}>Create a new one</Menu.Item>
-                        <Menu.Item key="5">Alex</Menu.Item>
+                        {/* <Menu.Item key="5">Alex</Menu.Item> */}
                     </SubMenu>
                     <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
                         <Menu.Item key="6">Team 1</Menu.Item>
@@ -67,9 +70,11 @@ class PatientDash extends Component {
                             <Breadcrumb.Item>User</Breadcrumb.Item>
                             <Breadcrumb.Item>Bill</Breadcrumb.Item>
                         </Breadcrumb>
-                        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                        Bill is a cat.
-                        </div>
+
+                        
+                        <MakeAppointments/>
+                        <MyAppointments/>
+                        
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
                 </Layout>
