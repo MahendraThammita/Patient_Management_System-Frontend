@@ -39,10 +39,10 @@ function UpdateTimeSlots(props){
                 status: status
             }
 
-            const url = "http://localhost:8090/doctor/add-time-slot/"+doctorID;
+            const url = "http://localhost:8090/doctor/add-time-slot/"+userID;
             axios.post(url,data).then((res) => {
                 if(res.data.status === 201){
-                    const url = "http://localhost:8090/doctor/"+doctorID;
+                    const url = "http://localhost:8090/doctor/"+userID;
                     axios.get(url).then((res) => {
 
                         setSchedule(res.data.doctor[0].timeSlots);
@@ -60,12 +60,7 @@ function UpdateTimeSlots(props){
     }
 
     const onAdd = () => {
-        if(!doctorID){
-            alert("First submit the doctor Details");
-        }
-        else {
-            setVisible("");
-        }
+        setVisible("");
     }
 
 
