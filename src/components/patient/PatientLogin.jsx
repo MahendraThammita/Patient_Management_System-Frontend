@@ -9,6 +9,44 @@ import { Form, Input, Button, Checkbox, Footer } from 'antd';
 const { Header } = Layout;
 
 class PatientLogin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email : '',
+      password : ''
+    }
+  }
+
+  handleChange = (e) =>{
+    this.setState({[e.target.name]:e.target.value})
+    console.log({[e.target.name]:e.target.value})
+  }
+
+  handleSubmit = () =>{
+
+    //checking data
+    const data = {
+      email : this.state.email,
+      password : this.state.password
+    }
+
+    fetch('',{
+      method : 'POST',
+      headers : {
+        'Content-type' : 'Application/json'
+      },
+      body : JSON.stringify(data)
+    }).then(res =>res.json()).then(data =>{
+      if(data.token){
+        window.localStorage.setItem('token',data.token)
+        window.location.replace('/patient')
+      }
+      console.log(data);
+    }).catch(err =>{
+      console.log(err);
+    })
+
+  }
 
   render() {
 
@@ -55,7 +93,7 @@ class PatientLogin extends Component {
                   },
                 ]}
               >
-                <Input />
+                <Input name="username" onChange={this.handleChange}/>
               </Form.Item>
 
               <Form.Item
@@ -68,7 +106,7 @@ class PatientLogin extends Component {
                   },
                 ]}
               >
-                <Input.Password />
+                <Input.Password name="password" onChange={this.handleChange}/>
               </Form.Item>
 
               <Form.Item
@@ -88,7 +126,7 @@ class PatientLogin extends Component {
                   span: 16,
                 }}
               >
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{width:"100%"}} >
                   Login
                 </Button>
               </Form.Item>
