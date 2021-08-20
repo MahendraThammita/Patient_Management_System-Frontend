@@ -128,8 +128,9 @@ const DoctorProfile = () => {
         }
     }
 
-    function onDelete() {
-        const url = "http://localhost:8090/doctor/delete/" + doctorID;
+    function onDelete(e) {
+        e.preventDefault();
+        const url = "http://localhost:8090/doctor/" + doctorID;
         axios.delete(url).then((res) => {
             if (res.data.status === 200){
                 alert('Doctor Removed');
