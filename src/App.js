@@ -25,6 +25,7 @@ import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/Samp
 import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
 import DoctorProfile from "./components/Receptionist/DocrorProfile";
 import ViewAppointment from "./components/Receptionist/Appointments/ViewAppointment";
+import ReviewAppointment from "./components/Receptionist/Appointments/ReviewAppointment";
 
 function App() {
   return (
@@ -96,6 +97,9 @@ function App() {
         </Route>
         <Route path="/appointment/view/:appointmentID">
           <ViewAppointment/>
+        </Route>
+        <Route path="/appointment/review/:appointmentID">
+          <ReviewAppointment/>
         </Route>
       </Switch>
     </div>
