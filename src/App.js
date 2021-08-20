@@ -26,6 +26,7 @@ import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashbo
 import NurseLabRequestComponant from './components/Support_Staff/Nurse_Dashboard/NurseLabRequestComponant'
 import DoctorProfile from "./components/Receptionist/DocrorProfile";
 import DocDashboard from './components/doctor/DocDashboard';
+import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard'
 
 function App() {
   return (
@@ -100,6 +101,9 @@ function App() {
         </Route>
         <Route path="/doctor-profile/:userID">
           <DoctorProfile/>
+        </Route>
+        <Route path="/labStaff-dashboard">
+          <LabStaffDashboard/>
         </Route>
       </Switch>
     </div>
