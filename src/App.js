@@ -25,6 +25,8 @@ import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/Samp
 import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
 import NurseLabRequestComponant from './components/Support_Staff/Nurse_Dashboard/NurseLabRequestComponant'
 import DoctorProfile from "./components/Receptionist/DocrorProfile";
+import ViewAppointment from "./components/Receptionist/Appointments/ViewAppointment";
+import ReviewAppointment from "./components/Receptionist/Appointments/ReviewAppointment";
 import DocDashboard from './components/doctor/DocDashboard';
 import Appointment from './components/doctor/Appointment';
 import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard'
@@ -106,6 +108,12 @@ function App() {
         </Route>
         <Route path="/doctor-profile/:userID">
           <DoctorProfile/>
+        </Route>
+        <Route path="/appointment/view/:appointmentID">
+          <ViewAppointment/>
+        </Route>
+        <Route path="/appointment/review/:appointmentID">
+          <ReviewAppointment/>
         </Route>
         <Route path="/labStaff-dashboard">
           <LabStaffDashboard/>

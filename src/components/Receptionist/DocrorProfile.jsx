@@ -4,6 +4,7 @@ import '../../assets/css/uditha.css'
 import TimeSlots from "./TimeSlots";
 import axios from "axios";
 import {useHistory,useParams} from "react-router-dom";
+import UpdateTimeSlots from "./UpdateTimeSlot";
 
 const layout = {
     labelCol: {
@@ -147,7 +148,7 @@ const DoctorProfile = () => {
     return (
 
         <div>
-            <TimeSlots doctorID={doctorID}/>
+            <UpdateTimeSlots/>
 
             <div className="uditha-left-form-container">
 
