@@ -36,7 +36,7 @@ export default class WelcomeSection extends Component {
                                     <Avatar
                                         src="https://image.pngaaa.com/408/81408-middle.png"
                                         size={{ xs: 24, sm: 32, md: 40, lg: 100, xl: 100, xxl: 100 }}
-                                    />,
+                                    />
                                 </Col>
                                 <Col span={13}>
                                     <Row>
