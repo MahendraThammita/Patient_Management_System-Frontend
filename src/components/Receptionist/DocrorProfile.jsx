@@ -128,6 +128,21 @@ const DoctorProfile = () => {
         }
     }
 
+    function onDelete() {
+        const url = "http://localhost:8090/doctor/delete/" + doctorID;
+        axios.delete(url).then((res) => {
+            if (res.data.status === 200){
+                alert('Doctor Removed');
+                history.push('/receptionist-dashboard');
+            }
+            else{
+                alert('Something Went Wrong!')
+            }
+        }
+    ).catch((err) => {
+            console.log(err);
+        })}
+
     return (
 
         <div>
@@ -188,9 +203,12 @@ const DoctorProfile = () => {
                     </Form.Item>
 
 
-                    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
+                    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
                         <Button type="primary" htmlType="submit">
                             Update
+                        </Button>
+                        <Button danger onClick={onDelete} style={{marginLeft:'10px'}} type="primary" htmlType="submit">
+                            Remove
                         </Button>
 
                     </Form.Item>
