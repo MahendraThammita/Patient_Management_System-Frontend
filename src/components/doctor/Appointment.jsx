@@ -10,6 +10,7 @@ import {
 import { Row, Col } from 'antd';
 import SiteFooter from '../Footer/SiteFooter';
 import DashPHeader from '../PageHeader/DashPHeader';
+import { Form, Input, Checkbox } from 'antd';
 import { List, Divider } from 'antd';
 
 import { Statistic, Card, Tabs, } from 'antd';
@@ -23,7 +24,7 @@ import { RightOutlined } from '@ant-design/icons';
 
 import { Comment, Tooltip } from 'antd';
 import moment from 'moment';
-import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
+import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled,FileDoneOutlined } from '@ant-design/icons';
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { Radio } from 'antd';
@@ -48,26 +49,46 @@ const options = [
     { label: 'Closed', value: 'Closed' },
 ];
 
+var appid;
+
 const props = {
-    name: 'file',
-    multiple: true,
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    name: 'files',
+    action: 'http://localhost:8000/upload',
     onChange(info) {
-        const { status } = info.file;
-        if (status !== 'uploading') {
+        if (info.file.status !== 'uploading') {
             console.log(info.file, info.fileList);
         }
-        if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
+        if (info.file.status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully`);
+            console.log(info.file.response)
+            //window.localStorage.setItem('proImg',info.file.response.Location)
+
+            const data = {
+                report: {
+                    url: info.file.response.url,
+                    name: info.file.response.filename
+                }
+            }
+
+            fetch("http://localhost:8000/doctorA/report/" + appid, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'Application/json',
+                    Authorization: "Bearer " + window.localStorage.getItem('token')
+                },
+                body: JSON.stringify(data)
+            }).then(res => res.json()).then(data => {
+                console.log(data);
+                window.location.reload()
+            }).catch(err => {
+                console.log(err);
+            })
+
+        } else if (info.file.status === 'error') {
             message.error(`${info.file.name} file upload failed.`);
         }
     },
-    onDrop(e) {
-        console.log('Dropped files', e.dataTransfer.files);
-    },
 };
-
 
 
 class Appointment extends Component {
@@ -76,13 +97,32 @@ class Appointment extends Component {
         this.state = {
             id: '',
             loadings: [],
-            value2 : 'Open'
+            value2: 'Open',
+            data: {},
+            patient: {},
+            name: '',
+            freq: '',
+            meds: [],
+            reports: []
         }
     }
 
     componentDidMount() {
         const id = this.props.match.params.id;
+        appid = this.props.match.params.id;
         this.setState({ id: id })
+
+        //fetch the appointment data
+        fetch("http://localhost:8000/doctorA/" + this.props.match.params.id, {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ data, patient: data.patient, meds: data.patient.medications, reports: data.reports })
+        }).catch(err => {
+            console.log(err);
+        })
     }
 
     onChange2 = e => {
@@ -112,10 +152,40 @@ class Appointment extends Component {
             });
         }, 6000);
     };
+
+    addMedication = () => {
+        const data = {
+            newMed: {
+                medi: this.state.name,
+                freq: this.state.freq
+            }
+        }
+
+        fetch("http://localhost:8000/doctorA/medi/" + this.state.patient._id, {
+            method: "PATCH",
+            headers: {
+                'Content-type': 'Application/json',
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            },
+            body: JSON.stringify(data)
+        }).then(res => {
+            if (res.status === 201) {
+                window.location.reload()
+            }
+        })
+    }
+
+    handleChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
     render() {
         const { collapsed } = this.state;
         const { loadings } = this.state;
-        const { value2} = this.state;
+        const { value2 } = this.state;
+        var patient = String(this.state.patient.fullName).slice(0, 2).toUpperCase();
+        var meds = Array(this.state.patient.medications)
+        //meds = meds[0]
+        console.log(this.state.meds);
         return (
             <Layout style={{ minHeight: '100vh', fontStyle: 'initial', fontWeight: 'bold' }}>
                 <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
@@ -171,10 +241,10 @@ class Appointment extends Component {
                                     <Card title="Patient Info" bordered={false}>
                                         <Row>
                                             <Col span={7}>
-                                                <Avatar size={70}>U</Avatar>
+                                                <Avatar size={70}>{patient}</Avatar>
                                             </Col>
                                             <Col span={10} >
-                                                <Title level={4}>Mr Test</Title>
+                                                <Title level={4}>{this.state.patient.fullName}</Title>
                                                 <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>Active since 2020</Title>
                                             </Col>
                                         </Row>
@@ -183,11 +253,11 @@ class Appointment extends Component {
                                         <Row>
                                             <Col span={10}>
                                                 <Title level={4}>Date</Title>
-                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>Active since 2020</Title>
+                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>{this.state.data.appointmentDate}</Title>
                                             </Col>
                                             <Col span={10} >
                                                 <Title level={4}>Time</Title>
-                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>Active since 2020</Title>
+                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>{this.state.data.appointmentTimeSlot}</Title>
                                             </Col>
                                         </Row>
 
@@ -195,9 +265,9 @@ class Appointment extends Component {
                                         <Row>
                                             <Col span={11} style={{ backgroundColor: 'white' }}>
                                                 <Title level={4}>Address</Title>
-                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>Liyanage bake house</Title>
-                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>Pambainna</Title>
-                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>Belihuloys</Title>
+                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>{this.state.patient.addressLine1}</Title>
+                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>{this.state.patient.addressLine2}</Title>
+                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>{this.state.patient.city}</Title>
                                             </Col>
                                             <Col span={13} >
                                                 <Button
@@ -218,8 +288,7 @@ class Appointment extends Component {
                                                     size="large"
                                                     block
                                                     icon={<RightOutlined />}
-                                                    loading={loadings[1]}
-                                                    onClick={() => this.enterLoading(1)}
+
                                                 >
                                                     Reschedule
                                                 </Button>
@@ -228,37 +297,52 @@ class Appointment extends Component {
                                         </Row>
                                     </Card>
                                     <br />
-                                    <Card title="Current Medications" bordered={false}>
-                                        <Title level={5} style={{ lineHeight: '1px' }}>Time</Title>
-                                        <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>Active since 2020</Title>
-                                        <hr />
+                                    <Card title="Current Medications" bordered={false} >
 
-                                        <Title level={5} style={{ lineHeight: '1px' }}>Time</Title>
-                                        <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>Active since 2020</Title>
+                                        {this.state.meds.map(item => {
+                                            return (
+                                                <div>
+                                                    <Title level={5} style={{ lineHeight: '1px' }}>{"Medication : " + item.medi}</Title>
+                                                    <Title level={5} type="secondary" style={{ lineHeight: '2px' }}>{"Frequency : " + item.freq}</Title>
+                                                    <hr />
+                                                </div>
+                                            )
+                                        })}
+
+                                        <Form.Item
+                                            label="Add new Item"
+                                            name="medi"
+                                            rules={[{ required: true, message: 'Please input new medication!' }]}
+                                        >
+                                            <Input name="name" onChange={this.handleChange} />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Frequency"
+                                            name="medi"
+                                            rules={[{ required: true, message: 'Please input new medication!' }]}
+                                        >
+                                            <Input name="freq" onChange={this.handleChange} />
+                                        </Form.Item>
+                                        <Button block type="primary" onClick={this.addMedication}>Submit</Button>
                                     </Card>
                                 </Col>
                                 <Col span={1}>
                                 </Col>
                                 <Col span={17}>
-                                    <Card title="Recent Activity" bordered={false}>
+                                    <Card title="Patient Messages" bordered={false}>
                                         <Comment
-                                            author={<a>Han Solo</a>}
+                                            author={this.state.patient.fullName}
                                             avatar={
-                                                <Avatar
-                                                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                                    alt="Han Solo"
-                                                />
+                                                <Avatar size={30}>{patient}</Avatar>
                                             }
                                             content={
                                                 <p>
-                                                    We supply a series of design principles, practical patterns and high quality design
-                                                    resources (Sketch and Axure), to help people create their product prototypes beautifully
-                                                    and efficiently.
+                                                    {this.state.data.patientMessage}
                                                 </p>
                                             }
                                             datetime={
-                                                <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                                    <span>{moment().fromNow()}</span>
+                                                <Tooltip title={"commented on " + this.state.data.appointmentDate}>
+                                                    <span>{this.state.data.appointmentDate}</span>
                                                 </Tooltip>
                                             }
                                         />
@@ -268,10 +352,17 @@ class Appointment extends Component {
                                         <Row>
                                             <Col span={12}>
                                                 <List
-                                                    size="small"
-                                                    bordered
-                                                    dataSource={data}
-                                                    renderItem={item => <List.Item>{item} <br /> <Button type="primary">Donwload</Button> </List.Item>}
+                                                    itemLayout="horizontal"
+                                                    dataSource={this.state.reports}
+                                                    renderItem={item => (
+                                                        <List.Item>
+                                                            <List.Item.Meta
+                                                                avatar={<Avatar icon={<FileDoneOutlined />} size={30} style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}/>}
+                                                                title={<a href={item.url}>{item.name}</a>}
+                                                                //description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                                            />
+                                                        </List.Item>
+                                                    )}
                                                 />
                                             </Col>
                                             <Col span={1} />

@@ -7,19 +7,19 @@ import { Link } from 'react-router-dom';
 const columns = [
     {
         title: 'App ID',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: '_id',
+        key: '_id',
         render: text => <a>{text}</a>,
     },
     {
-        title: 'Patient Name',
-        dataIndex: 'pName',
-        key: 'pName',
+        title: 'Appointment Date',
+        dataIndex: 'appointmentDate',
+        key: 'appointmentDate',
     },
     {
         title: 'Time',
-        dataIndex: 'time',
-        key: 'time',
+        dataIndex: 'appointmentTimeSlot',
+        key: 'appointmentTimeSlot',
     },
     {
         title: 'Tags',
@@ -27,17 +27,12 @@ const columns = [
         dataIndex: 'tags',
         render: tags => (
             <>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'green' : 'green';
-                    if (tag === 'urgent') {
-                        color = 'red';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
+                <Tag color={"red"}>
+                    URGENT
+                </Tag>
+                <Tag color={"green"}>
+                    PENDING
+                </Tag>
             </>
         ),
     },
@@ -46,7 +41,7 @@ const columns = [
         key: 'action',
         render: (text, record) => (
             <Space size="middle">
-                <Link to={"/appointment/" + record.id }>Show Appointment</Link>
+                <Link to={"/appointment/" + record._id}>Show Appointment</Link>
                 <Popconfirm
                     title="Are you sure to delete this task?"
                     onConfirm={confirm}
@@ -54,7 +49,7 @@ const columns = [
                     okText="Yes"
                     cancelText="No"
                 >
-                    <a href="#" style={{color:'red'}}>Delete</a>
+                    <a href="#" style={{ color: 'red' }}>Decline</a>
                 </Popconfirm>
             </Space>
         ),
@@ -64,12 +59,12 @@ const columns = [
 function confirm(e) {
     console.log(e);
     message.success('Click on Yes');
-  }
-  
-  function cancel(e) {
+}
+
+function cancel(e) {
     console.log(e);
     message.error('Click on No');
-  }
+}
 
 const data = [
     {
@@ -84,11 +79,27 @@ const data = [
 class PendingApps extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            data: []
+        }
     }
+
+    componentDidMount() {
+        //fetch pending appointments
+        fetch("http://localhost:8000/doctorA/pending/" + window.localStorage.getItem('user_id'), {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ data })
+        })
+    }
+
+
     render() {
         return (
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={this.state.data} />
         );
     }
 }
