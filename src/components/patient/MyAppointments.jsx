@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Table, Tag, Space } from 'antd';
 
+
 const { Column, ColumnGroup } = Table;
 
 
@@ -35,39 +36,43 @@ class MyAppointments extends Component {
     render() {
         return (
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                <Table dataSource={data}>
-                    <ColumnGroup title="Name">
+
+                    <h3 style={{textAlign:"center", marginTop:"1%", marginBottom:"3%"}}>My Appointments</h3>
+
+                    <Table dataSource={data}>
+                        {/* <ColumnGroup title="Name">
+                            <Column title="First Name" dataIndex="firstName" key="firstName" />
+                            <Column title="Last Name" dataIndex="lastName" key="lastName" />
+                        </ColumnGroup> */}
                         <Column title="First Name" dataIndex="firstName" key="firstName" />
-                        <Column title="Last Name" dataIndex="lastName" key="lastName" />
-                    </ColumnGroup>
-                    <Column title="Age" dataIndex="age" key="age" />
-                    <Column title="Address" dataIndex="address" key="address" />
-                    <Column
-                        title="Tags"
-                        dataIndex="tags"
-                        key="tags"
-                        render={tags => (
-                            <>
-                            {tags.map(tag => (
-                                <Tag color="blue" key={tag}>
-                                {tag}
-                                </Tag>
-                            ))}
-                            </>
-                        )}
-                    />
-                    <Column
-                        title="Action"
-                        key="action"
-                        render={(text, record) => (
-                            <Space size="middle">
-                            <a>Invite {record.lastName}</a>
-                            <a>Delete</a>
-                            </Space>
-                        )}
-                    />
-                </Table>
-                
+                        <Column title="Age" dataIndex="age" key="age" />
+                        <Column title="Address" dataIndex="address" key="address" />
+                        <Column
+                            title="Tags"
+                            dataIndex="tags"
+                            key="tags"
+                            render={tags => (
+                                <>
+                                {tags.map(tag => (
+                                    <Tag color="blue" key={tag}>
+                                    {tag}
+                                    </Tag>
+                                ))}
+                                </>
+                            )}
+                        />
+                        <Column
+                            title="Action"
+                            key="action"
+                            render={(text, record) => (
+                                <Space size="middle">
+                                <a>Invite {record.lastName}</a>
+                                <a>Delete</a>
+                                </Space>
+                            )}
+                        />
+                    </Table>
+
             </div>
         )
     }
