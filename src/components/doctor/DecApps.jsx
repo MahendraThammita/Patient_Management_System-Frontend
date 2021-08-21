@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { Table, Tag, Space } from 'antd';
+import { Popconfirm, message } from 'antd';
+import { Link } from 'react-router-dom';
 
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        title: 'App ID',
+        dataIndex: '_id',
+        key: '_id',
         render: text => <a>{text}</a>,
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Appointment Date',
+        dataIndex: 'appointmentDate',
+        key: 'appointmentDate',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
+        title: 'Time',
+        dataIndex: 'appointmentTimeSlot',
+        key: 'appointmentTimeSlot',
     },
     {
         title: 'Tags',
@@ -25,17 +27,12 @@ const columns = [
         dataIndex: 'tags',
         render: tags => (
             <>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
+                <Tag color={"blue"}>
+                    NO
+                </Tag>
+                <Tag color={"orange"}>
+                    DECLINED
+                </Tag>
             </>
         ),
     },
@@ -44,46 +41,85 @@ const columns = [
         key: 'action',
         render: (text, record) => (
             <Space size="middle">
-                <a>Invite {record.name}</a>
-                <a>Delete</a>
+                <Link to={"/appointment/" + record._id}>Show Appointment</Link>
+                <Popconfirm
+                    title="Are you sure to do this action?"
+                    onConfirm={() => confirm(record._id)}
+                    onCancel={cancel}
+                    okText="Yes"
+                    cancelText="No"
+                >
+                    <a href="#" style={{ color: 'red' }}>Set as Pending</a>
+                </Popconfirm>
             </Space>
         ),
     },
 ];
 
+let appId;
+
+function confirm(e) {
+    console.log(e);
+
+    fetch("http://localhost:8000/doctorA/status/" + e, {
+        method: "POST",
+        headers: {
+            'Content-type': 'Application/json',
+            Authorization: "Bearer " + window.localStorage.getItem('token')
+        },
+        body: JSON.stringify({status : "pending"})
+    }).then(res => res.json()).then(data => {
+        message.success('Appointment status set to PENDING successfully!');
+
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000);
+    }).catch(err =>{
+        console.log(err);
+    })
+}
+
+function cancel(e) {
+    console.log(e);
+    message.error('Click on No');
+}
+
 const data = [
     {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
+        id: '1213-3kjn',
+        pName: 'John Brown',
+        time: '2021-10-10 9:30am',
+        tags: ['urgent', 'pending'],
+    }
 ];
+
+
+
+
 
 
 class DecApps extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            data : []
+        }
+    }
+
+    componentDidMount() {
+        //fetch pending appointments
+        fetch("http://localhost:8000/doctorA/declined/" + window.localStorage.getItem('user_id'), {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ data })
+        })
     }
     render() {
         return (
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={this.state.data} />
         );
     }
 }

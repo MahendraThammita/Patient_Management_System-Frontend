@@ -27,7 +27,8 @@ class DocDashboard extends Component {
             collapsed: false,
             h: '',
             m: '',
-            s: ''
+            s: '',
+            count : {}
         }
     }
 
@@ -38,6 +39,16 @@ class DocDashboard extends Component {
 
     componentDidMount() {
         this.startTime()
+
+        //fetch appointments
+        fetch("http://localhost:8000/doctorA/count/" + window.localStorage.getItem('user_id'), {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ count : data })
+        })
     }
 
     startTime = () => {
@@ -62,6 +73,10 @@ class DocDashboard extends Component {
 
     render() {
         const { collapsed } = this.state;
+
+        var pen = Array(this.state.count.pen)
+        var fin = Array(this.state.count.fin)
+        var dec = Array(this.state.count.dec)
 
         
         return (
@@ -104,7 +119,7 @@ class DocDashboard extends Component {
                                     <Card>
                                         <Statistic
                                             title="Pending Appointments"
-                                            value={11.26}
+                                            value={pen.length}
                                             precision={0}
                                             valueStyle={{ color: '#3f8600', textAlign: 'left', fontSize: '2rem' }}
                                         />
@@ -114,7 +129,7 @@ class DocDashboard extends Component {
                                     <Card>
                                         <Statistic
                                             title="Declined Appointments"
-                                            value={9.3}
+                                            value={dec.length}
                                             precision={0}
                                             valueStyle={{ color: '#cf1322', textAlign: 'left', fontSize: '2rem' }}
                                         />
@@ -124,7 +139,7 @@ class DocDashboard extends Component {
                                     <Card>
                                         <Statistic
                                             title="Completed Appointments"
-                                            value={9.3}
+                                            value={fin.length}
                                             precision={0}
                                             valueStyle={{ color: '#cf1322', textAlign: 'left', fontSize: '2rem' }}
                                         />
