@@ -6,25 +6,36 @@ import { Menu, Dropdown } from 'antd';
 
 const { Title } = Typography;
 
-const menu = (
-    <Menu>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                <Button block type="primary" danger>LOG OUT</Button>
-            </a>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                Profile
-            </a>
-        </Menu.Item>
-    </Menu>
-);
+
+
 
 class DashPHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {}
+    }
+
+    logout = () => {
+        console.log('akila');
+        window.localStorage.removeItem('token')
+        window.location.replace('/doctor')
+    }
+
+    menu = () => {
+        return (
+            <Menu>
+                <Menu.Item onClick={this.logout}>
+                    <a target="_blank" rel="noopener noreferrer">
+                        <Button block type="primary" danger onClick={this.logout}>LOG OUT</Button>
+                    </a>
+                </Menu.Item>
+                <Menu.Item>
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+                        Profile
+                    </a>
+                </Menu.Item>
+            </Menu>
+        )
     }
     render() {
         return (
@@ -34,12 +45,12 @@ class DashPHeader extends Component {
                     onBack={() => window.history.back()}
                     title="Doctor Dashboard"
                     extra={[
-                        <QuestionCircleTwoTone style={{ fontSize: '25px', padding:'0 10px 0 10px' }} />,
-                        <NotificationTwoTone style={{ fontSize: '25px', padding:'0 10px 0 10px' }} />,
-                        <Dropdown overlay={menu} placement="bottomRight" arrow>
-                            <Avatar style={{margin:"0 10px 0 20px"}}>U</Avatar>
+                        <QuestionCircleTwoTone style={{ fontSize: '25px', padding: '0 10px 0 10px' }} />,
+                        <NotificationTwoTone style={{ fontSize: '25px', padding: '0 10px 0 10px' }} />,
+                        <Dropdown overlay={this.menu} placement="bottomRight" arrow>
+                            <Avatar style={{ margin: "0 10px 0 20px" }}>U</Avatar>
                         </Dropdown>,
-                        
+
                     ]}
                 >
                 </PageHeader>

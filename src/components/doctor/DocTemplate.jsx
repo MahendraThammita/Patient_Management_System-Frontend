@@ -82,6 +82,8 @@ class DocTemplate extends Component {
     }).then(res =>res.json()).then(data =>{
       if(data.token){
         window.localStorage.setItem('token',data.token)
+        window.localStorage.setItem('user_id',data.msg._id)
+        console.log(data.msg._id);
         window.location.replace('/doctor/dashboard')
       }
       console.log(data);

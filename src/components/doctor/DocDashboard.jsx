@@ -62,6 +62,8 @@ class DocDashboard extends Component {
 
     render() {
         const { collapsed } = this.state;
+
+        
         return (
             <Layout style={{ minHeight: '100vh', fontStyle: 'initial', fontWeight: 'bold' }}>
                 <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
