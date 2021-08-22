@@ -3,22 +3,29 @@ import { PageHeader, Button, Descriptions, Typography } from 'antd';
 import { Avatar } from 'antd';
 import {BellOutlined} from '@ant-design/icons';
 import { Menu, Dropdown } from 'antd';
-import Clock from "react-digital-clock";
+import {useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const RecepPHeader = () =>  {
 
+    const  history = useHistory();
+
+    const username = localStorage.getItem('user-name');
+    const userID = localStorage.getItem('user-id');
 
    const  logout = () => {
 
+       localStorage.clear();
+       history.push("/receptionist-login");
     }
 
     const menu = () => {
         return (
             <Menu>
                 <Menu.Item>
-                    <a>
-                        <Button block type="primary"  onClick={logout}>User Profile</Button>
-                    </a>
+                    <Link to ={`receptionist-profile/${userID}`}>
+                        <Button block type="primary" >{username}</Button>
+                    </Link>
                 </Menu.Item>
                 <Menu.Item onClick={logout}>
                     <a>

@@ -30,16 +30,28 @@ const ReceptionistProfile = (props) => {
 
     useEffect(() => {
         document.body.style.backgroundColor = "white"
+
     })
 
     useEffect(() => {
-        const url = "http://localhost:8090/receptionist/" + userID ;
-        axios.get(url).then((res) => {
 
-            setUsername(res.data.user.username);
-            setMobile(res.data.user.mobileNumber);
+        if(!localStorage.getItem('auth-token')){
+            history.push("/receptionist-login");
+        }
+        else {
+            const url = "http://localhost:8090/receptionist/" + userID;
+            let config = {
+                headers: {
+                    'auth_token': localStorage.getItem('auth-token')
+                }
+            }
+            axios.get(url, config).then((res) => {
 
-        })
+                setUsername(res.data.user.username);
+                setMobile(res.data.user.mobileNumber);
+
+            })
+        }
     },[])
 
 
@@ -53,7 +65,12 @@ const ReceptionistProfile = (props) => {
         }
 
         const url = "http://localhost:8090/receptionist/update/" + userID;
-        axios.put(url, formData).then((res) => {
+        let config = {
+            headers: {
+                'auth_token':  localStorage.getItem('auth-token')
+            }
+        }
+        axios.put(url, formData, config).then((res) => {
             if(res.data.status === 200){
                 alert('Profile updated successfully')
                 history.push("/receptionist-dashboard");

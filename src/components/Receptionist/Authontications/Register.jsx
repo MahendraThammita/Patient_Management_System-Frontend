@@ -54,7 +54,7 @@ const ReceptionistRegister = () => {
 
     return (
 
-        <div className="uditha-form-container">
+        <div style={{boxShadow: '0 15px 25px rgba(0,0,0,.8)'}} className="uditha-form-container">
 
             <PageHeader
                 className="site-page-header"
