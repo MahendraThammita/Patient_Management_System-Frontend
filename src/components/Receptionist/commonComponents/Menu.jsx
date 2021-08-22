@@ -21,7 +21,7 @@ const SideMenu = () => {
     };
 
         return (
-            <div style={{ width: 256, marginTop:'5%'}}>
+            <div style={{ width: 256}}>
                 <Sider collapsible collapsed={collapsed} onCollapse={toggleCollapsed}>
                     <div className="logo" />
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">

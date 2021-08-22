@@ -21,7 +21,7 @@ const Doctors = () => {
     const onSearch = value => console.log(value);
 
     return(
-        <div style={{float:"left", marginTop:'5%'}}>
+        <div style={{float:"left"}}>
             <Search style={{marginBottom: '5px'}} placeholder="Search Doctors" onSearch={onSearch} enterButton />
             <Card
                 style={{ width: 400, height:'auto' }}

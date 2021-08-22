@@ -9,6 +9,7 @@ import DashPHeader from "../../PageHeader/DashPHeader";
 import {Layout} from "antd";
 import RecepPHeader from "../commonComponents/RecepHeader";
 import SiteFooter from "../../Footer/SiteFooter";
+import ClockBar from "../commonComponents/Clock";
 //import NavBar from "../NavBar";
 
 
@@ -20,8 +21,9 @@ const Dashboard = () => {
 
     return(
         <div>
-            <div style={{}}>
+            <div>
                 <RecepPHeader />
+                <ClockBar/>
             </div>
         <div className="uditha-dashboard-align">
             <SideMenu/>
