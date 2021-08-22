@@ -8,6 +8,7 @@ import SideMenu from "../commonComponents/Menu";
 import DashPHeader from "../../PageHeader/DashPHeader";
 import {Layout} from "antd";
 import RecepPHeader from "../commonComponents/RecepHeader";
+import SiteFooter from "../../Footer/SiteFooter";
 //import NavBar from "../NavBar";
 
 
@@ -28,6 +29,7 @@ const Dashboard = () => {
             <CurrentAppointment/>
             <PendingAppointment/>
         </div>
+            <SiteFooter />
         </div>
     )
 
