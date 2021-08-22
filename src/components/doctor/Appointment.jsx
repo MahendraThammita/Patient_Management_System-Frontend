@@ -28,6 +28,7 @@ import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled,FileDoneOutlin
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { Radio } from 'antd';
+import Prescription from './Prescription';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -102,7 +103,9 @@ class Appointment extends Component {
             name: '',
             freq: '',
             meds: [],
-            reports: []
+            reports: [],
+            selItem : '',
+            ui : ''
         }
     }
 
@@ -200,12 +203,22 @@ class Appointment extends Component {
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     }
+
+    onclose = () =>{
+        console.log('close called');
+        this.setState({selItem : ''})
+    }
     render() {
         const { collapsed } = this.state;
         const { loadings } = this.state;
         const { value2 } = this.state;
         var patient = String(this.state.patient.fullName).slice(0, 2).toUpperCase();
         var meds = Array(this.state.patient.medications)
+        let component;
+
+        if(this.state.selItem === 'pres'){
+            component = <Prescription onclose={this.onclose} patient={this.state.patient}/>
+        }
         //meds = meds[0]
         console.log(this.state.meds);
         return (
@@ -255,7 +268,8 @@ class Appointment extends Component {
                             <br />
                             <br />
 
-                            <Button type="primary" block>Issue Prescription</Button>
+                            <Button type="primary" block onClick={() => {this.setState({selItem : 'pres'})}}>Issue Prescription</Button>
+                            {component}
                             <br />
                             <br />
                             <Row>
