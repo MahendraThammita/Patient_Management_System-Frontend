@@ -14,10 +14,7 @@ const CurrentAppointment = () => {
         },
         {
             title: 'Mr Leo Doe',
-        },
-        {
-            title: 'Mr Leo Doe',
-        },
+        }
     ];
 
 
