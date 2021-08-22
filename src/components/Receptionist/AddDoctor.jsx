@@ -4,6 +4,7 @@ import '../../assets/css/uditha.css'
 import TimeSlots from "./TimeSlots";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import SideMenu from "./commonComponents/Menu";
 
 const layout = {
     labelCol: {
@@ -108,6 +109,7 @@ const AddDoctor = () => {
     return (
 
         <div>
+            <SideMenu/>
             <TimeSlots doctorID={doctorID}/>
 
         <div className="uditha-left-form-container">

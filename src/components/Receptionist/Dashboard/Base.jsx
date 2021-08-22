@@ -4,6 +4,7 @@ import CurrentAppointment from "./CurrentAppointment";
 import '../../../assets/css/uditha.css'
 import PendingAppointment from "./PendingAppointment";
 import {Link, useHistory} from "react-router-dom";
+import SideMenu from "../commonComponents/Menu";
 //import NavBar from "../NavBar";
 
 
@@ -16,6 +17,7 @@ const Dashboard = () => {
     return(
         <div className="uditha-dashboard-align">
 
+            <SideMenu/>
             <Doctors/>
             <CurrentAppointment/>
             <PendingAppointment/>
