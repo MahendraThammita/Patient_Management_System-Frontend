@@ -5,6 +5,7 @@ import {BellOutlined} from '@ant-design/icons';
 import { Menu, Dropdown } from 'antd';
 import {useHistory} from "react-router-dom";
 import {Link} from "react-router-dom";
+import ClockBar from "./Clock";
 
 const RecepPHeader = () =>  {
 
@@ -41,12 +42,12 @@ const RecepPHeader = () =>  {
                     ghost={false}
                     onBack={() => window.history.back()}
                     title="Dashboard"
+                    subTitle={<ClockBar/>}
                     extra={[
                         <BellOutlined style={{ fontSize: '25px', padding: '0 10px 0 10px' }} />,
                         <Dropdown overlay={menu} placement="bottomRight" arrow>
                             <Avatar style={{ margin: "0 10px 0 20px" }}>U</Avatar>
                         </Dropdown>,
-
                     ]}
                 >
                 </PageHeader>
