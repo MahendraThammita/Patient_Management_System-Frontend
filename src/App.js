@@ -109,10 +109,10 @@ function App() {
         <Route path="/doctor-profile/:userID">
           <DoctorProfile/>
         </Route>
-        <Route path="/appointment/view/:appointmentID">
+        <Route path="/receptionist/appointment/view/:appointmentID">
           <ViewAppointment/>
         </Route>
-        <Route path="/appointment/review/:appointmentID">
+        <Route path="receptionist/appointment/review/:appointmentID">
           <ReviewAppointment/>
         </Route>
         <Route path="/labStaff-dashboard">

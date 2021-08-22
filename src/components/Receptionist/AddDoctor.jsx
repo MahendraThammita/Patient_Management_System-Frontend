@@ -4,6 +4,7 @@ import '../../assets/css/uditha.css'
 import TimeSlots from "./TimeSlots";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import SideMenu from "./commonComponents/Menu";
 
 const layout = {
     labelCol: {
@@ -108,6 +109,7 @@ const AddDoctor = () => {
     return (
 
         <div>
+            <SideMenu/>
             <TimeSlots doctorID={doctorID}/>
 
         <div className="uditha-left-form-container">
@@ -132,15 +134,15 @@ const AddDoctor = () => {
             <Form style={{marginLeft:'20%'}} {...layout}  onFinish={onFinish} >
 
                 <Form.Item>
-                    <Input placeholder="Full Name" onChange={(e) => {setFullname(e.target.value)}} />
+                    <Input required={true} placeholder="Full Name" onChange={(e) => {setFullname(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item>
-                    <Input placeholder="Email" onChange={(e) => {setEmail(e.target.value)}} />
+                    <Input type='email' required={true} placeholder="Email" onChange={(e) => {setEmail(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item>
-                    <Input placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
+                    <Input required={true} placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item name="specialty"  rules={[{ required: true }]}>
@@ -156,11 +158,11 @@ const AddDoctor = () => {
                 </Form.Item>
 
                 <Form.Item>
-                    <Input placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
+                    <Input required={true} placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item>
-                    <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
+                    <Input required={true} placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>

@@ -72,7 +72,7 @@ const ViewAppointment = () => {
                 </List>
                     </div>
                 <Button onClick={onSubmit} style={{marginLeft:'60%'}} type="primary" htmlType="submit">
-                    Submit schedule
+                    Save
                 </Button>
             </div>
         </div>
