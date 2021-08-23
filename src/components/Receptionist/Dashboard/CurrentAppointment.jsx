@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Form, Input, PageHeader , Button,  Card, Avatar, Space, List, Skeleton , Tag } from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 const CurrentAppointment = () => {
 
@@ -46,7 +47,7 @@ const CurrentAppointment = () => {
                     renderItem={appointment => (
 
                         <List.Item
-                            actions={[<Tag color="purple">04.00 pm</Tag>, <a key="list-loadmore-more">View</a>]}
+                            actions={[<Tag color="purple">04.00 pm</Tag>, <Link to ={`doctor-profile/${appointment._id}`}>View</Link>]}
                         >
                             <List.Item.Meta
                                 title={<a href="https://ant.design">{appointment.patientMessage}</a>}
