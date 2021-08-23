@@ -47,7 +47,7 @@ const CurrentAppointment = () => {
                     renderItem={appointment => (
 
                         <List.Item
-                            actions={[<Tag color="purple">04.00 pm</Tag>, <Link to ={`doctor-profile/${appointment._id}`}>View</Link>]}
+                            actions={[<Tag color="purple">04.00 pm</Tag>, <Link to ={`/receptionist/appointment/view/${appointment.doctor}/${appointment._id}`}>View</Link>]}
                         >
                             <List.Item.Meta
                                 title={<a href="https://ant.design">{appointment.patientMessage}</a>}

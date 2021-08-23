@@ -2,9 +2,10 @@ import React, {useEffect, useState} from "react";
 import {Form, Input, PageHeader, List, Button, Tag} from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import UpdateTimeSlots from "../UpdateTimeSlot";
 import AppointmentTimeSlots from "../AppointmentTimeSlot";
+import TimeSlots from "../TimeSlots";
 
 const layout = {
     labelCol: {
@@ -17,14 +18,27 @@ const layout = {
 
 const ViewAppointment = () => {
 
+    const params = useParams();
+    const appointmentID = params.appointmentID;
+    const doctorID = params.doctorID;
+
     const  history = useHistory();
 
     const [status, setStatus] = useState('In');
+    const [appointment, setAppointment] = useState();
 
 
     useEffect(() => {
         document.body.style.backgroundColor = "whiteSmoke"
-    })
+        const url = "http://localhost:8090/receptionist/appointments/view/"+appointmentID;
+        axios.get(url).then((res) => {
+
+            setAppointment(res.data.appointment[0]);
+
+
+
+        })
+    },[])
 
     const onSubmit = () => {
         history.push('/receptionist-dashboard')
@@ -33,8 +47,7 @@ const ViewAppointment = () => {
     return (
 
         <div>
-            <AppointmentTimeSlots/>
-
+            <AppointmentTimeSlots doctorID={doctorID}/>
             <div className="uditha-left-form-container">
 
                 <PageHeader
