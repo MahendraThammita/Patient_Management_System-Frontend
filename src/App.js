@@ -23,14 +23,28 @@ import AppointmentsTab from './components/Support_Staff/Nurse_Dashboard/Appointm
 import ReceptionistProfile from "./components/Receptionist/Authontications/ProfileUpdate";
 import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/SampleColectionsTab';
 import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
+import NurseLabRequestComponant from './components/Support_Staff/Nurse_Dashboard/NurseLabRequestComponant'
+import DoctorProfile from "./components/Receptionist/DocrorProfile";
+import ViewAppointment from "./components/Receptionist/Appointments/ViewAppointment";
+import ReviewAppointment from "./components/Receptionist/Appointments/ReviewAppointment";
+import DocDashboard from './components/doctor/DocDashboard';
+import Appointment from './components/doctor/Appointment';
+import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard'
+
 
 function App() {
   return (
     <Router>
       <div>
       <Switch>
-        <Route path="/doctor">
+        <Route exact path="/doctor">
           <DocTemplate />
+        </Route>
+        <Route path="/doctor/dashboard">
+          <DocDashboard/>
+        </Route>
+        <Route path="/appointment/:id">
+          <Appointment/>
         </Route>
         <Route path="/patientreg">
           <Patientregister/>
@@ -88,6 +102,21 @@ function App() {
           </Route>
         <Route path="/receptionist-profile/:userID">
           <ReceptionistProfile/>
+        </Route>
+        <Route path="/test-request">
+          <NurseLabRequestComponant/>
+        </Route>
+        <Route path="/doctor-profile/:userID">
+          <DoctorProfile/>
+        </Route>
+        <Route path="/receptionist/appointment/view/:appointmentID">
+          <ViewAppointment/>
+        </Route>
+        <Route path="receptionist/appointment/review/:appointmentID">
+          <ReviewAppointment/>
+        </Route>
+        <Route path="/labStaff-dashboard">
+          <LabStaffDashboard/>
         </Route>
       </Switch>
     </div>

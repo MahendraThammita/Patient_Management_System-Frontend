@@ -14,10 +14,7 @@ const CurrentAppointment = () => {
         },
         {
             title: 'Mr Leo Doe',
-        },
-        {
-            title: 'Mr Leo Doe',
-        },
+        }
     ];
 
 
@@ -38,7 +35,7 @@ const CurrentAppointment = () => {
     const onSearch = value => console.log(value);
 
     return(
-        <div style={{marginLeft: '20px', marginTop:'5%'}}>
+        <div style={{marginLeft: '20px'}}>
             <Search style={{marginBottom: '5px'}} placeholder="Search Current Appointments" onSearch={onSearch} enterButton />
             <Card
 

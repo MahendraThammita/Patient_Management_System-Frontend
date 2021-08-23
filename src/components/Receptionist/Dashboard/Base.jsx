@@ -4,26 +4,33 @@ import CurrentAppointment from "./CurrentAppointment";
 import '../../../assets/css/uditha.css'
 import PendingAppointment from "./PendingAppointment";
 import {Link, useHistory} from "react-router-dom";
+import SideMenu from "../commonComponents/Menu";
+import DashPHeader from "../../PageHeader/DashPHeader";
+import {Layout} from "antd";
+import RecepPHeader from "../commonComponents/RecepHeader";
+import SiteFooter from "../../Footer/SiteFooter";
+import ClockBar from "../commonComponents/Clock";
+//import NavBar from "../NavBar";
 
 
 const Dashboard = () => {
 
-    let username = (localStorage.getItem('user-name'));
-    let userid = (localStorage.getItem('user-id'));
-
     useEffect(() => {
-        document.body.style.backgroundColor = "white"
+        document.body.style.backgroundColor = "whiteSmoke"
     })
 
     return(
+        <div>
+            <div>
+                <RecepPHeader />
+            </div>
         <div className="uditha-dashboard-align">
-            <h2>{username}</h2>
-            <Link to ={`receptionist-profile/${userid}`}>
-                <h2>{userid}</h2>
-            </Link>
+            <SideMenu/>
             <Doctors/>
             <CurrentAppointment/>
             <PendingAppointment/>
+        </div>
+            <SiteFooter />
         </div>
     )
 

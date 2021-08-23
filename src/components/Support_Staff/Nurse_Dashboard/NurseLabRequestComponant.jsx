@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Form, Row, Col, Image, Layout, Typography, Dropdown, Menu, Badge, Avatar, message, Input, Button, InputNumber, Radio } from 'antd';
-import { TabletFilled, FileAddFilled, HomeFilled, BellOutlined, DownOutlined, LogoutOutlined, DashboardOutlined, EditTwoTone } from '@ant-design/icons';
+import { Form, Row, Col, Image, Layout, Typography, Dropdown, Menu, Badge, Avatar, message, Input, Button, InputNumber, Radio, Select } from 'antd';
+import { TabletFilled, FileAddFilled, HomeFilled, BellOutlined, DownOutlined, LogoutOutlined, DashboardOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import '../../../assets/css/mahen_general.css';
 import WelcomeSection from '../DashboardCommon/WelcomeSection'
@@ -8,11 +8,10 @@ import OverviewCard from '../DashboardCommon/OverviewCard'
 import PatientCard from '../DashboardCommon/PatientCard'
 import Logo from '../../../assets/img/pmslogo.png'
 
-const { Title, Text, Link } = Typography;
-const { SubMenu } = Menu;
+const { Title, Text } = Typography;
 const { Header, Content, Sider } = Layout;
-
-export default class CreatePrescriptionComponant extends Component {
+const { Option } = Select;
+export default class NurseLabRequestComponant extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,6 +20,7 @@ export default class CreatePrescriptionComponant extends Component {
         this.onDropdownMenuClick = this.onDropdownMenuClick.bind(this);
         this.onFinish = this.onFinish.bind(this);
         this.onFinishFailed = this.onFinishFailed.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 
 
     }
@@ -36,7 +36,9 @@ export default class CreatePrescriptionComponant extends Component {
     onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-
+    handleChange(value) {
+        console.log(`selected ${value}`);
+    }
     render() {
         const menu = (
             <Menu onClick={this.onDropdownMenuClick}>
@@ -125,7 +127,7 @@ export default class CreatePrescriptionComponant extends Component {
                                         }}
                                     >
                                         <Row style={{ paddingTop: 10 }}>
-                                            <Title level={2}>Prescription (Basic Information)</Title>
+                                            <Title level={2}>Laboratory Test Request</Title>
                                         </Row>
                                         <Row>
                                             <Text strong type="secondary">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, aspernatur?</Text>
@@ -153,47 +155,39 @@ export default class CreatePrescriptionComponant extends Component {
                                                         </Form.Item>
                                                         <span className="ant-form-text"> Years</span>
                                                     </Form.Item>
-                                                    <Form.Item label="Height/Weight">
-                                                        <Form.Item name="height" noStyle>
-                                                            <InputNumber min={0} />
-                                                        </Form.Item>
-                                                        <span className="ant-form-text"> Height(Cm)</span>
-                                                        <span style={{ marginRight: 15, marginLeft: 15 }}></span>
-                                                        <Form.Item name="weight" noStyle>
-                                                            <InputNumber min={0} />
-                                                        </Form.Item>
-                                                        <span className="ant-form-text"> Weight(Kg)</span>
-                                                    </Form.Item>
-                                                    <Form.Item label="Blood Pressure">
-                                                        <Form.Item name="sys-pressure" noStyle>
-                                                            <InputNumber min={0} />
-                                                        </Form.Item>
-                                                        <span className="ant-form-text"> Systolic(mmHg)</span>
-                                                        <span style={{ marginRight: 15, marginLeft: 15 }}></span>
-                                                        <Form.Item name="dis-pressure" noStyle>
-                                                            <InputNumber min={0} />
-                                                        </Form.Item>
-                                                        <span className="ant-form-text"> Diastolic(mmHg)</span>
-                                                    </Form.Item>
-                                                    <Form.Item name={['patient', 'remarks']} label="Special Remarks(Optional)">
-                                                        <Input.TextArea />
+
+                                                    <Form.Item
+                                                        label="Test List"
+                                                        name="testName"
+                                                        rules={[{ required: true, message: 'Please input the name of the test!' }]}
+                                                    >
+                                                        <Input />
+                                                        <Input style={{ marginTop: 10 }} />
                                                     </Form.Item>
                                                     <Form.Item
-                                                        name="radio-button"
-                                                        label="Previously Visited ?"
-                                                        rules={[{ required: true, message: 'Please pick an option!' }]}
+                                                        label="Speciman Number"
+                                                        name="specimanNo"
+                                                        rules={[{ required: true, message: 'Please input the speciman number!' }]}
                                                     >
-                                                        <Radio.Group>
-                                                            <Radio value="1">Yes</Radio>
-                                                            <Radio value="0">No</Radio>
-                                                        </Radio.Group>
+                                                        <Input />
+                                                    </Form.Item>
+                                                    <Form.Item
+                                                        label="Speciman Number"
+                                                        name="specimanNo"
+                                                        rules={[{ required: true, message: 'Please input the speciman number!' }]}
+                                                    >
+                                                        <Select defaultValue="Selecr Speciman Type" style={{ width: 120 }} onChange={this.state.handleChange}>
+                                                            <Option value="1">Blood</Option>
+                                                            <Option value="2">Urine</Option>
+                                                            <Option value="3" >Other</Option>
+                                                        </Select>
                                                     </Form.Item>
                                                     <Row>
                                                         <Col span={16} style={{ textAlign: 'center' }}>
                                                             <Button type="primary" htmlType="submit">
                                                                 Submit
                                                             </Button>
-                                                            <Button style={{ marginLeft:15 }}>
+                                                            <Button style={{ marginLeft: 15 }}>
                                                                 Save
                                                             </Button></Col>
                                                     </Row>
@@ -211,7 +205,7 @@ export default class CreatePrescriptionComponant extends Component {
 
                         </Layout>
                     </Layout>
-                </Layout>,
+                </Layout>
             </div>
         )
     }

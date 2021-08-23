@@ -36,6 +36,7 @@ const ReceptionistLogin = () => {
             if(res.data.status === 200){
                 localStorage.setItem("user-id",res.data.user._id);
                 localStorage.setItem("user-name",res.data.user.username);
+                localStorage.setItem("auth-token",res.data.token);
                 history.push("/receptionist-dashboard");
             }
             else if(res.data.status === 401){
@@ -52,7 +53,7 @@ const ReceptionistLogin = () => {
 
     return (
 
-        <div className="uditha-form-container">
+        <div style={{boxShadow: '0 15px 25px rgba(0,0,0,.8)'}} className="uditha-form-container">
 
             <PageHeader
                 className="site-page-header"
