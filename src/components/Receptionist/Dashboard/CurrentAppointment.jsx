@@ -27,10 +27,10 @@ const CurrentAppointment = () => {
 
 
     useEffect(() => {
-        const url = "http://localhost:8090/doctor";
+        const url = "http://localhost:8090/appointments/pending";
         axios.get(url).then((res) => {
 
-            setAppointments(res.data);
+            setAppointments(res.data.appointments);
 
         })
     })
