@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Form, Input, PageHeader , Button } from 'antd';
+import {Form, Input, PageHeader, Button, Avatar} from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
 import {useHistory} from "react-router-dom";;
@@ -21,22 +21,45 @@ const ReceptionistRegister = () => {
     const [mobile, setMobile] = useState();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [selectedFile, setSelectedFile] = useState();
+    const [preview, setPreview] = useState();
+    const [profileImage, setImage] = useState();
 
     useEffect(() => {
         document.body.style.backgroundColor = "white"
     })
 
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreview(undefined)
+            return
+        }
+
+        const objectUrl = URL.createObjectURL(selectedFile)
+        setPreview(objectUrl)
+
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [selectedFile])
+
+    const onSelectFile = e => {
+        if (!e.target.files || e.target.files.length === 0) {
+            setSelectedFile(undefined)
+            return
+        }
+
+        setSelectedFile(e.target.files[0])
+        setImage(e.target.files[0])
+    }
+
 
     const onFinish = (e) => {
 
-        const formData = {
-            employeeID: employeeID,
-            mobileNumber: mobile,
-            username: username,
-            password: password
-        }
-
-        console.log(formData);
+        const formData = new FormData();
+        formData.append("employeeID",employeeID);
+        formData.append("mobileNumber",mobile);
+        formData.append("username",username);
+        formData.append("password",password);
+        formData.append('profileImage', profileImage);
 
         const url = "http://localhost:8090/receptionist/register";
         axios.post(url, formData).then((res) => {
@@ -63,6 +86,15 @@ const ReceptionistRegister = () => {
                 subTitle="Sign Up as a Receptionist"
 
             />
+            <div className="uditha-dashboard-align">
+                <Avatar className="uditha-avatar-align"
+                        size={80}
+                        src={preview}
+                />
+
+                <input  style={{marginTop:'25px'}} type="file" onChange={onSelectFile}/>
+            </div>
+
             <Form {...layout} style={{marginLeft:"20%"}}  onFinish={onFinish} >
                 <Form.Item >
                     <Input placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />

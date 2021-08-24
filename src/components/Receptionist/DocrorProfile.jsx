@@ -51,7 +51,7 @@ const DoctorProfile = () => {
             setMobile(res.data.doctor[0].mobileNumber);
             setSpecialty(res.data.doctor[0].specialty);
             setStatus(res.data.doctor[0].status);
-            setPreview("http://localhost:8090/" + res.data.doctor[0].profileImage);
+            setPreview("http://localhost:8090/doctor/" + res.data.doctor[0].profileImage);
             if(res.data.doctor[0].status == "In"){
                 setCheck(true);
             }

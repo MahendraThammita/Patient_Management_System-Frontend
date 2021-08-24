@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Form, Input, PageHeader} from 'antd';
+import {Avatar, Button, Form, Input, PageHeader} from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
 import {useHistory, useParams } from "react-router-dom";
@@ -24,6 +24,9 @@ const ReceptionistProfile = (props) => {
     const [username, setUsername] = useState();
     const [oldPassword, setOldPassword] = useState();
     const [newPassword, setNewPassword] = useState();
+    const [selectedFile, setSelectedFile] = useState();
+    const [preview, setPreview] = useState();
+    const [profileImage, setImage] = useState();
 
 
     const userID = params.userID;
@@ -32,6 +35,28 @@ const ReceptionistProfile = (props) => {
         document.body.style.backgroundColor = "white"
 
     })
+
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreview(undefined)
+            return
+        }
+
+        const objectUrl = URL.createObjectURL(selectedFile)
+        setPreview(objectUrl)
+
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [selectedFile])
+
+    const onSelectFile = e => {
+        if (!e.target.files || e.target.files.length === 0) {
+            setSelectedFile(undefined)
+            return
+        }
+
+        setSelectedFile(e.target.files[0])
+        setImage(e.target.files[0])
+    }
 
     useEffect(() => {
 
@@ -49,6 +74,7 @@ const ReceptionistProfile = (props) => {
 
                 setUsername(res.data.user.username);
                 setMobile(res.data.user.mobileNumber);
+                setPreview("http://localhost:8090/receptionist/" + res.data.user.profileImage);
 
             })
         }
@@ -95,6 +121,16 @@ const ReceptionistProfile = (props) => {
                 subTitle="Update your profile"
 
             />
+
+            {/*<div className="uditha-dashboard-align">*/}
+            {/*    <Avatar className="uditha-avatar-align"*/}
+            {/*            size={80}*/}
+            {/*            src={preview}*/}
+            {/*    />*/}
+
+            {/*    <input  style={{marginTop:'25px'}} type="file" onChange={onSelectFile}/>*/}
+            {/*</div>*/}
+
             <Form {...layout} style={{marginLeft:"20%"}}  onFinish={onFinish} >
 
                 <Form.Item>
