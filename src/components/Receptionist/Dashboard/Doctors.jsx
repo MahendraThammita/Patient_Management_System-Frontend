@@ -48,7 +48,7 @@ const Doctors = () => {
                                 <a key="list-loadmore-more">View</a></Link>]}
                         >
                             <List.Item.Meta
-                                avatar={<Avatar src={"http://localhost:8090/" + doctor.profileImage} />}
+                                avatar={<Avatar src={"http://localhost:8090/doctor/" + doctor.profileImage} />}
                                 title={<a href="https://ant.design">{doctor.fullName}</a>}
                                 description={doctor.specialty}
                             />
