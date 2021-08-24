@@ -18,7 +18,13 @@ const Doctors = () => {
         })
     },[])
 
-    const onSearch = value => console.log(value);
+    const onSearch = value => {
+            const url = "http://localhost:8090/doctor/search/"+value;
+            axios.get(url).then((res) => {
+
+                setDoctors(res.data.doctor);
+            })
+    }
 
     return(
         <div style={{float:"left"}}>
