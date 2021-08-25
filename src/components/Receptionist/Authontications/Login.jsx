@@ -3,6 +3,8 @@ import { Form, Input, PageHeader , Button } from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import {UserOutlined, LockOutlined} from "@ant-design/icons";
+import SiteFooter from "../../Footer/SiteFooter";
 
 const layout = {
     labelCol: {
@@ -64,11 +66,11 @@ const ReceptionistLogin = () => {
             />
             <Form {...layout} style={{marginLeft:"20%", marginTop:"10%"}} onFinish={onFinish} >
                 <Form.Item>
-                    <Input placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
+                    <Input required={true} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
                 </Form.Item>
 
-                <Form.Item >
-                    <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
+                <Form.Item>
+                    <Input required={true} prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
@@ -78,6 +80,7 @@ const ReceptionistLogin = () => {
                 </Form.Item>
 
             </Form>
+           
         </div>
     );
 };

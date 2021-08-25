@@ -2,7 +2,11 @@ import React, {useEffect, useState} from "react";
 import {Form, Input, PageHeader, Button, Avatar} from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
-import {useHistory} from "react-router-dom";;
+import {useHistory} from "react-router-dom";
+import RecepPHeader from "../commonComponents/RecepHeader";
+import SiteFooter from "../../Footer/SiteFooter";
+
+;
 
 const layout = {
     labelCol: {
@@ -26,7 +30,7 @@ const ReceptionistRegister = () => {
     const [profileImage, setImage] = useState();
 
     useEffect(() => {
-        document.body.style.backgroundColor = "white"
+        document.body.style.backgroundColor = "whiteSmoke"
     })
 
     useEffect(() => {
@@ -76,16 +80,19 @@ const ReceptionistRegister = () => {
     };
 
     return (
+        <div>
+            <div>
+                <RecepPHeader />
+            </div>
+            <div style={{boxShadow: '0 15px 25px rgba(0,0,0,.8)', marginTop:'10px'}} className="uditha-form-container">
 
-        <div style={{boxShadow: '0 15px 25px rgba(0,0,0,.8)'}} className="uditha-form-container">
+                <PageHeader
+                    className="site-page-header"
+                    onBack={() => null}
+                    title="Sign Up"
+                    subTitle="Sign Up as a Receptionist"
 
-            <PageHeader
-                className="site-page-header"
-                onBack={() => null}
-                title="Sign Up"
-                subTitle="Sign Up as a Receptionist"
-
-            />
+                />
             <div className="uditha-dashboard-align">
                 <Avatar className="uditha-avatar-align"
                         size={80}
@@ -119,6 +126,8 @@ const ReceptionistRegister = () => {
                 </Form.Item>
 
             </Form>
+        </div>
+
         </div>
     );
 };
