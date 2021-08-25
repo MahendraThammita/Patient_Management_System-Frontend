@@ -6,6 +6,8 @@ import {useHistory} from "react-router-dom";
 import UpdateTimeSlots from "../UpdateTimeSlot";
 import AppointmentTimeSlots from "../AppointmentTimeSlot";
 import NotificationMessage from "./NotificationMessage";
+import RecepPHeader from "../commonComponents/RecepHeader";
+import SideMenu from "../commonComponents/Menu";
 
 const layout = {
     labelCol: {
@@ -35,7 +37,10 @@ const ReviewAppointment = () => {
     return (
 
         <div>
-
+            <div>
+                <RecepPHeader />
+            </div>
+            <SideMenu/>
             <NotificationMessage/>
 
             <div className="uditha-left-form-container">

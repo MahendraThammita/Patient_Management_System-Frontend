@@ -162,8 +162,11 @@ const AddDoctor = () => {
                         allowClear
                     >
                         <Option value="ENT">ENT</Option>
-                        <Option value="other">other</Option>
-                        <Option value="fhgj">fhgj</Option>
+                        <Option value="Cardiologists">Cardiologists</Option>
+                        <Option value="Dermatologists">Dermatologists</Option>
+                        <Option value="Endocrinologists">Endocrinologists</Option>
+                        <Option value="Gastroenterologists">Gastroenterologists</Option>
+                        <Option value="Other">Other</Option>
                     </Select>
                 </Form.Item>
 

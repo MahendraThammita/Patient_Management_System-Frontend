@@ -13,6 +13,7 @@ const RecepPHeader = () =>  {
 
     const username = localStorage.getItem('user-name');
     const userID = localStorage.getItem('user-id');
+    const profileImage = "http://localhost:8090/receptionist/"+localStorage.getItem('user-image');
 
    const  logout = () => {
 
@@ -46,7 +47,7 @@ const RecepPHeader = () =>  {
                     extra={[
                         <BellOutlined style={{ fontSize: '25px', padding: '0 10px 0 10px' }} />,
                         <Dropdown overlay={menu} placement="bottomRight" arrow>
-                            <Avatar style={{ margin: "0 10px 0 20px" }}>U</Avatar>
+                            <Avatar src={profileImage} style={{ margin: "0 10px 0 20px" }}/>
                         </Dropdown>,
                     ]}
                 >

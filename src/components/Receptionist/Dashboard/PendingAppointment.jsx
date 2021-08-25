@@ -27,14 +27,14 @@ const PendingAppointment = () => {
 
     return(
         <div style={{marginLeft: '20px', marginRight:'30px'}}>
-            <Search style={{marginBottom: '5px'}} placeholder="Search Current Appointments" onSearch={onSearch} enterButton />
+            <Search style={{marginBottom: '5px'}} placeholder="Search Pending Appointments" onSearch={onSearch} enterButton />
             <Card
 
                 style={{ width: 400, height:'auto'}}
                 cover={
-                    <img style={{ width: 400, height:150}}
+                    <img style={{ width: 400, height:200}}
                          alt="example"
-                         src="https://images.unsplash.com/photo-1624969862293-b749659ccc4e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80"
+                         src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
                     />
                 }
             >

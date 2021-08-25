@@ -30,7 +30,7 @@ function AppointmentTimeSlots(props){
     return(
 
         <div>
-            <div className="uditha-site-card-border-less-wrapper" style={{marginTop:'5%'}}>
+            <div className="uditha-site-card-border-less-wrapper" style={{marginTop:'7%'}}>
                 <Card title="Time Slots"  bordered={false} style={{ width: 300 }}>
                     <List
                         itemLayout="horizontal"

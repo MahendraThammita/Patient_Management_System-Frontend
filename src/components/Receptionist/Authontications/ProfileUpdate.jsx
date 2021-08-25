@@ -3,6 +3,8 @@ import {Avatar, Button, Form, Input, PageHeader} from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
 import {useHistory, useParams } from "react-router-dom";
+import RecepPHeader from "../commonComponents/RecepHeader";
+import SideMenu from "../commonComponents/Menu";
 
 ;
 
@@ -87,7 +89,9 @@ const ReceptionistProfile = (props) => {
             mobileNumber: mobile,
             username: username,
             oldPassword: oldPassword,
-            newPassword: newPassword
+            newPassword: newPassword,
+            profileImage: profileImage
+
         }
 
         const url = "http://localhost:8090/receptionist/update/" + userID;
@@ -112,7 +116,12 @@ const ReceptionistProfile = (props) => {
 
     return (
 
-        <div className="uditha-form-container">
+        <div>
+            <div>
+                <RecepPHeader />
+            </div>
+            <SideMenu/>
+        <div style={{boxShadow: '0 15px 25px rgba(0,0,0,.8)', marginTop:'10px'}} className="uditha-form-container">
 
             <PageHeader
                 className="site-page-header"
@@ -122,14 +131,14 @@ const ReceptionistProfile = (props) => {
 
             />
 
-            {/*<div className="uditha-dashboard-align">*/}
-            {/*    <Avatar className="uditha-avatar-align"*/}
-            {/*            size={80}*/}
-            {/*            src={preview}*/}
-            {/*    />*/}
+            <div className="uditha-dashboard-align">
+                <Avatar className="uditha-avatar-align"
+                        size={80}
+                        src={preview}
+                />
 
-            {/*    <input  style={{marginTop:'25px'}} type="file" onChange={onSelectFile}/>*/}
-            {/*</div>*/}
+                <input  style={{marginTop:'25px'}} type="file" onChange={onSelectFile}/>
+            </div>
 
             <Form {...layout} style={{marginLeft:"20%"}}  onFinish={onFinish} >
 
@@ -156,6 +165,7 @@ const ReceptionistProfile = (props) => {
                 </Form.Item>
 
             </Form>
+            </div>
         </div>
     );
 };

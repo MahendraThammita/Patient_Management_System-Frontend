@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Form, Input, PageHeader, Button, Avatar} from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import RecepPHeader from "../commonComponents/RecepHeader";
 import SiteFooter from "../../Footer/SiteFooter";
 
@@ -123,6 +123,12 @@ const ReceptionistRegister = () => {
                     <Button type="primary" htmlType="submit">
                         Sign Up
                     </Button>
+
+                    <Link to="/receptionist-login">
+                        <Button type="link" htmlType="button" >
+                            Already have an account? Login
+                        </Button>
+                    </Link>
                 </Form.Item>
 
             </Form>
