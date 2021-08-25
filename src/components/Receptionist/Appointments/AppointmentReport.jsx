@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
-import { Form, Input, PageHeader , Button,  Card, Avatar, Space, List, Skeleton , Tag } from 'antd';
+import { Input, Button,  Card, Space, List, DatePicker, Tag } from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
+import { DownloadOutlined } from '@ant-design/icons';
 
 const AppointmentReport = () => {
 
@@ -18,8 +19,6 @@ const AppointmentReport = () => {
     ];
 
 
-    const { Search } = Input;
-
     const[appointments, setAppointments] = useState([]);
 
 
@@ -32,19 +31,23 @@ const AppointmentReport = () => {
         })
     })
 
+    function onChange(date, dateString) {
+        console.log(date, dateString);
+    }
+
     const onSearch = value => console.log(value);
 
     return(
-        <div style={{marginLeft: '20px'}}>
-            <Search style={{marginBottom: '5px'}} placeholder="Search Current Appointments" onSearch={onSearch} enterButton />
-            <Card
+        <div style={{marginLeft: '5%', marginTop: '10%'}}>
 
-                style={{ width: 400, height:500 }}
+            <div style={{float:'right', marginRight:'5%'}}>
+                <Button type="primary" shape="round" icon={<DownloadOutlined />}>Get Report </Button>
+            </div>
+
+            <Card
+                style={{ width: '80%', height:500 }}
                 cover={
-                    <img
-                        alt="example"
-                        src="https://images.unsplash.com/photo-1624969862293-b749659ccc4e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80"
-                    />
+                    <DatePicker onChange={onChange}/>
                 }
             >
 
@@ -55,7 +58,7 @@ const AppointmentReport = () => {
                     renderItem={item => (
 
                         <List.Item
-                            actions={[<Tag color="purple">04.00 pm</Tag>, <a key="list-loadmore-more">View</a>]}
+                            actions={[<Tag color="purple">04.00 pm</Tag>]}
                         >
                             <List.Item.Meta
                                 title={<a href="https://ant.design">{item.title}</a>}
