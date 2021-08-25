@@ -5,6 +5,7 @@ import TimeSlots from "./TimeSlots";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import SideMenu from "./commonComponents/Menu";
+import RecepPHeader from "./commonComponents/RecepHeader";
 
 const layout = {
     labelCol: {
@@ -109,6 +110,9 @@ const AddDoctor = () => {
     return (
 
         <div>
+            <div>
+                <RecepPHeader />
+            </div>
             <SideMenu/>
             <TimeSlots doctorID={doctorID}/>
 
