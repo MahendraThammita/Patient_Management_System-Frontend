@@ -23,6 +23,7 @@ const AddDoctor = () => {
     const [doctorID, setDoctorID] = useState();
     const [fullName, setFullname] = useState();
     const [email, setEmail] = useState();
+    const [nic, setNIC] = useState();
     const [mobile, setMobile] = useState();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
@@ -70,6 +71,7 @@ const AddDoctor = () => {
         const formData = new FormData();
         formData.append("fullName",fullName);
         formData.append("email",email);
+        formData.append("nic",nic);
         formData.append("mobileNumber",mobile);
         formData.append("specialty",specialty);
         formData.append("username",username);
@@ -139,6 +141,10 @@ const AddDoctor = () => {
 
                 <Form.Item>
                     <Input required={true} placeholder="Full Name" onChange={(e) => {setFullname(e.target.value)}} />
+                </Form.Item>
+
+                <Form.Item>
+                    <Input required={true} placeholder="NIC Number" onChange={(e) => {setNIC(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item>
