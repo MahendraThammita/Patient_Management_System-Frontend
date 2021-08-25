@@ -6,6 +6,7 @@ import axios from "axios";
 import {useHistory,useParams} from "react-router-dom";
 import UpdateTimeSlots from "./UpdateTimeSlot";
 import SideMenu from "./commonComponents/Menu";
+import RecepPHeader from "./commonComponents/RecepHeader";
 
 const layout = {
     labelCol: {
@@ -149,6 +150,9 @@ const DoctorProfile = () => {
     return (
 
         <div>
+            <div>
+                <RecepPHeader />
+            </div>
             <SideMenu/>
             <UpdateTimeSlots/>
 
