@@ -3,6 +3,8 @@ import { Input, Button,  Card, Space, List, DatePicker, Tag } from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
 import { DownloadOutlined } from '@ant-design/icons';
+import RecepPHeader from "../commonComponents/RecepHeader";
+import SideMenu from "../commonComponents/Menu";
 
 const AppointmentReport = () => {
 
@@ -38,7 +40,12 @@ const AppointmentReport = () => {
     const onSearch = value => console.log(value);
 
     return(
-        <div style={{marginLeft: '5%', marginTop: '10%'}}>
+        <div>
+            <div>
+                <RecepPHeader />
+            </div>
+            <SideMenu/>
+        <div style={{marginLeft: '20%', marginTop: '-35%'}}>
 
             <div style={{float:'right', marginRight:'5%'}}>
                 <Button type="primary" shape="round" icon={<DownloadOutlined />}>Get Report </Button>
@@ -69,6 +76,7 @@ const AppointmentReport = () => {
                 />,
 
             </Card>,
+        </div>
         </div>
     )
 }

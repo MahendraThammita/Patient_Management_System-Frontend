@@ -27,12 +27,12 @@ const Doctors = () => {
     }
 
     return(
-        <div style={{float:"left"}}>
+        <div style={{float:"left", marginLeft:'5px'}}>
             <Search style={{marginBottom: '5px'}} placeholder="Search Doctors" onSearch={onSearch} enterButton />
             <Card
                 style={{ width: 400, height:'auto' }}
                 cover={
-                    <img style={{ width: 400, height:150}}
+                    <img style={{ width: 400, height:200}}
                         alt="example"
                         src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
                     />

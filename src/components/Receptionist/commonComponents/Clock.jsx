@@ -15,7 +15,7 @@ const ClockBar = () =>  {
 
     return (
         <div>
-            <PageHeader  style={{backgroundColor:'blue'}}
+            <PageHeader  style={{backgroundColor:' #3d5a80', borderRadius:'50%'}}
                 title={<Clock/>}
             >
             </PageHeader>
