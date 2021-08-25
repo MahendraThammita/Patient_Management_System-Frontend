@@ -23,7 +23,6 @@ const Dashboard = () => {
         <div>
             <div>
                 <RecepPHeader />
-                <ClockBar/>
             </div>
         <div className="uditha-dashboard-align">
             <SideMenu/>

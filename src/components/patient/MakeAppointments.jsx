@@ -24,17 +24,6 @@ class MakeAppointments extends Component {
             selectedDoctor:'',
             patientMeaasage:'',
 
-            age:0,
-            dateOfBirth:'',
-            profession:'',
-            address:'',
-            phone:'',
-            email:'',
-            password:'',
-            confirmPassword:'',
-            guardianName:'',
-            guardianPhone:'',
-            guardianEmail:'',
         }
     }
     onSelectDoctor = (value) => {

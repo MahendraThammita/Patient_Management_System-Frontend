@@ -42,9 +42,18 @@ const SideMenu = () => {
                         </Menu.Item>
                         <Menu.Item key="1" icon={<PieChartOutlined />}>
                             <Link to = "/add-doctor">
-                                Logout
+                                Reports
                             </Link>
                         </Menu.Item>
+                        <Menu.Item>
+                        </Menu.Item>
+                        <Menu.Item>
+                        </Menu.Item>
+                        <Menu.Item>
+                        </Menu.Item>
+                        <Menu.Item>
+                        </Menu.Item>
+
 
                     </Menu>
                 </Sider>

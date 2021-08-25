@@ -13,6 +13,7 @@ import {
 import MakeAppointments from './MakeAppointments'
 import MyAppointments from './MyAppointments'
 import AppointmentCalendar from './AppointmentCalendar';
+import Profile from './PatientProfile';
 
 
 import Logo from './../../assets/img/pmslogo.png'
@@ -68,10 +69,11 @@ class PatientDash extends Component {
                             <Breadcrumb.Item>Bill</Breadcrumb.Item>
                         </Breadcrumb>
 
-                        
+                        <Profile/>
                         <MakeAppointments/>
                         <MyAppointments/>
                         <AppointmentCalendar/>
+                        
                         
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
