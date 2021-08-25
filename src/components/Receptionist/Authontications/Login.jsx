@@ -3,6 +3,7 @@ import { Form, Input, PageHeader , Button } from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import {UserOutlined} from "@ant-design/icons";
 
 const layout = {
     labelCol: {
@@ -64,7 +65,7 @@ const ReceptionistLogin = () => {
             />
             <Form {...layout} style={{marginLeft:"20%", marginTop:"10%"}} onFinish={onFinish} >
                 <Form.Item>
-                    <Input placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
+                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item >
