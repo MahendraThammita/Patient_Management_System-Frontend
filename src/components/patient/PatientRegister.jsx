@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Layout } from 'antd';
+import { Row, Col } from 'antd';
 
 // import Logo from './../../assets/img/pmslogo.png'
 import Logo2 from './../../assets/img/outlined logo.png'
@@ -26,7 +27,9 @@ class PatientRegister extends Component {
             age:0,
             dateOfBirth:'',
             profession:'',
-            address:'',
+            addressLine1:'',
+            addressLine2:'',
+            city:'',
             phone:'',
             email:'',
             password:'',
@@ -82,7 +85,9 @@ class PatientRegister extends Component {
               age:this.state.age,
               dateOfBirth:this.state.dateOfBirth,
               profession:this.state.profession,
-              address:this.state.address,
+              addressLine1:this.state.addressLine1,
+              addressLine2:this.state.addressLine2,
+              city:this.state.city,
               phone:this.state.phone,
               email:this.state.email,
               password:this.state.password,
@@ -116,9 +121,9 @@ class PatientRegister extends Component {
     }
   render() {
 
-    const onFormLayoutChange = ({ size }) => {
-        this.state.setComponentSize(size);
-      };
+    // const onFormLayoutChange = ({ size }) => {
+    //     this.state.setComponentSize(size);
+    //   };
 
     // const onFinish = (values) => {
     //   console.log('Success:', values);
@@ -158,7 +163,7 @@ class PatientRegister extends Component {
                 initialValues={{
                 size: this.state.componentSize,
                 }}
-                onValuesChange={onFormLayoutChange}
+                // onValuesChange={onFormLayoutChange}
                 size={this.state.componentSize}
             >
                 
@@ -171,7 +176,7 @@ class PatientRegister extends Component {
                     },
                   ]}
                 >
-                  <Input  name="fullName" onChange={this.handleChange}/>
+                  <Input placeholder="Your Full Name" name="fullName" onChange={this.handleChange}/>
                 </Form.Item>
 
                 <Form.Item 
@@ -200,7 +205,7 @@ class PatientRegister extends Component {
                   <div className="col-md-1"></div>
                   <div className="col-md-3">
                     <Form.Item 
-                    style ={{paddingLeft:"20%"}}
+                      style ={{paddingLeft:"20%"}}
                       label="Age"
                       rules={[
                         {
@@ -209,7 +214,7 @@ class PatientRegister extends Component {
                         },
                       ]}
                     >
-                      <InputNumber  name="age" onChange={this.onNumberChange}/>
+                      <InputNumber placeholder="Age" name="age" onChange={this.onNumberChange}/>
                     </Form.Item>
                   </div>
 
@@ -230,54 +235,8 @@ class PatientRegister extends Component {
                 </div>
 
                 <Form.Item label="Profession">
-                  <Input  name="profession" onChange={this.handleChange}/>
+                  <Input placeholder="Enter Your Profession" name="profession" onChange={this.handleChange}/>
                 </Form.Item>
-
-                {/* <div className="row">
-                  <div className="col-md-1"></div>
-                  <div className="col-md-5">
-                    <Form.Item 
-                      style ={{paddingLeft:"6%"}}
-                      label="Address Line1"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your address!',
-                        },
-                      ]}
-                    >
-                      <Input  name="address" onChange={this.handleChange}/>
-                    </Form.Item>
-                  </div>
-                  <div className="col-md-4">
-                    <Form.Item 
-                        label="Address"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your address!',
-                          },
-                        ]}
-                      >
-                        <Input  name="address" onChange={this.handleChange}/>
-                      </Form.Item>
-                  </div>
-                  <div className="col-md-2">
-                    <Form.Item 
-                        label="Address"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your address!',
-                          },
-                        ]}
-                      >
-                        <Input  name="address" onChange={this.handleChange}/>
-                    </Form.Item>
-                  </div>
-                  <div className="col-md-1"></div>
-                </div> */}
-
                 <Form.Item 
                   label="Address"
                   rules={[
@@ -287,7 +246,32 @@ class PatientRegister extends Component {
                     },
                   ]}
                 >
-                  <Input  name="address" onChange={this.handleChange}/>
+                      <Row gutter={16}>
+                            <Col span={8}>
+                                <Form.Item
+                                name="addressLine1"
+                                rules={[{ required: true, message: 'Please Enter address line 1' }]}
+                                >
+                                  <Input placeholder="Address line 1" name="addressLine1" onChange={this.handleChange}/>
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item
+                                name="addressLine2"
+                                rules={[{ required: true, message: 'Please Enter address line 2' }]}
+                                >
+                                  <Input placeholder="Address line 2" name="addressLine2" onChange={this.handleChange}/>
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item
+                                name="city"
+                                rules={[{ required: true, message: 'Please Enter city' }]}
+                                >
+                                  <Input placeholder="City" name="city" onChange={this.handleChange}/>
+                                </Form.Item>
+                            </Col>
+                      </Row>
                 </Form.Item>
 
                 <Form.Item 
@@ -299,7 +283,7 @@ class PatientRegister extends Component {
                     },
                   ]}
                 >
-                  <Input  name="phone" onChange={this.handleChange}/>
+                  <Input placeholder="Enter Your Phone Number" name="phone" onChange={this.handleChange}/>
                 </Form.Item>
 
                 <Form.Item 
@@ -311,7 +295,7 @@ class PatientRegister extends Component {
                     },
                   ]}
                 >
-                  <Input name="email" onChange={this.handleChange}/>
+                  <Input placeholder="Enter Your Email" name="email" onChange={this.handleChange}/>
                 </Form.Item>
 
                 <Form.Item 
@@ -323,7 +307,7 @@ class PatientRegister extends Component {
                     },
                   ]}
                 >
-                  <Input.Password name="password" onChange={this.handleChange}/>
+                  <Input.Password placeholder="Enter Your Password" name="password" onChange={this.handleChange}/>
                 </Form.Item>
 
                 <Form.Item 
@@ -335,7 +319,7 @@ class PatientRegister extends Component {
                     },
                   ]}
                 >
-                  <Input.Password name="confirmPassword" onChange={this.handleChange}/>
+                  <Input.Password placeholder="Confirm Your Profession" name="confirmPassword" onChange={this.handleChange}/>
                 </Form.Item>
 
                 <Form.Item 
@@ -347,7 +331,7 @@ class PatientRegister extends Component {
                     },
                   ]}
                 >
-                  <Input  name="guardianName" onChange={this.handleChange}/>
+                  <Input placeholder="Enter Your your Guardian's Name"  name="guardianName" onChange={this.handleChange}/>
                 </Form.Item>
 
                 <Form.Item 
@@ -359,7 +343,7 @@ class PatientRegister extends Component {
                     },
                   ]}
                 >
-                  <Input  name="guardianPhone" onChange={this.handleChange}/>
+                  <Input placeholder="Enter Your your Guardian's Phone Number" name="guardianPhone" onChange={this.handleChange}/>
                 </Form.Item>
 
                 <Form.Item 
@@ -367,11 +351,11 @@ class PatientRegister extends Component {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Guardian's phone number!",
+                      message: "Please input your Guardian's Email!",
                     },
                   ]}
                 >
-                  <Input  name="guardianEmail" onChange={this.handleChange}/>
+                  <Input placeholder="Enter Your your Guardian's Phone Email" name="guardianEmail" onChange={this.handleChange}/>
                 </Form.Item>
 
                 <Form.Item label="">
