@@ -79,7 +79,7 @@ class MakeAppointments extends Component {
             appointmentDate: this.state.preferedDate,
             appointmentTimeSlot: this.state.preferedTimeSlot,
             doctor: this.state.selectedDoctor,
-            patient: this.this.state.patient
+            patient: this.state.patient
         }
         console.log(data);
     
@@ -190,7 +190,7 @@ class MakeAppointments extends Component {
                             }
                         >
                             {this.state.timeslots.map(item =>{
-                                return(<Select.Option value={item._id}>{item.timeSlot}</Select.Option>)
+                                return(<Select.Option value={item.timeSlot}>{item.timeSlot}</Select.Option>)
                             })}   
                             {/* <Select.Option value="1">4.00pm - 5.00pm</Select.Option>
                             <Select.Option value="2">4.00pm - 5.00pm</Select.Option>
