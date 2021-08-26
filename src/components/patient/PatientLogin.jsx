@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Layout } from 'antd';
 
-import Logo from './../../assets/img/pmslogo.png'
+// import Logo from './../../assets/img/pmslogo.png'
 import Logo2 from './../../assets/img/outlined logo.png'
 
-import { Form, Input, Button, Checkbox, Footer } from 'antd';
+import { Form, Input, Button, Checkbox} from 'antd';
 
 const { Header } = Layout;
 
@@ -30,7 +30,7 @@ class PatientLogin extends Component {
       password : this.state.password
     }
 
-    fetch('',{
+    fetch('http://localhost:8000/patient/login',{
       method : 'POST',
       headers : {
         'Content-type' : 'Application/json'
@@ -38,6 +38,7 @@ class PatientLogin extends Component {
       body : JSON.stringify(data)
     }).then(res =>res.json()).then(data =>{
       if(data.token){
+        window.localStorage.setItem('id',data.id)
         window.localStorage.setItem('token',data.token)
         window.location.replace('/patient')
       }
@@ -84,16 +85,16 @@ class PatientLogin extends Component {
               onFinishFailed={onFinishFailed}
             >
               <Form.Item
-                label="Username"
+                label="email"
                 name="username"
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your username!',
+                    message: 'Please input your email!',
                   },
                 ]}
               >
-                <Input name="username" onChange={this.handleChange}/>
+                <Input name="email" onChange={this.handleChange}/>
               </Form.Item>
 
               <Form.Item

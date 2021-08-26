@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { Table, Tag, Space } from 'antd';
+import { Popconfirm, message } from 'antd';
+import { Link } from 'react-router-dom';
 
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        title: 'App ID',
+        dataIndex: '_id',
+        key: '_id',
         render: text => <a>{text}</a>,
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Appointment Date',
+        dataIndex: 'appointmentDate',
+        key: 'appointmentDate',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
+        title: 'Time',
+        dataIndex: 'appointmentTimeSlot',
+        key: 'appointmentTimeSlot',
     },
     {
         title: 'Tags',
@@ -25,17 +27,9 @@ const columns = [
         dataIndex: 'tags',
         render: tags => (
             <>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
+                <Tag color={"green"}>
+                    FINISHED
+                </Tag>
             </>
         ),
     },
@@ -44,12 +38,37 @@ const columns = [
         key: 'action',
         render: (text, record) => (
             <Space size="middle">
-                <a>Invite {record.name}</a>
-                <a>Delete</a>
+                <Link to={"/appointment/" + record._id}>Show Appointment</Link>
             </Space>
         ),
     },
 ];
+
+function confirm(e) {
+    console.log(e);
+
+    fetch("http://localhost:8000/doctorA/status/" + e, {
+        method: "POST",
+        headers: {
+            'Content-type': 'Application/json',
+            Authorization: "Bearer " + window.localStorage.getItem('token')
+        },
+        body: JSON.stringify({status : "pending"})
+    }).then(res => res.json()).then(data => {
+        message.success('Appointment status set to PENDING successfully!');
+
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000);
+    }).catch(err =>{
+        console.log(err);
+    })
+}
+
+function cancel(e) {
+    console.log(e);
+    message.error('Click on No');
+}
 
 const data = [
     {
@@ -79,11 +98,25 @@ const data = [
 class FinApps extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            data: []
+        }
+    }
+
+    componentDidMount() {
+        //fetch pending appointments
+        fetch("http://localhost:8000/doctorA/finished/" + window.localStorage.getItem('user_id'), {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ data })
+        })
     }
     render() {
         return (
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={this.state.data} />
         );
     }
 }

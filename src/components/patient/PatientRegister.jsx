@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Layout } from 'antd';
 
-import Logo from './../../assets/img/pmslogo.png'
+// import Logo from './../../assets/img/pmslogo.png'
 import Logo2 from './../../assets/img/outlined logo.png'
 
 import {
@@ -67,7 +67,7 @@ class PatientRegister extends Component {
     handleSubmit = () => {
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-      if(this.state.password != this.state.confirmPassword){
+      if(this.state.password !== this.state.confirmPassword){
           // message.error("Password mismatch");
           alert("Password mismatch")
 
@@ -93,7 +93,7 @@ class PatientRegister extends Component {
           }
           console.log(data);
   
-          fetch('http://localhost:8090/patient/reg',{
+          fetch('http://localhost:8000/patient/reg',{
               method : 'POST',
               headers: {
                   'Content-Type': 'application/json'
@@ -102,7 +102,7 @@ class PatientRegister extends Component {
           }).then(res => res.json()).then(data =>{
               console.log(data.message)
 
-              if(data.message == 'ok'){
+              if(data.message === 'ok'){
 
                   // window.localStorage.setItem('token',data.token)
                   // window.localStorage.setItem('id',data.id)
@@ -120,13 +120,13 @@ class PatientRegister extends Component {
         this.state.setComponentSize(size);
       };
 
-    const onFinish = (values) => {
-      console.log('Success:', values);
-    };
+    // const onFinish = (values) => {
+    //   console.log('Success:', values);
+    // };
   
-    const onFinishFailed = (errorInfo) => {
-      console.log('Failed:', errorInfo);
-    };
+    // const onFinishFailed = (errorInfo) => {
+    //   console.log('Failed:', errorInfo);
+    // };
 
     return (
 
@@ -232,6 +232,51 @@ class PatientRegister extends Component {
                 <Form.Item label="Profession">
                   <Input  name="profession" onChange={this.handleChange}/>
                 </Form.Item>
+
+                {/* <div className="row">
+                  <div className="col-md-1"></div>
+                  <div className="col-md-5">
+                    <Form.Item 
+                      style ={{paddingLeft:"6%"}}
+                      label="Address Line1"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your address!',
+                        },
+                      ]}
+                    >
+                      <Input  name="address" onChange={this.handleChange}/>
+                    </Form.Item>
+                  </div>
+                  <div className="col-md-4">
+                    <Form.Item 
+                        label="Address"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your address!',
+                          },
+                        ]}
+                      >
+                        <Input  name="address" onChange={this.handleChange}/>
+                      </Form.Item>
+                  </div>
+                  <div className="col-md-2">
+                    <Form.Item 
+                        label="Address"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your address!',
+                          },
+                        ]}
+                      >
+                        <Input  name="address" onChange={this.handleChange}/>
+                    </Form.Item>
+                  </div>
+                  <div className="col-md-1"></div>
+                </div> */}
 
                 <Form.Item 
                   label="Address"

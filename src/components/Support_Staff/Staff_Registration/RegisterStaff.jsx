@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import '../../../assets/css/mahen_general.css';
 import Logo from '../../../assets/img/PMS.Temp.logo.png'
 import { green } from '@material-ui/core/colors';
+import axios from "axios";
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -14,9 +15,43 @@ export default class RegisterStaff extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            form: Form
+            form: Form,
+            firstName: '',
+            lastName: '',
+            NIC:'',
+            mobileNumber: '',
+            email:'',
+            password:'',
+            role: ''
+
         }
     }
+
+    // onFirstnameSelect = (value) => {
+    //     this.setState({firstName : value})
+    // }
+    //
+    // onLastnameSelect = (value) => {
+    //     this.setState({lastName : value})
+    // }
+    //
+    // onNicSelect = (value) => {
+    //     this.setState({NIC : value})
+    // }
+    //
+    // onMobileSelect = (value) => {
+    //     this.setState({mobileNumber : value})
+    // }
+    //
+    // onEmailSelect = (value) => {
+    //     this.setState({email : value})
+    // }
+    // onPasswordSelect = (value) => {
+    //     this.setState({password : value})
+    // }
+    // onRoleSelect = (value) => {
+    //     this.setState({role : value})
+    // }
 
     componentDidUpdate() {
         document.querySelector("body").style.backgroundColor = "#f0f0f0";
@@ -70,6 +105,7 @@ export default class RegisterStaff extends Component {
             },
         };
         const onFinish = (values) => {
+<<<<<<< HEAD
             let Fname = values.Fname;
             let Lname = values.Lname;
             let email = values.email;
@@ -81,6 +117,30 @@ export default class RegisterStaff extends Component {
             console.log('Received values of form: ', values);
             console.log('Received values of form: ', Fname);
             console.log('Received values of form: ', NIC);
+=======
+            const data = {
+                NIC: values.NIC,
+                firstName: values.fName,
+                lastName: values.lName,
+                email: values.email,
+                mobileNumber: values.phone,
+                password: values.password,
+                role: values.role
+            }
+
+            const url = "http://localhost:8090/staff/register";
+            axios.post(url, data).then((res) => {
+                if(res.data.status === 201){
+                    window.location.replace('/staff-login')
+                }
+                else if(res.data.status === 401){
+                    alert("User Already Exist");
+                }
+                else{
+                    alert("Something went wrong");
+                }
+            })
+>>>>>>> 559df2f43bdc0a56e7fa6f72010e07dc742d998b
         };
         const prefixSelector = (
             <Form.Item name="prefix" noStyle>
@@ -161,7 +221,7 @@ export default class RegisterStaff extends Component {
                                                 },
                                             ]}
                                             tooltip="Your first name as in the NIC">
-                                            <Input placeholder="First Name" />
+                                            <Input onChange={this.onFirstnameSelect} placeholder="First Name" />
                                         </Form.Item>
 
                                     </Col>
@@ -178,7 +238,7 @@ export default class RegisterStaff extends Component {
                                             ]}
                                             tooltip={{ title: 'Your last name as in the NIC' }}
                                         >
-                                            <Input placeholder="Last Name" />
+                                            <Input onChange={this.onLastnameSelect} placeholder="Last Name" />
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -201,7 +261,7 @@ export default class RegisterStaff extends Component {
                                                 },
                                             ]}
                                         >
-                                            <Input placeholder="Ex : yourname@abc.com" />
+                                            <Input onChange={this.onEmailSelect} placeholder="Ex : yourname@abc.com" />
                                         </Form.Item>
 
                                     </Col>
@@ -224,6 +284,7 @@ export default class RegisterStaff extends Component {
                                             ]}
                                         >
                                             <Input
+                                                onChange={this.onMobileSelect}
                                                 addonBefore={prefixSelector}
                                                 style={{
                                                     width: '100%',
@@ -253,7 +314,7 @@ export default class RegisterStaff extends Component {
                                             ]}
                                             tooltip={{ title: 'Enter your NIC with ther letter "V" at the end.' }}
                                         >
-                                            <Input placeholder="NIC" />
+                                            <Input onChange={this.onNicSelect} placeholder="NIC" />
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -269,7 +330,7 @@ export default class RegisterStaff extends Component {
                                                 },
                                             ]}
                                         >
-                                            <Select defaultValue="Select role">
+                                            <Select  onChange={this.onRoleSelect} defaultValue="Select role">
                                                 <Option value="Nurse">Nurse</Option>
                                                 <Option value="Laboratory Staff">Laboratory Staff</Option>
                                                 <Option value="Pharmacist" >Pharmacist</Option>
@@ -291,7 +352,7 @@ export default class RegisterStaff extends Component {
                                             ]}
                                             hasFeedback
                                         >
-                                            <Input.Password />
+                                            <Input onChange={this.onPasswordSelect} type="Password" />
                                         </Form.Item>
 
                                     </Col>

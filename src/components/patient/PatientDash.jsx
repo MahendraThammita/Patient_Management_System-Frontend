@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import {
-  DesktopOutlined,
-  PieChartOutlined,
   FileOutlined,
   TeamOutlined,
   UserOutlined,
   MinusSquareOutlined,
   PlusCircleOutlined,
-  CheckSquareOutlined
+  CheckSquareOutlined,
+  CalendarOutlined
 } from '@ant-design/icons';
 
 import MakeAppointments from './MakeAppointments'
 import MyAppointments from './MyAppointments'
+import AppointmentCalendar from './AppointmentCalendar';
+import Profile from './PatientProfile';
+
 
 import Logo from './../../assets/img/pmslogo.png'
 
@@ -49,14 +51,10 @@ class PatientDash extends Component {
                     <SubMenu key="sub1" icon={<MinusSquareOutlined />} title="Appointments">
                         <Menu.Item key="3" icon={<CheckSquareOutlined />} >My Appointments</Menu.Item>
                         <Menu.Item key="4" icon={<PlusCircleOutlined />}>Create a new one</Menu.Item>
-                        {/* <Menu.Item key="5">Alex</Menu.Item> */}
+                        <Menu.Item key="5" icon={<CalendarOutlined />}>Schedule</Menu.Item>
                     </SubMenu>
-                    <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                        <Menu.Item key="6">Team 1</Menu.Item>
-                        <Menu.Item key="8">Team 2</Menu.Item>
-                    </SubMenu>
-                        <Menu.Item key="9" icon={<FileOutlined />}>
-                        Files
+                    <Menu.Item key="6" icon={<FileOutlined />}>
+                        Reports
                     </Menu.Item>
                 </Menu>
                 </Sider>
@@ -71,9 +69,11 @@ class PatientDash extends Component {
                             <Breadcrumb.Item>Bill</Breadcrumb.Item>
                         </Breadcrumb>
 
-                        
+                        <Profile/>
                         <MakeAppointments/>
                         <MyAppointments/>
+                        <AppointmentCalendar/>
+                        
                         
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

@@ -83,6 +83,7 @@ class DocTemplate extends Component {
       if(data.token){
         window.localStorage.setItem('token',data.token)
         window.localStorage.setItem('user_id',data.msg._id)
+        window.localStorage.setItem('name',data.msg.fullName)
         console.log(data.msg._id);
         window.location.replace('/doctor/dashboard')
       }

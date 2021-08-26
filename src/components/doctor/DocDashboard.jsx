@@ -15,6 +15,9 @@ import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import PendingApps from './PendingApps';
 import FinApps from './FinApps';
 import DecApps from './DecApps';
+import AppTabs from './AppTabs';
+import Chat from './Chat';
+import Reports from './Reports';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -27,7 +30,9 @@ class DocDashboard extends Component {
             collapsed: false,
             h: '',
             m: '',
-            s: ''
+            s: '',
+            count : {},
+            component : 'tabs'
         }
     }
 
@@ -38,6 +43,19 @@ class DocDashboard extends Component {
 
     componentDidMount() {
         this.startTime()
+
+        //fetch appointments
+        fetch("http://localhost:8000/doctorA/count/" + window.localStorage.getItem('user_id'), {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            if(data.message === 'Authentication failed!'){
+                window.location.replace('/doctor')
+            }
+            this.setState({ count : data })
+        })
     }
 
     startTime = () => {
@@ -63,23 +81,35 @@ class DocDashboard extends Component {
     render() {
         const { collapsed } = this.state;
 
+        var pen = Array(this.state.count.pen)
+        var fin = Array(this.state.count.fin)
+        var dec = Array(this.state.count.dec)
+
+        let comp;
+
+        if(this.state.component === 'tabs'){
+            comp = <AppTabs/>
+        }else if(this.state.component === 'chat'){
+            comp = <Chat/>
+        }else if(this.state.component === 'report'){
+            comp = <Reports/>
+        }
+
         
         return (
             <Layout style={{ minHeight: '100vh', fontStyle: 'initial', fontWeight: 'bold' }}>
                 <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
                     <div className="logo" />
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                        <Menu.Item key="1" icon={<PieChartOutlined />}>
+                        <Menu.Item key="1" icon={<PieChartOutlined />} onClick={() => this.setState({component : 'tabs'})}>
                             Appointments
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<DesktopOutlined />}>
-                            Option 2
+                        <Menu.Item key="2" icon={<DesktopOutlined />} onClick={() => this.setState({component : 'chat'})}>
+                            Chats
                         </Menu.Item>
-                        <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-                            <Menu.Item key="3">Tom</Menu.Item>
-                            <Menu.Item key="4">Bill</Menu.Item>
-                            <Menu.Item key="5">Alex</Menu.Item>
-                        </SubMenu>
+                        <Menu.Item key="3" icon={<DesktopOutlined />} onClick={() => this.setState({component : 'report'})}>
+                            Reports
+                        </Menu.Item>
                         <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
                             <Menu.Item key="6">Team 1</Menu.Item>
                             <Menu.Item key="8">Team 2</Menu.Item>
@@ -104,7 +134,7 @@ class DocDashboard extends Component {
                                     <Card>
                                         <Statistic
                                             title="Pending Appointments"
-                                            value={11.26}
+                                            value={pen.length}
                                             precision={0}
                                             valueStyle={{ color: '#3f8600', textAlign: 'left', fontSize: '2rem' }}
                                         />
@@ -114,7 +144,7 @@ class DocDashboard extends Component {
                                     <Card>
                                         <Statistic
                                             title="Declined Appointments"
-                                            value={9.3}
+                                            value={dec.length}
                                             precision={0}
                                             valueStyle={{ color: '#cf1322', textAlign: 'left', fontSize: '2rem' }}
                                         />
@@ -124,7 +154,7 @@ class DocDashboard extends Component {
                                     <Card>
                                         <Statistic
                                             title="Completed Appointments"
-                                            value={9.3}
+                                            value={fin.length}
                                             precision={0}
                                             valueStyle={{ color: '#cf1322', textAlign: 'left', fontSize: '2rem' }}
                                         />
@@ -139,17 +169,7 @@ class DocDashboard extends Component {
                         </div>
 
                         <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                            <Tabs defaultActiveKey="1" onChange={this.callback}>
-                                <TabPane tab="Pending Appointments" key="1">
-                                    <PendingApps/>
-                                </TabPane>
-                                <TabPane tab="Finished Appointments" key="2">
-                                    <FinApps/>
-                                </TabPane>
-                                <TabPane tab="Declined Appointments" key="3">
-                                    <DecApps/>
-                                </TabPane>
-                            </Tabs>
+                            {comp}
                         </div>
                     </Content>
                     <SiteFooter />

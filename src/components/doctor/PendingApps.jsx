@@ -44,7 +44,7 @@ const columns = [
                 <Link to={"/appointment/" + record._id}>Show Appointment</Link>
                 <Popconfirm
                     title="Are you sure to delete this task?"
-                    onConfirm={confirm}
+                    onConfirm={() => confirm(record._id)}
                     onCancel={cancel}
                     okText="Yes"
                     cancelText="No"
@@ -58,7 +58,23 @@ const columns = [
 
 function confirm(e) {
     console.log(e);
-    message.success('Click on Yes');
+
+    fetch("http://localhost:8000/doctorA/status/" + e, {
+        method: "POST",
+        headers: {
+            'Content-type': 'Application/json',
+            Authorization: "Bearer " + window.localStorage.getItem('token')
+        },
+        body: JSON.stringify({status : "declined"})
+    }).then(res => res.json()).then(data => {
+        message.success('Appointment declined successfully!');
+
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000);
+    }).catch(err =>{
+        console.log(err);
+    })
 }
 
 function cancel(e) {

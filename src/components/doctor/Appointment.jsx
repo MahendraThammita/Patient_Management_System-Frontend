@@ -28,6 +28,7 @@ import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled,FileDoneOutlin
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { Radio } from 'antd';
+import Prescription from './Prescription';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -44,9 +45,8 @@ const data = [
 ];
 
 const options = [
-    { label: 'Open', value: 'Open' },
-    { label: 'On Progress', value: 'On Progress' },
-    { label: 'Closed', value: 'Closed' },
+    { label: 'Pending', value: 'pending' },
+    { label: 'Finished', value: 'finished' },
 ];
 
 var appid;
@@ -103,7 +103,9 @@ class Appointment extends Component {
             name: '',
             freq: '',
             meds: [],
-            reports: []
+            reports: [],
+            selItem : '',
+            ui : ''
         }
     }
 
@@ -125,17 +127,11 @@ class Appointment extends Component {
         })
     }
 
-    onChange2 = e => {
-        console.log('radio2 checked', e.target.value);
-        this.setState({
-            value2: e.target.value,
-        });
-    };
+    changeStatus = (status) =>{
 
-    enterLoading = index => {
         this.setState(({ loadings }) => {
             const newLoadings = [...loadings];
-            newLoadings[index] = true;
+            newLoadings[0] = true;
 
             return {
                 loadings: newLoadings,
@@ -144,13 +140,42 @@ class Appointment extends Component {
         setTimeout(() => {
             this.setState(({ loadings }) => {
                 const newLoadings = [...loadings];
-                newLoadings[index] = false;
+                newLoadings[0] = false;
 
                 return {
                     loadings: newLoadings,
                 };
             });
         }, 6000);
+
+        const data = {
+            status : status
+        }
+        fetch("http://localhost:8000/doctorA/status/" + this.props.match.params.id, {
+            method: "POST",
+            headers: {
+                'Content-type': 'Application/json',
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+        }).catch(err =>{
+            console.log(err);
+        })
+    }
+
+    onChange2 = e => {
+        console.log('radio2 checked', e.target.value);
+        this.setState({
+            value2: e.target.value,
+        });
+
+        this.changeStatus(e.target.value)
+    };
+
+    enterLoading = index => {
+        
     };
 
     addMedication = () => {
@@ -178,12 +203,22 @@ class Appointment extends Component {
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     }
+
+    onclose = () =>{
+        console.log('close called');
+        this.setState({selItem : ''})
+    }
     render() {
         const { collapsed } = this.state;
         const { loadings } = this.state;
         const { value2 } = this.state;
         var patient = String(this.state.patient.fullName).slice(0, 2).toUpperCase();
         var meds = Array(this.state.patient.medications)
+        let component;
+
+        if(this.state.selItem === 'pres'){
+            component = <Prescription onclose={this.onclose} patient={this.state.patient}/>
+        }
         //meds = meds[0]
         console.log(this.state.meds);
         return (
@@ -233,7 +268,8 @@ class Appointment extends Component {
                             <br />
                             <br />
 
-                            <Button type="primary" block>Issue Prescription</Button>
+                            <Button type="primary" block onClick={() => {this.setState({selItem : 'pres'})}}>Issue Prescription</Button>
+                            {component}
                             <br />
                             <br />
                             <Row>
@@ -277,7 +313,7 @@ class Appointment extends Component {
                                                     block
                                                     icon={<RightOutlined />}
                                                     loading={loadings[1]}
-                                                    onClick={() => this.enterLoading(1)}
+                                                    onClick={() => this.changeStatus('declined')}
                                                 >
                                                     Decline Appointment
                                                 </Button>
