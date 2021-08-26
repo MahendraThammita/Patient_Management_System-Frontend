@@ -70,7 +70,17 @@ export default class RegisterStaff extends Component {
             },
         };
         const onFinish = (values) => {
+            let Fname = values.Fname;
+            let Lname = values.Lname;
+            let email = values.email;
+            let mobileNumber = values.mobileNumber;
+            let password = values.password;
+            let confirmPassword = values.confirmPassword;
+            let NIC = values.NIC;
+            let role = values.role;
             console.log('Received values of form: ', values);
+            console.log('Received values of form: ', Fname);
+            console.log('Received values of form: ', NIC);
         };
         const prefixSelector = (
             <Form.Item name="prefix" noStyle>
@@ -141,7 +151,7 @@ export default class RegisterStaff extends Component {
                                 <Row justify="space-between" align="bottom" >
                                     <Col span={11}>
                                         <Form.Item
-                                            name="fName"
+                                            name="Fname"
                                             label="First Name"
                                             required
                                             rules={[
@@ -157,7 +167,7 @@ export default class RegisterStaff extends Component {
                                     </Col>
                                     <Col span={11}>
                                         <Form.Item
-                                            name="lName"
+                                            name="Lname"
                                             label="Last Name"
                                             required
                                             rules={[
@@ -200,7 +210,7 @@ export default class RegisterStaff extends Component {
                                 <Row justify="space-between" align="bottom">
                                     <Col span={11}>
                                         <Form.Item
-                                            name="phone"
+                                            name="mobileNumber"
                                             label="Phone Number"
                                             rules={[
                                                 {
@@ -287,7 +297,7 @@ export default class RegisterStaff extends Component {
                                     </Col>
                                     <Col span={11}>
                                         <Form.Item
-                                            name="confirm"
+                                            name="confirmPassword"
                                             label="Confirm Password"
                                             dependencies={['password']}
                                             hasFeedback
