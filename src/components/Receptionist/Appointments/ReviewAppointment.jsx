@@ -40,7 +40,7 @@ const ReviewAppointment = () => {
             <div>
                 <RecepPHeader />
             </div>
-            <SideMenu/>
+            <SideMenu/>gin
             <NotificationMessage/>
 
             <div className="uditha-left-form-container">

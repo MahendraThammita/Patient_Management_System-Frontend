@@ -104,19 +104,19 @@ const ReceptionistRegister = () => {
 
             <Form {...layout} style={{marginLeft:"20%"}}  onFinish={onFinish} >
                 <Form.Item >
-                    <Input placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
+                    <Input required={true} placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item>
-                    <Input placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
+                    <Input required={true} placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item >
-                    <Input placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
+                    <Input required={true} placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item >
-                    <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
+                    <Input required={true} placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
