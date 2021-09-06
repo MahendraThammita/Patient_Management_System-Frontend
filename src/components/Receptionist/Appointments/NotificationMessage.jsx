@@ -39,7 +39,7 @@ const NotificationMessage = () => {
 
         <div>
 
-            <Form style={{marginLeft:'70%', marginTop:'20%'}} {...layout} >
+            <Form  {...layout} >
                 <Form.Item>
             <div>
             <TextArea
