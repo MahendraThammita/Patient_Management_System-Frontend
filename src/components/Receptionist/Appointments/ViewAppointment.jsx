@@ -57,7 +57,7 @@ const ViewAppointment = () => {
                 <RecepPHeader />
             </div>
             <SideMenu/>
-            <AppointmentTimeSlots doctorID={doctorID}/>
+            <AppointmentTimeSlots doctorID={doctorID} appointmentID={appointmentID}/>
             <div className="uditha-left-form-container">
 
                 <PageHeader
