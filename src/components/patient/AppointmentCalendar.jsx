@@ -67,7 +67,7 @@ class AppointmentCalendar extends Component {
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                 <div
                     style={{
-                        padding:"10%", 
+                        padding:"0 5% 5% 5% ", 
                         // border:"0.1px solid black"
                     }}
                 >
@@ -75,7 +75,7 @@ class AppointmentCalendar extends Component {
                     <Calendar
                         style={{
                             // padding:"10%", 
-                            border:"0.1px solid #aaaaaa"
+                            // border:"0.1px solid #aaaaaa"
                         }}
                         dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
                 </div>

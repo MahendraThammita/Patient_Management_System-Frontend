@@ -6,6 +6,7 @@ import axios from "axios";
 import {useHistory,useParams} from "react-router-dom";
 import UpdateTimeSlots from "./UpdateTimeSlot";
 import SideMenu from "./commonComponents/Menu";
+import RecepPHeader from "./commonComponents/RecepHeader";
 
 const layout = {
     labelCol: {
@@ -149,6 +150,9 @@ const DoctorProfile = () => {
     return (
 
         <div>
+            <div>
+                <RecepPHeader />
+            </div>
             <SideMenu/>
             <UpdateTimeSlots/>
 
@@ -197,8 +201,11 @@ const DoctorProfile = () => {
                             initialValues={specialty}
                         >
                             <Option value="ENT">ENT</Option>
-                            <Option value="other">other</Option>
-                            <Option value="fhgj">fhgj</Option>
+                            <Option value="Cardiologists">Cardiologists</Option>
+                            <Option value="Dermatologists">Dermatologists</Option>
+                            <Option value="Endocrinologists">Endocrinologists</Option>
+                            <Option value="Gastroenterologists">Gastroenterologists</Option>
+                            <Option value="Other">Other</Option>
                         </Select>
                     </Form.Item>
 

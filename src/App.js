@@ -30,6 +30,7 @@ import ReviewAppointment from "./components/Receptionist/Appointments/ReviewAppo
 import DocDashboard from './components/doctor/DocDashboard';
 import Appointment from './components/doctor/Appointment';
 import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard'
+import AppointmentReport from "./components/Receptionist/Appointments/AppointmentReport";
 
 
 function App() {
@@ -117,6 +118,9 @@ function App() {
         </Route>
         <Route path="/labStaff-dashboard">
           <LabStaffDashboard/>
+        </Route>
+        <Route path="/receptionist-report">
+          <AppointmentReport />
         </Route>
       </Switch>
     </div>
