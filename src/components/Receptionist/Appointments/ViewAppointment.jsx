@@ -50,6 +50,19 @@ const ViewAppointment = () => {
         history.push('/receptionist-dashboard')
     }
 
+    const onDelete = (timeSlot) => {
+        const url = "http://localhost:8090/receptionist/appointments/delete/"+appointmentID;
+        axios.delete(url).then((res) => {
+            if(res.data.status === 200){
+                alert("Appointment Deleted");
+                history.push('/receptionist-dashboard')
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
+    }
+
     return (
 
         <div>
@@ -57,7 +70,7 @@ const ViewAppointment = () => {
                 <RecepPHeader />
             </div>
             <SideMenu/>
-            <AppointmentTimeSlots doctorID={doctorID}/>
+            <AppointmentTimeSlots doctorID={doctorID} appointmentID={appointmentID}/>
             <div className="uditha-left-form-container">
 
                 <PageHeader
@@ -100,8 +113,11 @@ const ViewAppointment = () => {
                     </List.Item>
                 </List>
                     </div>
+                <Button onClick={onDelete} style={{marginLeft:'60%'}} type="danger" htmlType="submit">
+                    Delete
+                </Button>
                 <Button onClick={onSubmit} style={{marginLeft:'60%'}} type="primary" htmlType="submit">
-                    Save
+                    Back
                 </Button>
             </div>
         </div>
