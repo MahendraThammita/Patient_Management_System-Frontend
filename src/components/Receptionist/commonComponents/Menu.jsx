@@ -30,17 +30,17 @@ const SideMenu = () => {
                                 Appointments
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="1" icon={<PieChartOutlined />}>
+                        <Menu.Item key="2" icon={<PieChartOutlined />}>
                             <Link to = "/add-doctor">
                                 Doctors
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="1" icon={<PieChartOutlined />}>
+                        <Menu.Item key="3" icon={<PieChartOutlined />}>
                             <Link to = "/add-doctor">
                                 My Profile
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="1" icon={<PieChartOutlined />}>
+                        <Menu.Item key="4" icon={<PieChartOutlined />}>
                             <Link to = "/receptionist-report">
                                 Reports
                             </Link>

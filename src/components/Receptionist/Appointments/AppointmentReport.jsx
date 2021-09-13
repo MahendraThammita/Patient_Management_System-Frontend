@@ -8,33 +8,24 @@ import SideMenu from "../commonComponents/Menu";
 
 const AppointmentReport = () => {
 
-    const data = [
-        {
-            title: 'Mr Leo Doe',
-        },
-        {
-            title: 'Mr Leo Doe',
-        },
-        {
-            title: 'Mr Leo Doe',
-        }
-    ];
-
-
     const[appointments, setAppointments] = useState([]);
 
 
     useEffect(() => {
-        const url = "http://localhost:8090/doctor";
+        const url = "http://localhost:8090/receptionist/appointments/current";
         axios.get(url).then((res) => {
 
-            setAppointments(res.data);
+            setAppointments(res.data.appointments);
 
         })
-    })
+    },[]);
 
     function onChange(date, dateString) {
-        console.log(date, dateString);
+        console.log(date);
+            const url = "http://localhost:8090/receptionist/appointments/date/"+dateString;
+            axios.get(url).then((res) => {
+                setAppointments(res.data.appointments);
+            })
     }
 
     const onSearch = value => console.log(value);
@@ -61,15 +52,16 @@ const AppointmentReport = () => {
 
                 <List
                     itemLayout="horizontal"
-                    dataSource={data}
-                    renderItem={item => (
+                    dataSource={appointments}
+                    renderItem={appointment => (
 
                         <List.Item
-                            actions={[<Tag color="purple">04.00 pm</Tag>]}
+                            actions={[<Tag color="green">{appointment.appointmentDate}</Tag>,<Tag color="purple">{appointment.status}</Tag>]}
                         >
                             <List.Item.Meta
-                                title={<a href="https://ant.design">{item.title}</a>}
-                                description="with Dr John Doe"
+                                title={<a href="https://ant.design">{appointment.patient.fullName}</a>}
+                                description= {appointment.doctor.fullName}
+
                             />
                         </List.Item>
                     )}

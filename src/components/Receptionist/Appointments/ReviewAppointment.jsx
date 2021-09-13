@@ -46,6 +46,22 @@ const ReviewAppointment = () => {
         })
     })
 
+    const onApprove = () => {
+
+        const data = {
+            "email": email
+        }
+
+        const url = "http://localhost:8090/receptionist/appointments/approve/"+appointmentID;
+        axios.put(url, data).then((res) => {
+            if(res.data.status === 200){
+                alert("Approved");
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
+
         history.push('/receptionist-dashboard')
     }
 
@@ -86,16 +102,16 @@ const ReviewAppointment = () => {
                 <div >
                     <Form
                         name="basic"
-                           labelCol={{
-                               span: 5,
-                           }}
-                           wrapperCol={{
-                               span: 16,
-                           }}
-                           initialValues={{
-                               remember: true,
-                           }}
-                           autoComplete="off" >
+                        labelCol={{
+                            span: 5,
+                        }}
+                        wrapperCol={{
+                            span: 16,
+                        }}
+                        initialValues={{
+                            remember: true,
+                        }}
+                        autoComplete="off" >
                         <Form.Item label="Patient">
                             <Input disabled={true} value={patient}/>
                         </Form.Item>
@@ -118,7 +134,7 @@ const ReviewAppointment = () => {
                                 Approve
                             </Button>
                             <Button onClick={onDecline} style={{marginLeft: '5px'}} type="danger" htmlType="submit">
-                                 Decline
+                                Decline
                             </Button>
 
                         </Form.Item>
