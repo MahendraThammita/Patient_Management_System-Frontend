@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Card, Tag, TimePicker, List, Avatar} from 'antd';
+import {Card, Tag, TimePicker, List, Button} from 'antd';
 import moment from 'moment';
 import '../../assets/css/uditha.css'
 import axios from "axios";
@@ -63,6 +63,18 @@ function UpdateTimeSlots(props){
         setVisible("");
     }
 
+    const onDelete = (timeSlot) => {
+        const url = "http://localhost:8090/doctor/" + userID+ "/delete-time-slot/"+timeSlot;
+        axios.delete(url).then((res) => {
+            if(res.data.status === 200){
+                alert("Removed");
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
+    }
+
 
 
 
@@ -79,7 +91,7 @@ function UpdateTimeSlots(props){
                         renderItem={schedule => (
 
                             <List.Item
-                                actions={[<CloseCircleOutlined />]}
+                                actions={[ <Button value={schedule._id} type="primary" danger onClick={e => onDelete(e.target.value)}>Remove</Button> ]}
                             >
                                 <List.Item.Meta
                                     title={<p>{schedule.timeSlot}</p>}
