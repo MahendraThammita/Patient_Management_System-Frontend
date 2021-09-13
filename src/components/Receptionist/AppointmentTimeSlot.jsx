@@ -11,6 +11,9 @@ function AppointmentTimeSlots(props){
 
     const [schedule, setSchedule] = useState([]);
     const doctorID = props.doctorID;
+    const appointmentID = props.appointmentID;
+
+    const  history = useHistory();
 
     useEffect(() => {
         const url = "http://localhost:8090/doctor/"+doctorID;
@@ -18,13 +21,26 @@ function AppointmentTimeSlots(props){
 
             setSchedule(res.data.doctor[0].timeSlots);
         })
-    },[])
+    },[]);
 
+    const updateTime = (time) => {
 
+        const data = {
+            "time": time
+        }
 
+        const url = "http://localhost:8090/receptionist/appointments/update/"+appointmentID;
+        axios.put(url, data).then((res) => {
+            if(res.data.status === 200){
+                alert("Updated");
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
 
-
-
+        history.push('/receptionist-dashboard')
+    }
 
 
     return(
@@ -38,7 +54,7 @@ function AppointmentTimeSlots(props){
                         renderItem={schedule => (
 
                             <List.Item
-                                actions={[<Tag color="blue">Assign</Tag>]}
+                                actions={[<button value={schedule.timeSlot} onClick={e => updateTime(e.target.value)} color="blue">Assign</button>]}
                             >
                                 <List.Item.Meta
                                     title={<p>{schedule.timeSlot}</p>}

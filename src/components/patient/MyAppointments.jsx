@@ -2,9 +2,20 @@ import React, { Component } from 'react'
 import { Table, Tag, Space } from 'antd';
 import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { Popconfirm, message } from 'antd';
 // import Drawer from './PatientDrawer'
 
 const { Option } = Select;
+
+function confirm(e) {
+    console.log(e);
+    message.success('Click on Yes');
+  }
+  
+  function cancel(e) {
+    console.log(e);
+    message.error('Click on No');
+  }
 
 class MyAppointments extends Component {
     constructor(props){
@@ -12,7 +23,7 @@ class MyAppointments extends Component {
         this.state = {
             patient:window.localStorage.getItem('id'),
             appointments:[],
-            doctor:[],
+            doctor:{},
             visible: false,
             columns:[]
         }
@@ -22,18 +33,18 @@ class MyAppointments extends Component {
         this.setState({
           visible: true,
         });
-      };
+    };
     
-      onClose = () => {
+    onClose = () => {
         this.setState({
           visible: false,
         });
-      };
+    };
 
     fetchAppointments = () =>{
         fetch('http://localhost:8000/appointment/get/'+this.state.patient).then(res => res.json()).then(data =>{
           this.setState({appointments: data, doctor: data.doctor})
-        //   console.log(data)
+          console.log(data)
         }).catch(err =>{
           console.log(err);
         })
@@ -48,8 +59,8 @@ class MyAppointments extends Component {
         this.state.columns = [
             {
                 title: 'Appointment ID',
-                dataIndex: '_id',
-                key: '_id',
+                dataIndex: 'appointmentId',
+                key: 'appointmentId',
                 render: text => <a>{text}</a>,
             },
             {
@@ -68,17 +79,24 @@ class MyAppointments extends Component {
                 key: 'doctor',
             },
             {
-                title: 'Tags',
-                key: 'tags',
-                dataIndex: 'tags',
-                render: tags => (
+                title: 'Status',
+                key: 'appointmentStatus',
+                dataIndex: 'appointmentStatus',
+                
+                render: appointmentStatus => (
                     <>
-                        <Tag color={"red"}>
-                            URGENT
-                        </Tag>
-                        <Tag color={"green"}>
-                            PENDING
-                        </Tag>
+                        {
+                            appointmentStatus.map(item => {
+                                let color = item == "true" ? 'green' : 'red'
+                                let status = item == "true" ? 'Approved' : 'Pending'
+                                return(
+                                    <Tag color={color}>
+                                        {status.toUpperCase()}
+                                    </Tag>
+                                )
+                            })
+                            
+                        }
                     </>
                 ),
             },
@@ -87,19 +105,23 @@ class MyAppointments extends Component {
                 key: 'action',
                 render: (text, record) => (
                     <Space size="middle">
-                        {/* <Link to={"/appointment/" + record._id}>Show Appointment</Link>
+                        {/* <Link to={"/appointment/" + record._id}>Show Appointment</Link> */}
+                        
+                        <Button type="primary" onClick={this.showDrawer}>
+                            Update
+                        </Button>
+
                         <Popconfirm
-                            title="Are you sure to delete this task?"
+                            title="Are you sure yo want to delete this appointment?"
                             onConfirm={confirm}
                             onCancel={cancel}
                             okText="Yes"
                             cancelText="No"
                         >
-                            <a href="#" style={{ color: 'red' }}>Decline</a>
-                        </Popconfirm> */}
-                        <Button type="primary" onClick={this.showDrawer}>
-                            Update
-                        </Button>
+                            <Button type="danger" >
+                                Delete
+                            </Button>
+                        </Popconfirm> 
                     </Space>
                 ),
             },
@@ -111,6 +133,7 @@ class MyAppointments extends Component {
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
 
                 <h3 style={{textAlign:"center", marginTop:"1%", marginBottom:"3%"}}>My Appointments</h3>
+                
                 <Table columns={this.state.columns} dataSource={this.state.appointments}/>
 
                 <Drawer
@@ -148,25 +171,11 @@ class MyAppointments extends Component {
                                 </Select>
                                 </Form.Item>
                             </Col>
-                            {/* <Col span={12}>
-                                <Form.Item
-                                name="url"
-                                label="Url"
-                                rules={[{ required: true, message: 'Please enter url' }]}
-                            >
-                                <Input
-                                    style={{ width: '100%' }}
-                                    addonBefore="http://"
-                                    addonAfter=".com"
-                                    placeholder="Please enter url"
-                                />
-                                </Form.Item>
-                            </Col> */}
                         </Row>
                         <Row gutter={16}>
-                        <Col span={24}>
+                        <Col span={12}>
                             <Form.Item
-                            name="owner"
+                            name="preferedTimeslot"
                             label="Prefered Timeslot"
                             rules={[{ required: true, message: 'Please select an owner' }]}
                         >
@@ -178,37 +187,11 @@ class MyAppointments extends Component {
                         </Col>
                         <Col span={12}>
                             <Form.Item
-                            name="type"
-                            label="Type"
-                            rules={[{ required: true, message: 'Please choose the type' }]}
-                        >
-                            <Select placeholder="Please choose the type">
-                                <Option value="private">Private</Option>
-                                <Option value="public">Public</Option>
-                            </Select>
-                            </Form.Item>
-                        </Col>
-                        </Row>
-                        <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                            name="approver"
-                            label="Approver"
-                            rules={[{ required: true, message: 'Please choose the approver' }]}
-                        >
-                            <Select placeholder="Please choose the approver">
-                                <Option value="jack">Jack Ma</Option>
-                                <Option value="tom">Tom Liu</Option>
-                            </Select>
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
                             name="dateTime"
                             label="DateTime"
                             rules={[{ required: true, message: 'Please choose the dateTime' }]}
                         >
-                            <DatePicker.RangePicker
+                            <DatePicker
                                 style={{ width: '100%' }}
                                 getPopupContainer={trigger => trigger.parentElement}
                             />
@@ -218,8 +201,8 @@ class MyAppointments extends Component {
                         <Row gutter={16}>
                         <Col span={24}>
                             <Form.Item
-                            name="description"
-                            label="Description"
+                            name="message"
+                            label="Message"
                             rules={[
                                 {
                                 required: true,
@@ -227,7 +210,7 @@ class MyAppointments extends Component {
                                 },
                             ]}
                         >
-                            <Input.TextArea rows={4} placeholder="please enter url description" />
+                            <Input.TextArea rows={4} placeholder="" />
                             </Form.Item>
                         </Col>
                         </Row>

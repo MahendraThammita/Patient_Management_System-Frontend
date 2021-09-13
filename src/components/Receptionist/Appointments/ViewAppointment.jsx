@@ -26,8 +26,11 @@ const ViewAppointment = () => {
 
     const  history = useHistory();
 
-    const [status, setStatus] = useState('In');
-    const [appointment, setAppointment] = useState();
+    const [doctor, setDoctor] = useState();
+    const [patient, setPatient] = useState();
+    const [time, setTime] = useState();
+    const [date, setDate] = useState();
+    const [status, setStatus] = useState();
 
 
     useEffect(() => {
@@ -35,15 +38,29 @@ const ViewAppointment = () => {
         const url = "http://localhost:8090/receptionist/appointments/view/"+appointmentID;
         axios.get(url).then((res) => {
 
-            setAppointment(res.data.appointment[0]);
-
-
-
+            setDoctor(res.data.appointment[0].doctor.fullName);
+            setPatient(res.data.appointment[0].patient.fullName);
+            setTime(res.data.appointment[0].appointmentTimeSlot);
+            setDate(res.data.appointment[0].appointmentDate);
+            setStatus(res.data.appointment[0].status);
         })
     },[])
 
     const onSubmit = () => {
         history.push('/receptionist-dashboard')
+    }
+
+    const onDelete = (timeSlot) => {
+        const url = "http://localhost:8090/receptionist/appointments/delete/"+appointmentID;
+        axios.delete(url).then((res) => {
+            if(res.data.status === 200){
+                alert("Appointment Deleted");
+                history.push('/receptionist-dashboard')
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
     }
 
     return (
@@ -53,7 +70,7 @@ const ViewAppointment = () => {
                 <RecepPHeader />
             </div>
             <SideMenu/>
-            <AppointmentTimeSlots doctorID={doctorID}/>
+            <AppointmentTimeSlots doctorID={doctorID} appointmentID={appointmentID}/>
             <div className="uditha-left-form-container">
 
                 <PageHeader
@@ -66,32 +83,41 @@ const ViewAppointment = () => {
                 <List itemLayout="horizontal">
                 <List.Item>
                     <List.Item.Meta
-                        title={'Patient Name'}
-                        description="Mr Leo Doe"
+                        title={"Patient Name"}
+                        description={patient}
                     />
                 </List.Item>
                     <List.Item>
                         <List.Item.Meta
                             title={'Doctor Name'}
-                            description="Dr John Doe"
+                            description={doctor}
+                        />
+                    </List.Item>
+                    <List.Item>
+                        <List.Item.Meta
+                            title={'Date'}
+                            description={date}
                         />
                     </List.Item>
                     <List.Item>
                         <List.Item.Meta
                             title={'Time'}
-                            description="04.00 pm"
+                            description={time}
                         />
                     </List.Item>
                     <List.Item>
                         <List.Item.Meta
                             title={'Status'}
-                            description={ <Tag color="orange">pending</Tag>}
+                            description={ <Tag color="orange">{status}</Tag>}
                         />
                     </List.Item>
                 </List>
                     </div>
+                <Button onClick={onDelete} style={{marginLeft:'60%'}} type="danger" htmlType="submit">
+                    Delete
+                </Button>
                 <Button onClick={onSubmit} style={{marginLeft:'60%'}} type="primary" htmlType="submit">
-                    Save
+                    Back
                 </Button>
             </div>
         </div>
