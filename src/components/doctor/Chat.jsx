@@ -10,8 +10,21 @@ import moment from 'moment';
 import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
 
 const { Option } = Select
-
+const { TextArea } = Input;
 const { Search } = Input;
+const Editor = ({ onChange, onSubmit, submitting, value }) => (
+    <>
+      <Form.Item>
+        <TextArea rows={4} onChange={onChange} value={value} />
+      </Form.Item>
+      <Form.Item>
+        <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
+          Add Comment
+        </Button>
+      </Form.Item>
+    </>
+  );
+  
 
 class Chat extends Component {
     constructor(props) {
@@ -110,11 +123,11 @@ class Chat extends Component {
                                 }
                                 content={
                                     <p>
-                                      We supply a series of design principles, practical patterns and high quality design
-                                      resources (Sketch and Axure), to help people create their product prototypes beautifully
-                                      and efficiently.
+                                        We supply a series of design principles, practical patterns and high quality design
+                                        resources (Sketch and Axure), to help people create their product prototypes beautifully
+                                        and efficiently.
                                     </p>
-                                  }
+                                }
                                 datetime={
                                     <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
                                         <span>{moment().fromNow()}</span>
@@ -133,15 +146,32 @@ class Chat extends Component {
                                 }
                                 content={
                                     <p>
-                                      We supply a series of design principles, practical patterns and high quality design
-                                      resources (Sketch and Axure), to help people create their product prototypes beautifully
-                                      and efficiently.
+                                        We supply a series of design principles, practical patterns and high quality design
+                                        resources (Sketch and Axure), to help people create their product prototypes beautifully
+                                        and efficiently.
                                     </p>
-                                  } 
+                                }
                                 datetime={
                                     <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
                                         <span>{moment().fromNow()}</span>
                                     </Tooltip>
+                                }
+                            />
+
+                            <Comment
+                                avatar={
+                                    <Avatar
+                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                        alt="Han Solo"
+                                    />
+                                }
+                                content={
+                                    <Editor
+                                        onChange={this.handleChange}
+                                        onSubmit={this.handleSubmit}
+                                        //submitting={submitting}
+                                        //value={value}
+                                    />
                                 }
                             />
                         </Card>
