@@ -15,7 +15,7 @@ export default class LoginStaff extends Component {
         super(props);
         this.state = {
             form: Form,
-            NIC:'',
+            userName:'',
             password:''
 
         }
@@ -31,7 +31,7 @@ export default class LoginStaff extends Component {
     render() {
         const onFinish = (values) => {
             const data = {
-                NIC: values.NIC,
+                userName: values.userName,
                 password: values.password,
             }
 
@@ -48,9 +48,15 @@ export default class LoginStaff extends Component {
                           'Hello , Jenny  welcome to PMS.',
                       });
                     localStorage.setItem("user-id",res.data.user._id);
+                    localStorage.setItem("staffMember-role",res.data.Role);
                     localStorage.setItem("auth-token",res.data.token);
-                    setTimeout(function(){ window.location.replace('/NurseDashboard'); }, 5000);
-                    
+                    console.log("Res Is : " , res);
+                    if(res.data.Role === "Nurse"){
+                        setTimeout(function(){ window.location.replace('/NurseDashboard'); }, 4000);
+                    }
+                    else if(res.data.Role === "Laboratory Staff"){
+                        setTimeout(function(){ window.location.replace('/labStaff-dashboard'); }, 4000);
+                    }
                 }
                 else if(res.data.status === 401){
                     alert("Invalid credentials!");
@@ -105,19 +111,19 @@ export default class LoginStaff extends Component {
                                 }}
                             >
                                 <Form.Item
-                                    name="NIC"
+                                    name="userName"
                                     rules={[
-                                        // {
-                                        //     type: 'text',
-                                        //     message: 'Please enter a valid User Name',
-                                        // },
+                                        {
+                                            type: 'email',
+                                            message: 'The input is not valid E-mail!',
+                                        },
                                         {
                                             required: true,
-                                            message: 'Please input your Username!',
+                                            message: 'Please enter your user name!',
                                         },
                                     ]}
                                 >
-                                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username/Email" />
                                 </Form.Item>
                                 <Form.Item
                                     name="password"
