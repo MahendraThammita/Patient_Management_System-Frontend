@@ -16,8 +16,8 @@ const PendingAppointment = () => {
         const url = "http://localhost:8090/receptionist/appointments/pending";
         axios.get(url).then((res) => {
 
-            console.log(res.data.appointments);
             setAppointments(res.data.appointments);
+
 
         })
     },[])
@@ -46,11 +46,12 @@ const PendingAppointment = () => {
                       renderItem={appointment => (
 
                           <List.Item
-                              actions={[<Tag color="purple">04.00 pm</Tag>, <Link to ={`/receptionist/appointment/view/${appointment.doctor}/${appointment._id}`}>View</Link>]}
+                              actions={[<Tag color="purple">{appointment.appointmentDate}</Tag>, <Tag color="purple">{appointment.appointmentTimeSlot}</Tag>,
+                                  <Link to ={`/receptionist/appointment/review/${appointment._id}`}>View</Link>]}
                           >
                               <List.Item.Meta
-                                  title={<a href="https://ant.design">{appointment.patientMessage}</a>}
-                                  description="with Dr John Doe"
+                                  title={<a href="https://ant.design">{appointment.patient.fullName}</a>}
+                                  description={appointment.doctor.fullName}
                               />
                           </List.Item>
                       )}

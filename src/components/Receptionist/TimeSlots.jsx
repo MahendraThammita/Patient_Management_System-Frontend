@@ -57,6 +57,17 @@ function TimeSlots(props){
         }
     }
 
+    const onDelete = (timeSlot) => {
+        const url = "http://localhost:8090/" +doctorID+ "/delete-time-slot/"+timeSlot;
+        axios.delete(url).then((res) => {
+            if(res.data.status === 200){
+                alert("Removed");
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
+    }
 
 
 
@@ -73,7 +84,7 @@ function TimeSlots(props){
                     renderItem={schedule => (
 
                         <List.Item
-                            actions={[<CloseCircleOutlined />]}
+                            actions={[<CloseCircleOutlined value={schedule._id} onClick={e => onDelete(e.target.value)}/>]}
                         >
                             <List.Item.Meta
                                 title={<p>{schedule.timeSlot}</p>}

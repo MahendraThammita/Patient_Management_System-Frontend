@@ -27,7 +27,11 @@ const NotificationMessage = () => {
         document.body.style.backgroundColor = "whiteSmoke"
     })
 
-    const onSubmit = () => {
+    const onApprove = () => {
+        history.push('/receptionist-dashboard')
+    }
+
+    const onDecline = () => {
         history.push('/receptionist-dashboard')
     }
 
@@ -35,9 +39,9 @@ const NotificationMessage = () => {
 
         <div>
 
-            <Form style={{marginLeft:'75%', marginTop: '-20%'}}  >
+            <Form  {...layout} >
                 <Form.Item>
-            <div style={{width: '80%'}}>
+            <div>
             <TextArea
                 placeholder="Message to the Patient"
                 autoSize={{ minRows: 6, maxRows: 50 }}
@@ -45,10 +49,10 @@ const NotificationMessage = () => {
             </div>
                 </Form.Item>
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
-                <Button onClick={onSubmit} type="primary" htmlType="submit">
+                <Button onClick={onApprove} type="primary" htmlType="submit">
                     Approve
                 </Button>
-                <Button danger onClick={onSubmit} style={{marginLeft:'5px'}} type="primary" htmlType="submit">
+                <Button danger onClick={onDecline} style={{marginLeft:'5px'}} type="primary" htmlType="submit">
                     Decline
                 </Button>
                 </Form.Item>
