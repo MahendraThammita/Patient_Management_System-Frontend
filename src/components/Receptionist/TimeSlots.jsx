@@ -4,13 +4,10 @@ import moment from 'moment';
 import '../../assets/css/uditha.css'
 import axios from "axios";
 import {CloseCircleOutlined, PlusCircleOutlined} from '@ant-design/icons';
-import {useHistory,useParams} from "react-router-dom";
+
 
 
 function TimeSlots(props){
-
-    const params = useParams();
-    const userID = params.userID;
 
     const [visible, setVisible] = useState("none");
     const [timeSlot, setTime] = useState();
@@ -18,14 +15,6 @@ function TimeSlots(props){
     const [schedule, setSchedule] = useState([]);
     const format = 'HH:mm';
     const doctorID = props.doctorID;
-
-    useEffect(() => {
-        const url = "http://localhost:8090/doctor/"+userID;
-        axios.get(url).then((res) => {
-
-            setSchedule(res.data.doctor[0].timeSlots);
-        })
-    },[])
 
     function onChange(time, timeString) {
 
@@ -68,6 +57,17 @@ function TimeSlots(props){
         }
     }
 
+    const onDelete = (timeSlot) => {
+        const url = "http://localhost:8090/" +doctorID+ "/delete-time-slot/"+timeSlot;
+        axios.delete(url).then((res) => {
+            if(res.data.status === 200){
+                alert("Removed");
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
+    }
 
 
 
@@ -84,7 +84,7 @@ function TimeSlots(props){
                     renderItem={schedule => (
 
                         <List.Item
-                            actions={[<CloseCircleOutlined />]}
+                            actions={[<CloseCircleOutlined value={schedule._id} onClick={e => onDelete(e.target.value)}/>]}
                         >
                             <List.Item.Meta
                                 title={<p>{schedule.timeSlot}</p>}

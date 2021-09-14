@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Typography, Image } from 'antd';
+import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Typography, Image , notification} from 'antd';
 import { UserOutlined, LockOutlined, GoogleOutlined, FacebookOutlined, LinkedinOutlined } from '@ant-design/icons';
 import '../../../assets/css/mahen_general.css';
 import PHeader from '../../PageHeader/PHeader';
 import Logo from '../../../assets/img/PMS.Temp.logo.png'
+import axios from "axios";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -13,7 +14,10 @@ export default class LoginStaff extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            form: Form
+            form: Form,
+            NIC:'',
+            password:''
+
         }
     }
 
@@ -25,6 +29,40 @@ export default class LoginStaff extends Component {
     }
 
     render() {
+        const onFinish = (values) => {
+            const data = {
+                NIC: values.NIC,
+                password: values.password,
+            }
+
+            console.log(values);
+
+            const url = "http://localhost:8090/staff/login";
+            axios.post(url, data).then((res) => {
+                console.log("Status : " , res.data);
+                if(res.data.status === 200){
+                    notification['success']({
+                        message: 'Login Successful',
+                        duration:10,
+                        description:
+                          'Hello , Jenny  welcome to PMS.',
+                      });
+                    localStorage.setItem("user-id",res.data.user._id);
+                    localStorage.setItem("auth-token",res.data.token);
+                    setTimeout(function(){ window.location.replace('/NurseDashboard'); }, 5000);
+                    
+                }
+                else if(res.data.status === 401){
+                    alert("Invalid credentials!");
+                }
+                else if(res.data.status === 404){
+                    alert("User does not exist!");
+                }
+                else{
+                   console.log(res.data.error);
+                }
+            })
+        };
         return (
             <React.Fragment>
                 <PHeader />
@@ -61,17 +99,18 @@ export default class LoginStaff extends Component {
                             <Form
                                 name="normal_login"
                                 className="login-form"
+                                onFinish={onFinish}
                                 initialValues={{
                                     remember: true,
                                 }}
                             >
                                 <Form.Item
-                                    name="username"
+                                    name="NIC"
                                     rules={[
-                                        {
-                                            type: 'email',
-                                            message: 'Please enter a valid User Name',
-                                        },
+                                        // {
+                                        //     type: 'text',
+                                        //     message: 'Please enter a valid User Name',
+                                        // },
                                         {
                                             required: true,
                                             message: 'Please input your Username!',

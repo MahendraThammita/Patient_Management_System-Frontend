@@ -151,13 +151,13 @@ export default class CompleteCollectionListComponant extends Component {
                 render: (text, record) => (
                     <div>
                         <Tag color={'green'}>
-                            <a>Create Test Request</a>
+                            <a onClick={() => window.location.replace('/test-request')}>Create Test Request</a>
                         </Tag>
                         <Tag color={'geekblue'}>
-                            <a>Edit Test Request</a>
+                            <a onClick={() => window.location.replace('/test-request')}>Edit Test Request</a>
                         </Tag>
                         <Tag color={'green'}>
-                            <a>Send Test Request</a>
+                            <a onClick={() => window.location.replace('/test-request')}>Send Test Request</a>
                         </Tag>
                     </div>
 

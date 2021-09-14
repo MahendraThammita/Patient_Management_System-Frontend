@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Row, Col, Image, Layout, Typography, Dropdown, Menu, Badge, Avatar, message, Input, Button, InputNumber, Radio , notification} from 'antd';
+import { Form, Row, Col, Image, Layout, Typography, Dropdown, Menu, Badge, Avatar, message, Input, Button, InputNumber, Radio } from 'antd';
 import { TabletFilled, FileAddFilled, HomeFilled, BellOutlined, DownOutlined, LogoutOutlined, DashboardOutlined, EditTwoTone } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import '../../../assets/css/mahen_general.css';
@@ -12,7 +12,7 @@ const { Title, Text, Link } = Typography;
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-export default class CreatePrescriptionComponant extends Component {
+export default class UpdatePres extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,14 +23,6 @@ export default class CreatePrescriptionComponant extends Component {
         this.onFinishFailed = this.onFinishFailed.bind(this);
 
 
-    }
-
-    savePrescription = ()=>{
-        notification['success']({
-            message: 'Prescription saved successfully',
-            duration:10,
-          });
-          setTimeout(function(){ window.location.replace('/NurseDashboard'); }, 5000);
     }
 
     onDropdownMenuClick = ({ key }) => {
@@ -150,7 +142,6 @@ export default class CreatePrescriptionComponant extends Component {
                                                     <Form.Item
                                                         label="Full Name"
                                                         name="fullName"
-                                                        //rules={[{ required: true, message: 'Please input the fullname of the patient!' }]}
                                                     >
                                                         <Input defaultValue="Allen Brian"/>
                                                     </Form.Item>
@@ -163,23 +154,23 @@ export default class CreatePrescriptionComponant extends Component {
                                                     </Form.Item>
                                                     <Form.Item label="Height/Weight">
                                                         <Form.Item name="height" noStyle>
-                                                            <InputNumber min={0} />
+                                                            <InputNumber min={0} defaultValue="155"/>
                                                         </Form.Item>
                                                         <span className="ant-form-text"> Height(Cm)</span>
                                                         <span style={{ marginRight: 15, marginLeft: 15 }}></span>
                                                         <Form.Item name="weight" noStyle>
-                                                            <InputNumber min={0} />
+                                                            <InputNumber min={0} defaultValue="55"/>
                                                         </Form.Item>
                                                         <span className="ant-form-text"> Weight(Kg)</span>
                                                     </Form.Item>
                                                     <Form.Item label="Blood Pressure">
                                                         <Form.Item name="sys-pressure" noStyle>
-                                                            <InputNumber min={0} />
+                                                            <InputNumber min={0} defaultValue="120"/>
                                                         </Form.Item>
                                                         <span className="ant-form-text"> Systolic(mmHg)</span>
                                                         <span style={{ marginRight: 15, marginLeft: 15 }}></span>
                                                         <Form.Item name="dis-pressure" noStyle>
-                                                            <InputNumber min={0} />
+                                                            <InputNumber min={0} defaultValue="80"/>
                                                         </Form.Item>
                                                         <span className="ant-form-text"> Diastolic(mmHg)</span>
                                                     </Form.Item>
@@ -189,9 +180,8 @@ export default class CreatePrescriptionComponant extends Component {
                                                     <Form.Item
                                                         name="radio-button"
                                                         label="Previously Visited ?"
-                                                        rules={[{ required: true, message: 'Please pick an option!' }]}
                                                     >
-                                                        <Radio.Group>
+                                                        <Radio.Group defaultValue={"1"}>
                                                             <Radio value="1">Yes</Radio>
                                                             <Radio value="0">No</Radio>
                                                         </Radio.Group>
@@ -201,7 +191,7 @@ export default class CreatePrescriptionComponant extends Component {
                                                             <Button type="primary" htmlType="submit">
                                                                 Submit
                                                             </Button>
-                                                            <Button style={{ marginLeft:15 }} onClick={this.savePrescription}>
+                                                            <Button style={{ marginLeft:15 }}  onClick={() => window.location.replace('/updaten-prescription')}>
                                                                 Save
                                                             </Button></Col>
                                                     </Row>

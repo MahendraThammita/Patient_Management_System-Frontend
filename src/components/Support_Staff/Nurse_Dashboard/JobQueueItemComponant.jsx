@@ -24,14 +24,14 @@ export default class JobQueueItemComponant extends Component {
                     </Col>
                     <Col span={20}>
                         <Row>
-                            <Text strong>Lorem, ipsum dolor <Link href="#" target="_blank"> Appointment </Link> for doctor  <Text type="success"> Doctor Name. </Text></Text>
+                            <Text strong>Allen Brian <Link href="#" target="_blank"> Appointment </Link> for doctor  <Text type="success"> Eric Burg. </Text></Text>
                         </Row>
                         <Row>
                             <Title strong type="danger" level={4}>16:25:00</Title>
                         </Row>
                         <Row>
                             <Col span={14} offset={10}>
-                                <Link href="https://ant.design" target="_blank" strong>
+                                <Link onClick={() => window.location.replace('/create-prescription')} target="_blank" strong>
                                     <EditTwoTone /> Create Prescription
                                 </Link>
                             </Col>

@@ -4,6 +4,9 @@ import '../../assets/css/uditha.css'
 import TimeSlots from "./TimeSlots";
 import axios from "axios";
 import {useHistory,useParams} from "react-router-dom";
+import UpdateTimeSlots from "./UpdateTimeSlot";
+import SideMenu from "./commonComponents/Menu";
+import RecepPHeader from "./commonComponents/RecepHeader";
 
 const layout = {
     labelCol: {
@@ -49,7 +52,7 @@ const DoctorProfile = () => {
             setMobile(res.data.doctor[0].mobileNumber);
             setSpecialty(res.data.doctor[0].specialty);
             setStatus(res.data.doctor[0].status);
-            setPreview("http://localhost:8090/" + res.data.doctor[0].profileImage);
+            setPreview("http://localhost:8090/doctor/" + res.data.doctor[0].profileImage);
             if(res.data.doctor[0].status == "In"){
                 setCheck(true);
             }
@@ -128,10 +131,30 @@ const DoctorProfile = () => {
         }
     }
 
+    function onDelete(e) {
+        e.preventDefault();
+        const url = "http://localhost:8090/doctor/" + doctorID;
+        axios.delete(url).then((res) => {
+            if (res.data.status === 200){
+                alert('Doctor Removed');
+                history.push('/receptionist-dashboard');
+            }
+            else{
+                alert('Something Went Wrong!')
+            }
+        }
+    ).catch((err) => {
+            console.log(err);
+        })}
+
     return (
 
         <div>
-            <TimeSlots doctorID={doctorID}/>
+            <div>
+                <RecepPHeader />
+            </div>
+            <SideMenu/>
+            <UpdateTimeSlots/>
 
             <div className="uditha-left-form-container">
 
@@ -178,8 +201,11 @@ const DoctorProfile = () => {
                             initialValues={specialty}
                         >
                             <Option value="ENT">ENT</Option>
-                            <Option value="other">other</Option>
-                            <Option value="fhgj">fhgj</Option>
+                            <Option value="Cardiologists">Cardiologists</Option>
+                            <Option value="Dermatologists">Dermatologists</Option>
+                            <Option value="Endocrinologists">Endocrinologists</Option>
+                            <Option value="Gastroenterologists">Gastroenterologists</Option>
+                            <Option value="Other">Other</Option>
                         </Select>
                     </Form.Item>
 
@@ -188,9 +214,12 @@ const DoctorProfile = () => {
                     </Form.Item>
 
 
-                    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
+                    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
                         <Button type="primary" htmlType="submit">
                             Update
+                        </Button>
+                        <Button danger onClick={onDelete} style={{marginLeft:'10px'}} type="primary" htmlType="submit">
+                            Remove
                         </Button>
 
                     </Form.Item>

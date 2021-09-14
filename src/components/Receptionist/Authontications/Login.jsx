@@ -3,6 +3,9 @@ import { Form, Input, PageHeader , Button } from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import {UserOutlined, LockOutlined} from "@ant-design/icons";
+import {Link} from "react-router-dom";
+import RecepPHeader from "../commonComponents/RecepHeader";
 
 const layout = {
     labelCol: {
@@ -36,6 +39,8 @@ const ReceptionistLogin = () => {
             if(res.data.status === 200){
                 localStorage.setItem("user-id",res.data.user._id);
                 localStorage.setItem("user-name",res.data.user.username);
+                localStorage.setItem("user-image",res.data.user.profileImage);
+                localStorage.setItem("auth-token",res.data.token);
                 history.push("/receptionist-dashboard");
             }
             else if(res.data.status === 401){
@@ -52,7 +57,11 @@ const ReceptionistLogin = () => {
 
     return (
 
-        <div className="uditha-form-container">
+        <div>
+            <div>
+                <RecepPHeader />
+            </div>
+        <div style={{boxShadow: '0 15px 25px rgba(0,0,0,.8)'}} className="uditha-form-container">
 
             <PageHeader
                 className="site-page-header"
@@ -63,20 +72,28 @@ const ReceptionistLogin = () => {
             />
             <Form {...layout} style={{marginLeft:"20%", marginTop:"10%"}} onFinish={onFinish} >
                 <Form.Item>
-                    <Input placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
+                    <Input required={true} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Employee ID" onChange={(e) => {setEmpID(e.target.value)}} />
                 </Form.Item>
 
-                <Form.Item >
-                    <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
+                <Form.Item>
+                    <Input required={true} prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
                     <Button type="primary" htmlType="submit">
                         Sign In
                     </Button>
+
+                    <Link to="/receptionist-register">
+                    <Button type="link" htmlType="button" >
+                        dont' have an account? Register
+                    </Button>
+                    </Link>
                 </Form.Item>
 
             </Form>
+           
+        </div>
         </div>
     );
 };

@@ -4,6 +4,8 @@ import '../../assets/css/uditha.css'
 import TimeSlots from "./TimeSlots";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import SideMenu from "./commonComponents/Menu";
+import RecepPHeader from "./commonComponents/RecepHeader";
 
 const layout = {
     labelCol: {
@@ -21,6 +23,7 @@ const AddDoctor = () => {
     const [doctorID, setDoctorID] = useState();
     const [fullName, setFullname] = useState();
     const [email, setEmail] = useState();
+    const [nic, setNIC] = useState();
     const [mobile, setMobile] = useState();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
@@ -68,6 +71,7 @@ const AddDoctor = () => {
         const formData = new FormData();
         formData.append("fullName",fullName);
         formData.append("email",email);
+        formData.append("nic",nic);
         formData.append("mobileNumber",mobile);
         formData.append("specialty",specialty);
         formData.append("username",username);
@@ -108,6 +112,10 @@ const AddDoctor = () => {
     return (
 
         <div>
+            <div>
+                <RecepPHeader />
+            </div>
+            <SideMenu/>
             <TimeSlots doctorID={doctorID}/>
 
         <div className="uditha-left-form-container">
@@ -132,15 +140,19 @@ const AddDoctor = () => {
             <Form style={{marginLeft:'20%'}} {...layout}  onFinish={onFinish} >
 
                 <Form.Item>
-                    <Input placeholder="Full Name" onChange={(e) => {setFullname(e.target.value)}} />
+                    <Input required={true} placeholder="Full Name" onChange={(e) => {setFullname(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item>
-                    <Input placeholder="Email" onChange={(e) => {setEmail(e.target.value)}} />
+                    <Input required={true} placeholder="NIC Number" onChange={(e) => {setNIC(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item>
-                    <Input placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
+                    <Input type='email' required={true} placeholder="Email" onChange={(e) => {setEmail(e.target.value)}} />
+                </Form.Item>
+
+                <Form.Item>
+                    <Input required={true} placeholder="Mobile Number" onChange={(e) => {setMobile(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item name="specialty"  rules={[{ required: true }]}>
@@ -150,17 +162,20 @@ const AddDoctor = () => {
                         allowClear
                     >
                         <Option value="ENT">ENT</Option>
-                        <Option value="other">other</Option>
-                        <Option value="fhgj">fhgj</Option>
+                        <Option value="Cardiologists">Cardiologists</Option>
+                        <Option value="Dermatologists">Dermatologists</Option>
+                        <Option value="Endocrinologists">Endocrinologists</Option>
+                        <Option value="Gastroenterologists">Gastroenterologists</Option>
+                        <Option value="Other">Other</Option>
                     </Select>
                 </Form.Item>
 
                 <Form.Item>
-                    <Input placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
+                    <Input required={true} placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item>
-                    <Input placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
+                    <Input required={true} placeholder="Password" type={"password"} onChange={(e) => {setPassword(e.target.value)}} />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>

@@ -2,23 +2,11 @@ import React, {useEffect, useState} from "react";
 import { Form, Input, PageHeader , Button,  Card, Avatar, Space, List, Skeleton , Tag } from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 const CurrentAppointment = () => {
 
-    const data = [
-        {
-            title: 'Mr Leo Doe',
-        },
-        {
-            title: 'Mr Leo Doe',
-        },
-        {
-            title: 'Mr Leo Doe',
-        },
-        {
-            title: 'Mr Leo Doe',
-        },
-    ];
+
 
 
     const { Search } = Input;
@@ -27,45 +15,47 @@ const CurrentAppointment = () => {
 
 
     useEffect(() => {
-        const url = "http://localhost:8090/doctor";
+        const url = "http://localhost:8090/receptionist/appointments/current";
         axios.get(url).then((res) => {
 
-            setAppointments(res.data);
+            console.log(res.data.appointments);
+            setAppointments(res.data.appointments);
 
         })
-    })
+    },[])
 
     const onSearch = value => console.log(value);
 
     return(
-        <div style={{marginLeft: '20px', marginTop:'5%'}}>
+        <div style={{marginLeft: '20px', marginRight:'30px'}}>
             <Search style={{marginBottom: '5px'}} placeholder="Search Current Appointments" onSearch={onSearch} enterButton />
             <Card
 
-                style={{ width: 400, height:500 }}
+                style={{ width: 400, height:'auto'}}
                 cover={
-                    <img
-                        alt="example"
-                        src="https://images.unsplash.com/photo-1624969862293-b749659ccc4e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80"
+                    <img style={{ width: 400, height:200}}
+                         alt="example"
+                         src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
                     />
                 }
             >
 
 
-                <List
-                    itemLayout="horizontal"
-                    dataSource={data}
-                    renderItem={item => (
+                <List style={{height:'150px',overflowY:'auto' }}
+                      itemLayout="horizontal"
+                      dataSource={appointments}
+                      renderItem={appointment => (
 
-                        <List.Item
-                            actions={[<Tag color="purple">04.00 pm</Tag>, <a key="list-loadmore-more">View</a>]}
-                        >
-                            <List.Item.Meta
-                                title={<a href="https://ant.design">{item.title}</a>}
-                                description="with Dr John Doe"
-                            />
-                        </List.Item>
-                    )}
+                          <List.Item
+                              actions={[<Tag color="purple">{appointment.appointmentDate}</Tag>, <Tag color="purple">{appointment.appointmentTimeSlot}</Tag>,
+                                  <Link to ={`/receptionist/appointment/view/${appointment.doctor._id}/${appointment._id}`}>View</Link>]}
+                          >
+                              <List.Item.Meta
+                                  title={<a href="https://ant.design">{appointment.patient.fullName}</a>}
+                                  description={appointment.doctor.fullName}
+                              />
+                          </List.Item>
+                      )}
                 />,
 
             </Card>,

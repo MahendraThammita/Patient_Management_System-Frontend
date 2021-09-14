@@ -25,9 +25,13 @@ import SampleColectionsTab from './components/Support_Staff/Nurse_Dashboard/Samp
 import CreatePrescriptionComponant from './components/Support_Staff/Nurse_Dashboard/CreatePrescriptionComponant';
 import NurseLabRequestComponant from './components/Support_Staff/Nurse_Dashboard/NurseLabRequestComponant'
 import DoctorProfile from "./components/Receptionist/DocrorProfile";
+import ViewAppointment from "./components/Receptionist/Appointments/ViewAppointment";
+import ReviewAppointment from "./components/Receptionist/Appointments/ReviewAppointment";
 import DocDashboard from './components/doctor/DocDashboard';
 import Appointment from './components/doctor/Appointment';
-import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard'
+import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard';
+import AppointmentReport from "./components/Receptionist/Appointments/AppointmentReport";
+import UpdatePres from './components/Support_Staff/Nurse_Dashboard/UpdatePres';
 
 
 function App() {
@@ -107,8 +111,20 @@ function App() {
         <Route path="/doctor-profile/:userID">
           <DoctorProfile/>
         </Route>
+        <Route path="/receptionist/appointment/view/:doctorID/:appointmentID">
+          <ViewAppointment/>
+        </Route>
+        <Route path="/receptionist/appointment/review/:appointmentID">
+          <ReviewAppointment/>
+        </Route>
         <Route path="/labStaff-dashboard">
           <LabStaffDashboard/>
+        </Route>
+        <Route path="/receptionist-report">
+          <AppointmentReport />
+        </Route>
+        <Route path="/update-prescription">
+          <UpdatePres />
         </Route>
       </Switch>
     </div>

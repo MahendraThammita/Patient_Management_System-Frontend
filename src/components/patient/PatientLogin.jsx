@@ -1,14 +1,53 @@
 import React, { Component } from 'react'
 import { Layout } from 'antd';
 
-import Logo from './../../assets/img/pmslogo.png'
+// import Logo from './../../assets/img/pmslogo.png'
 import Logo2 from './../../assets/img/outlined logo.png'
 
-import { Form, Input, Button, Checkbox, Footer } from 'antd';
+import { Form, Input, Button, Checkbox} from 'antd';
 
 const { Header } = Layout;
 
 class PatientLogin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email : '',
+      password : ''
+    }
+  }
+
+  handleChange = (e) =>{
+    this.setState({[e.target.name]:e.target.value})
+    console.log({[e.target.name]:e.target.value})
+  }
+
+  handleSubmit = () =>{
+
+    //checking data
+    const data = {
+      email : this.state.email,
+      password : this.state.password
+    }
+
+    fetch('http://localhost:8000/patient/login',{
+      method : 'POST',
+      headers : {
+        'Content-type' : 'Application/json'
+      },
+      body : JSON.stringify(data)
+    }).then(res =>res.json()).then(data =>{
+      if(data.token){
+        window.localStorage.setItem('id',data.id)
+        window.localStorage.setItem('token',data.token)
+        window.location.replace('/patient')
+      }
+      console.log(data);
+    }).catch(err =>{
+      console.log(err);
+    })
+
+  }
 
   render() {
 
@@ -46,16 +85,16 @@ class PatientLogin extends Component {
               onFinishFailed={onFinishFailed}
             >
               <Form.Item
-                label="Username"
+                label="email"
                 name="username"
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your username!',
+                    message: 'Please input your email!',
                   },
                 ]}
               >
-                <Input />
+                <Input name="email" onChange={this.handleChange}/>
               </Form.Item>
 
               <Form.Item
@@ -68,7 +107,7 @@ class PatientLogin extends Component {
                   },
                 ]}
               >
-                <Input.Password />
+                <Input.Password name="password" onChange={this.handleChange}/>
               </Form.Item>
 
               <Form.Item
@@ -88,7 +127,7 @@ class PatientLogin extends Component {
                   span: 16,
                 }}
               >
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{width:"100%"}} >
                   Login
                 </Button>
               </Form.Item>
