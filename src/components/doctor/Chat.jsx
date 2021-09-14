@@ -8,6 +8,10 @@ import { Row, Col, Card } from 'antd';
 import { Comment, Tooltip, Avatar } from 'antd';
 import moment from 'moment';
 import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
+import io from 'socket.io-client'
+import ChatTh from './ChatTh';
+
+const socket = io.connect("http://localhost:8000")
 
 const { Option } = Select
 
@@ -16,17 +20,60 @@ const { Search } = Input;
 class Chat extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            allDocs: [],
+            username: '',
+            room: '',
+            recent: [],
+            selItem : {}
+        }
     }
     onSearch = value => console.log(value);
 
     onChange = (value) => {
         console.log(`selected ${value}`);
+        const room_id = Math.random().toString(36).slice(2)
+
+        this.setState({ username: window.localStorage.getItem('user_id'), room: room_id })
+
+        const roomData = {
+            room_id: room_id,
+            user1: window.localStorage.getItem('name'),
+            user2: value
+        }
+        socket.emit("join_room", roomData)
     }
 
     onSearch = (val) => {
         console.log('search:', val);
     }
+
+    componentDidMount() {
+        fetch('http://localhost:8000/doctorA/chat/all-docs', {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ allDocs: data })
+        })
+
+
+        //fetch recent chats
+
+        fetch('http://localhost:8000/doctorA/chat/recent/' + window.localStorage.getItem('user_id'), {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ recent: data })
+        })
+    }
+
+
 
     render() {
         return (
@@ -48,48 +95,36 @@ class Chat extends Component {
                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
                     >
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="tom">Tom</Option>
+                        {this.state.allDocs.map(item => {
+                            if (item.fullName !== window.localStorage.getItem('name')) {
+                                return (
+                                    <Option value={item.fullName}>{item.fullName}</Option>
+                                )
+                            }
+                        })}
                     </Select>
                 </Form.Item>
 
                 <Row>
                     <Col span={6}>
                         <Card title="Recent Chats" >
-                            <Comment
+                            {this.state.recent.map(item => {
+                                return (
+                                    <div onClick={() => this.setState({selItem : item})} style={{cursor : "pointer"}}>
+                                        <Comment
 
-                                author={<a>Han Solo</a>}
-                                avatar={
-                                    <Avatar
-                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                        alt="Han Solo"
-                                    />
-                                }
+                                            author={<a>{item.user2}</a>}
+                                            avatar={
+                                                <Avatar
+                                                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                                    alt="Han Solo"
 
-                                datetime={
-                                    <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                        <span>{moment().fromNow()}</span>
-                                    </Tooltip>
-                                }
-                            />
-
-                            <Comment
-
-                                author={<a>Han Solo</a>}
-                                avatar={
-                                    <Avatar
-                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                        alt="Han Solo"
-                                    />
-                                }
-
-                                datetime={
-                                    <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                        <span>{moment().fromNow()}</span>
-                                    </Tooltip>
-                                }
-                            />
+                                                />
+                                            }
+                                        />
+                                    </div>
+                                )
+                            })}
                         </Card>
                     </Col>
 
@@ -98,53 +133,7 @@ class Chat extends Component {
                     </Col>
 
                     <Col span={17}>
-                        <Card title="John Doe" >
-                            <Comment
-
-                                author={<a>Han Solo</a>}
-                                avatar={
-                                    <Avatar
-                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                        alt="Han Solo"
-                                    />
-                                }
-                                content={
-                                    <p>
-                                      We supply a series of design principles, practical patterns and high quality design
-                                      resources (Sketch and Axure), to help people create their product prototypes beautifully
-                                      and efficiently.
-                                    </p>
-                                  }
-                                datetime={
-                                    <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                        <span>{moment().fromNow()}</span>
-                                    </Tooltip>
-                                }
-                            />
-
-                            <Comment
-
-                                author={<a>Han Solo</a>}
-                                avatar={
-                                    <Avatar
-                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                        alt="Han Solo"
-                                    />
-                                }
-                                content={
-                                    <p>
-                                      We supply a series of design principles, practical patterns and high quality design
-                                      resources (Sketch and Axure), to help people create their product prototypes beautifully
-                                      and efficiently.
-                                    </p>
-                                  } 
-                                datetime={
-                                    <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                        <span>{moment().fromNow()}</span>
-                                    </Tooltip>
-                                }
-                            />
-                        </Card>
+                        <ChatTh socket={socket} username={this.state.username} room={this.state.room} selItem={this.state.selItem}/>
                     </Col>
                 </Row>
             </div>

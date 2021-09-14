@@ -89,7 +89,7 @@ class DocDashboard extends Component {
 
         if(this.state.component === 'tabs'){
             comp = <AppTabs/>
-        }else if(this.state.component === 'chat'){
+        }else if(this.state.component === 'chatDoc'){
             comp = <Chat/>
         }else if(this.state.component === 'report'){
             comp = <Reports/>
@@ -104,16 +104,14 @@ class DocDashboard extends Component {
                         <Menu.Item key="1" icon={<PieChartOutlined />} onClick={() => this.setState({component : 'tabs'})}>
                             Appointments
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<DesktopOutlined />} onClick={() => this.setState({component : 'chat'})}>
-                            Chats
-                        </Menu.Item>
+                        <SubMenu key="sub2" icon={<TeamOutlined />} title="Chats" >
+                            <Menu.Item key="6" onClick={() => this.setState({component : 'chatDoc'})}>Doctors</Menu.Item>
+                            <Menu.Item key="8">Team 2</Menu.Item>
+                        </SubMenu>
                         <Menu.Item key="3" icon={<DesktopOutlined />} onClick={() => this.setState({component : 'report'})}>
                             Reports
                         </Menu.Item>
-                        <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                            <Menu.Item key="6">Team 1</Menu.Item>
-                            <Menu.Item key="8">Team 2</Menu.Item>
-                        </SubMenu>
+                        
                         <Menu.Item key="9" icon={<FileOutlined />}>
                             Files
                         </Menu.Item>
