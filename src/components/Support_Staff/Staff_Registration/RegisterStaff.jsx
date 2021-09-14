@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Typography, Image } from 'antd';
+import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Typography, Image , notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import '../../../assets/css/mahen_general.css';
@@ -105,25 +105,13 @@ export default class RegisterStaff extends Component {
             },
         };
         const onFinish = (values) => {
-<<<<<<< HEAD
-            let Fname = values.Fname;
-            let Lname = values.Lname;
-            let email = values.email;
-            let mobileNumber = values.mobileNumber;
-            let password = values.password;
-            let confirmPassword = values.confirmPassword;
-            let NIC = values.NIC;
-            let role = values.role;
-            console.log('Received values of form: ', values);
-            console.log('Received values of form: ', Fname);
-            console.log('Received values of form: ', NIC);
-=======
+
             const data = {
                 NIC: values.NIC,
-                firstName: values.fName,
-                lastName: values.lName,
+                firstName: values.Fname,
+                lastName: values.Lname,
                 email: values.email,
-                mobileNumber: values.phone,
+                mobileNumber: values.mobileNumber,
                 password: values.password,
                 role: values.role
             }
@@ -131,7 +119,14 @@ export default class RegisterStaff extends Component {
             const url = "http://localhost:8090/staff/register";
             axios.post(url, data).then((res) => {
                 if(res.data.status === 201){
-                    window.location.replace('/staff-login')
+                    notification['success']({
+                        message: 'Successfully Registered',
+                        duration:10,
+                        description:
+                          'You have registered as a nurse into the system.Please login to use the system.',
+                      });
+                      setTimeout(function(){ window.location.replace('/staff-login'); }, 5000);
+                    
                 }
                 else if(res.data.status === 401){
                     alert("User Already Exist");
@@ -140,7 +135,6 @@ export default class RegisterStaff extends Component {
                     alert("Something went wrong");
                 }
             })
->>>>>>> 559df2f43bdc0a56e7fa6f72010e07dc742d998b
         };
         const prefixSelector = (
             <Form.Item name="prefix" noStyle>

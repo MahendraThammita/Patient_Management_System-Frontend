@@ -18,7 +18,8 @@ export default class NurseDashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            form: Form
+            form: Form,
+            component : 'tabs'
         }
         this.onDropdownMenuClick = this.onDropdownMenuClick.bind(this);
 
@@ -34,6 +35,7 @@ export default class NurseDashboard extends Component {
                 <Menu.Item key="1" icon={<LogoutOutlined />}>Log Out</Menu.Item>
             </Menu>
         );
+        let comp;
         return (
             <div>
                 <Layout>
@@ -90,13 +92,13 @@ export default class NurseDashboard extends Component {
                                 defaultOpenKeys={['sub1']}
                                 style={{ height: '100%', borderRight: 0 }}
                             >
-                                <Menu.Item key="1" icon={<HomeFilled />}>
+                                <Menu.Item key="1" icon={<HomeFilled />} onClick={() => window.location.replace('/NurseDashboard')}>
                                     Home
                                 </Menu.Item>
-                                <Menu.Item key="2" icon={<TabletFilled />}>
+                                <Menu.Item key="2" icon={<TabletFilled />}  onClick={() => window.location.replace('/Nurse-appointments')}>
                                     Appointments
                                 </Menu.Item>
-                                <Menu.Item key="3" icon={<FileAddFilled />}>
+                                <Menu.Item key="3" icon={<FileAddFilled />}  onClick={() => window.location.replace('/Nurse-samples')}>
                                     Sample Collections
                                 </Menu.Item>
                             </Menu>
@@ -129,7 +131,7 @@ export default class NurseDashboard extends Component {
 
                         </Layout>
                     </Layout>
-                </Layout>,
+                </Layout>
             </div>
         )
     }

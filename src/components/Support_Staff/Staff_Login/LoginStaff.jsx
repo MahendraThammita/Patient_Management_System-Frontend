@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Typography, Image } from 'antd';
+import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Typography, Image , notification} from 'antd';
 import { UserOutlined, LockOutlined, GoogleOutlined, FacebookOutlined, LinkedinOutlined } from '@ant-design/icons';
 import '../../../assets/css/mahen_general.css';
 import PHeader from '../../PageHeader/PHeader';
@@ -39,10 +39,18 @@ export default class LoginStaff extends Component {
 
             const url = "http://localhost:8090/staff/login";
             axios.post(url, data).then((res) => {
+                console.log("Status : " , res.data);
                 if(res.data.status === 200){
+                    notification['success']({
+                        message: 'Login Successful',
+                        duration:10,
+                        description:
+                          'Hello , Jenny  welcome to PMS.',
+                      });
                     localStorage.setItem("user-id",res.data.user._id);
                     localStorage.setItem("auth-token",res.data.token);
-                    window.location.replace('/NurseDashboard');
+                    setTimeout(function(){ window.location.replace('/NurseDashboard'); }, 5000);
+                    
                 }
                 else if(res.data.status === 401){
                     alert("Invalid credentials!");

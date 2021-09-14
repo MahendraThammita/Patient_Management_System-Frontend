@@ -122,13 +122,13 @@ export default class CompleteAppointmentListComponant extends Component {
                 render: (text, record) => (
                     <div>
                         <Tag color={'green'}>
-                            <a>Create Prescription</a>
+                            <a onClick={() => window.location.replace('/update-Prescription')}>Create Prescription</a>
                         </Tag>
                         <Tag color={'geekblue'}>
-                            <a>Create Prescription</a>
+                            <a onClick={() => window.location.replace('/update-Prescription')}>Edit Prescription</a>
                         </Tag>
                         <Tag color={'volcano'}>
-                            <a>Create Prescription</a>
+                            <a>Delete Prescription</a>
                         </Tag>
                     </div>
 
@@ -139,8 +139,8 @@ export default class CompleteAppointmentListComponant extends Component {
         const data = [
             {
                 key: '1',
-                name: 'John Brown',
-                doctor: 'Mark Wood',
+                name: 'Allen Brian',
+                doctor: 'Eric burg',
                 time: '19:20:00',
             },
             {
