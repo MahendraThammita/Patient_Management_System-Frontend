@@ -29,8 +29,10 @@ import ViewAppointment from "./components/Receptionist/Appointments/ViewAppointm
 import ReviewAppointment from "./components/Receptionist/Appointments/ReviewAppointment";
 import DocDashboard from './components/doctor/DocDashboard';
 import Appointment from './components/doctor/Appointment';
-import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard'
+import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard';
 import AppointmentReport from "./components/Receptionist/Appointments/AppointmentReport";
+import UpdatePres from "./components/Support_Staff/Nurse_Dashboard/UpdatePres";
+import UpdatenPres from "./components/Support_Staff/Nurse_Dashboard/UpdatenPres"
 
 
 function App() {
@@ -121,6 +123,12 @@ function App() {
         </Route>
         <Route path="/receptionist-report">
           <AppointmentReport />
+        </Route>
+        <Route path="/update-prescription">
+          <UpdatePres />
+        </Route>
+        <Route path="/updaten-prescription">
+          <UpdatenPres />
         </Route>
       </Switch>
     </div>
