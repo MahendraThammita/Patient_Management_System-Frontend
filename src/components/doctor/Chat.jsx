@@ -14,8 +14,21 @@ import ChatTh from './ChatTh';
 const socket = io.connect("http://localhost:8000")
 
 const { Option } = Select
-
+const { TextArea } = Input;
 const { Search } = Input;
+const Editor = ({ onChange, onSubmit, submitting, value }) => (
+    <>
+      <Form.Item>
+        <TextArea rows={4} onChange={onChange} value={value} />
+      </Form.Item>
+      <Form.Item>
+        <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
+          Add Comment
+        </Button>
+      </Form.Item>
+    </>
+  );
+  
 
 class Chat extends Component {
     constructor(props) {
