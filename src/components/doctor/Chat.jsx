@@ -25,7 +25,9 @@ class Chat extends Component {
             username: '',
             room: '',
             recent: [],
-            selItem : {}
+            selItem : {},
+            name : '',
+            pMessage : []
         }
     }
     onSearch = value => console.log(value);
@@ -49,6 +51,8 @@ class Chat extends Component {
     }
 
     componentDidMount() {
+
+        this.setState({username: window.localStorage.getItem('user_id'), name: window.localStorage.getItem('name')})
         fetch('http://localhost:8000/doctorA/chat/all-docs', {
             method: "GET",
             headers: {
@@ -71,6 +75,18 @@ class Chat extends Component {
             console.log(data);
             this.setState({ recent: data })
         })
+    }
+
+    passRecentChat = (item) =>{
+        console.log(item.message);
+        this.setState({selItem : item, pMessage : item.message})
+
+        const roomData = {
+            room_id: item.roomId,
+            user1: window.localStorage.getItem('name'),
+            user2: item.user1
+        }
+        socket.emit("join_room_recent", roomData)
     }
 
 
@@ -110,10 +126,10 @@ class Chat extends Component {
                         <Card title="Recent Chats" >
                             {this.state.recent.map(item => {
                                 return (
-                                    <div onClick={() => this.setState({selItem : item})} style={{cursor : "pointer"}}>
+                                    <div onClick={() => this.passRecentChat(item)} style={{cursor : "pointer"}}>
                                         <Comment
 
-                                            author={<a>{item.user2}</a>}
+                                            author={<a>{item.user1 === this.state.name ? item.user2 : item.user1}</a>}
                                             avatar={
                                                 <Avatar
                                                     src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -133,7 +149,7 @@ class Chat extends Component {
                     </Col>
 
                     <Col span={17}>
-                        <ChatTh socket={socket} username={this.state.username} room={this.state.room} selItem={this.state.selItem}/>
+                        <ChatTh socket={socket} username={this.state.username} room={this.state.room} selItem={this.state.selItem} name={this.state.name} pmessage={this.state.pMessage}/>
                     </Col>
                 </Row>
             </div>
