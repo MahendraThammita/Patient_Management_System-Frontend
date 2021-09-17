@@ -31,7 +31,8 @@ import DocDashboard from './components/doctor/DocDashboard';
 import Appointment from './components/doctor/Appointment';
 import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard';
 import AppointmentReport from "./components/Receptionist/Appointments/AppointmentReport";
-import UpdatePres from "./components/Support_Staff/Nurse_Dashboard/UpdatePres";
+import UpdatePres from './components/Support_Staff/Nurse_Dashboard/UpdatePres';
+
 
 
 function App() {
