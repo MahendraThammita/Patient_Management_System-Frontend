@@ -98,7 +98,7 @@ class PatientDash extends Component {
                         {component}
                         
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                    <Footer style={{ textAlign: 'center' }}>Copyrights ©2021 Created by PMS</Footer>
                 </Layout>
             </Layout>
         )
