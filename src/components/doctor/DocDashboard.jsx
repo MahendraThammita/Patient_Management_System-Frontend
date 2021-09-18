@@ -18,6 +18,7 @@ import DecApps from './DecApps';
 import AppTabs from './AppTabs';
 import Chat from './Chat';
 import Reports from './Reports';
+import ChatNur from './ChatNur';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -94,6 +95,9 @@ class DocDashboard extends Component {
         }else if(this.state.component === 'report'){
             comp = <Reports/>
         }
+        else if(this.state.component === 'chatNur'){
+            comp = <ChatNur/>
+        }
 
         
         return (
@@ -106,7 +110,7 @@ class DocDashboard extends Component {
                         </Menu.Item>
                         <SubMenu key="sub2" icon={<TeamOutlined />} title="Chats" >
                             <Menu.Item key="6" onClick={() => this.setState({component : 'chatDoc'})}>Doctors</Menu.Item>
-                            <Menu.Item key="8">Team 2</Menu.Item>
+                            <Menu.Item key="8" onClick={() => this.setState({component : 'chatNur'})}>Nurses</Menu.Item>
                         </SubMenu>
                         <Menu.Item key="3" icon={<DesktopOutlined />} onClick={() => this.setState({component : 'report'})}>
                             Reports

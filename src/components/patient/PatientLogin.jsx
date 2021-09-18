@@ -40,6 +40,7 @@ class PatientLogin extends Component {
       if(data.token){
         window.localStorage.setItem('id',data.id)
         window.localStorage.setItem('token',data.token)
+        window.localStorage.setItem('user_type','patient')
         window.location.replace('/patient')
       }
       console.log(data);
