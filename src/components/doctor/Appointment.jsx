@@ -53,7 +53,7 @@ var appid;
 
 const props = {
     name: 'files',
-    action: 'http://localhost:8000/upload',
+    action: 'http://localhost:8090/upload',
     onChange(info) {
         if (info.file.status !== 'uploading') {
             console.log(info.file, info.fileList);
@@ -70,7 +70,7 @@ const props = {
                 }
             }
 
-            fetch("http://localhost:8000/doctorA/report/" + appid, {
+            fetch("http://localhost:8090/doctorA/report/" + appid, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'Application/json',
@@ -115,7 +115,7 @@ class Appointment extends Component {
         this.setState({ id: id })
 
         //fetch the appointment data
-        fetch("http://localhost:8000/doctorA/" + this.props.match.params.id, {
+        fetch("http://localhost:8090/doctorA/" + this.props.match.params.id, {
             headers: {
                 Authorization: "Bearer " + window.localStorage.getItem('token')
             }
@@ -151,7 +151,7 @@ class Appointment extends Component {
         const data = {
             status : status
         }
-        fetch("http://localhost:8000/doctorA/status/" + this.props.match.params.id, {
+        fetch("http://localhost:8090/doctorA/status/" + this.props.match.params.id, {
             method: "POST",
             headers: {
                 'Content-type': 'Application/json',
@@ -186,7 +186,7 @@ class Appointment extends Component {
             }
         }
 
-        fetch("http://localhost:8000/doctorA/medi/" + this.state.patient._id, {
+        fetch("http://localhost:8090/doctorA/medi/" + this.state.patient._id, {
             method: "PATCH",
             headers: {
                 'Content-type': 'Application/json',

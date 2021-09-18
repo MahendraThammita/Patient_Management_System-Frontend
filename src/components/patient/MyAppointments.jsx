@@ -25,13 +25,15 @@ class MyAppointments extends Component {
             appointments:[],
             doctor:{},
             visible: false,
-            columns:[]
+            columns:[],
+            record:{}
         }
     }
 
-    showDrawer = () => {
+    showDrawer = (record1) => {
         this.setState({
           visible: true,
+          record:record1
         });
     };
     
@@ -42,7 +44,7 @@ class MyAppointments extends Component {
     };
 
     fetchAppointments = () =>{
-        fetch('http://localhost:8000/appointment/get/'+this.state.patient).then(res => res.json()).then(data =>{
+        fetch('http://localhost:8090/appointment/get/'+this.state.patient).then(res => res.json()).then(data =>{
           this.setState({appointments: data, doctor: data.doctor})
           console.log(data)
         }).catch(err =>{
@@ -55,17 +57,18 @@ class MyAppointments extends Component {
     }
 
     onDelete = (id) =>{
-        fetch('http://localhost:8000/appointment/delete/'+id).then((res) => {
-            if (res.data.status === 200){
-                // alert('Appointment Removed');
-                // history.push('');
-                message.success('Appointment Deleted!');
-                window.location.replace("/patient")
-            }
-            else{
-                alert('Something Went Wrong!')
-            }
-        })
+        console.log(id);
+        // fetch('http://localhost:8090/appointment/delete/'+id).then((res) => {
+        //     if (res.data.status === 200){
+        //         // alert('Appointment Removed');
+        //         // history.push('');
+        //         message.success('Appointment Deleted!');
+        //         window.location.replace("/patient")
+        //     }
+        //     else{
+        //         alert('Something Went Wrong!')
+        //     }
+        // })
     }
 
     render() {
@@ -122,13 +125,13 @@ class MyAppointments extends Component {
                     <Space size="middle">
                         {/* <Link to={"/appointment/" + record._id}>Show Appointment</Link> */}
                         
-                        <Button type="primary" onClick={this.showDrawer}>
+                        <Button type="primary" onClick={()=> this.showDrawer(record)}>
                             Update
                         </Button>
 
                         <Popconfirm
                             title="Are you sure yo want to delete this appointment?"
-                            onConfirm={() => this.onDelete()}
+                            onConfirm={() => this.onDelete(record.appointmentId)}
                             onCancel={cancel}
                             okText="Delete"
                         >
@@ -179,7 +182,7 @@ class MyAppointments extends Component {
                                 label="Doctor"
                                 rules={[{ required: true, message: 'Please select the docor' }]}
                             >
-                                <Select placeholder="Please select an owner">
+                                <Select placeholder="Please select the docor" defaultValue={this.state.record.doctor}>
                                     <Option value="xiao">Xiaoxiao Fu</Option>
                                     <Option value="mao">Maomao Zhou</Option>
                                 </Select>
