@@ -57,6 +57,8 @@ class Chat extends Component {
             user2: value
         }
         socket.emit("join_room", roomData)
+
+        window.location.reload()
     }
 
     onSearch = (val) => {

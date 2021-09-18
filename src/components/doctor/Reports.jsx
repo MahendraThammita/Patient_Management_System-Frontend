@@ -1,51 +1,36 @@
 import React, { Component } from 'react';
 import { Table, Tag, Space, Select, Form } from 'antd';
+import { Typography } from 'antd';
 
+const { Text, Link } = Typography;
 
 const { Option } = Select
 const columns = [
     {
-        title: 'Report ID',
+        title: 'Report Name',
         dataIndex: 'name',
         key: 'name',
         render: text => <a>{text}</a>,
     },
     {
-        title: 'Upload Date',
-        dataIndex: 'age',
-        key: 'age',
-    },
-    {
         title: 'Format',
-        dataIndex: 'address',
-        key: 'address',
-    },
-    {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: tags => (
-            <>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
+        dataIndex: 'name',
+        key: 'name',
+        render: (text, record) => {
+
+            return(
+                (
+                        <Text type='danger' strong style={{color:'black'}}>.{String(text).split('.').pop()}</Text>
+                )
+            )
+        },
     },
     {
         title: 'Action',
         key: 'action',
         render: (text, record) => (
             <Space size="middle">
-                <a>Download</a>
+                <a href={record.url}>Download</a>
                 <a>Show Online</a>
             </Space>
         ),
@@ -79,33 +64,68 @@ const data = [
 class Reports extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            allPats: [],
+            reports : []
+        }
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:8090/doctorA/get/patients', {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ allPats: data })
+        })
+    }
+
+    onChange = (id) =>{
+       
+        let filId = ''
+        this.state.allPats.filter(item => item.fullName === id).map(fillItem =>{
+            
+            console.log(fillItem._id);
+            filId = fillItem._id
+        })
+        let url = 'http://localhost:8090/reports/get/report/' + filId;
+
+        console.log(url);
+        fetch('http://localhost:8090/reports/get/report/' + filId, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log("reports" + data);
+            this.setState({ reports: data })
+        })
     }
     render() {
         return (
             <div>
-                <Form.Item
-                    label="Please select the user"
+                
+                    <Form.Item
+                    label="Select the User Username"
                     name="username"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                >
+                    rules={[{ required: true, message: 'Please input your username!' }]}>
                     <Select
-                        showSearch
                         style={{ width: 200 }}
+                        showSearch
                         placeholder="Select a person"
-                        optionFilterProp="children"
                         onChange={this.onChange}
-                        onSearch={this.onSearch}
-                        filterOption={(input, option) =>
-                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
                     >
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="tom">Tom</Option>
+                        {this.state.allPats.map(item => {
+                            return (
+
+                                <Option value={item.fullName}>{item.fullName}</Option>
+                            )
+                        })}
                     </Select>
-                </Form.Item>
-                <Table columns={columns} dataSource={data} />
+                    </Form.Item>
+                <Table columns={columns} dataSource={this.state.reports} />
             </div>
         );
     }

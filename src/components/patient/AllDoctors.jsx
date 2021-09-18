@@ -22,7 +22,7 @@ class AllDoctors extends Component {
         }
     }
     fetchDoctors = () =>{
-        fetch('http://localhost:8000/doctorA/get-my-name').then(res => res.json()).then(data =>{
+        fetch('http://localhost:8090/doctorA/get-my-name').then(res => res.json()).then(data =>{
           this.setState({doctors : data})
            console.log(data)
         }).catch(err =>{
@@ -69,7 +69,7 @@ class AllDoctors extends Component {
                                 hoverable
                                 style={{ width: 240}}
                                 title = {item.fullName}
-                                cover={<img alt="example" src={"http://localhost:8000/doctor/" + item.profileImage} style={{matgin:'2%'}}/>}
+                                cover={<img alt="example" src={"http://localhost:8090/doctor/" + item.profileImage} style={{matgin:'2%'}}/>}
                             >
                                 <Meta title={item.specialty} description="lorem xxxxxxxxx xxxxxxxxx x x x xx" />
                                 <Button type="primary" onClick={() => this.showModal(item._id)}>
