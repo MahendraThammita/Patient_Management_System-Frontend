@@ -32,6 +32,7 @@ import Appointment from './components/doctor/Appointment';
 import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashboard/LabStaffDashboard';
 import AppointmentReport from "./components/Receptionist/Appointments/AppointmentReport";
 import UpdatePres from './components/Support_Staff/Nurse_Dashboard/UpdatePres';
+import NurseChat from './components/Support_Staff/Nurse_Dashboard/NurseChat';
 
 
 
@@ -43,7 +44,7 @@ function App() {
         <Route exact path="/doctor">
           <DocTemplate />
         </Route>
-        <Route path="/doctor/dashboard">
+        <Route exact path="/doctor/dashboard">
           <DocDashboard/>
         </Route>
         <Route path="/appointment/:id">
@@ -90,6 +91,9 @@ function App() {
           </Route>
           <Route path="/NurseDashboard">
               <NurseDashboard />
+          </Route>
+          <Route path="/Nurse-chat">
+              <NurseChat/>
           </Route>
           <Route path="/receptionist-dashboard">
               <Dashboard />

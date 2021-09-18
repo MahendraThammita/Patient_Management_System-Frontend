@@ -47,7 +47,7 @@ const columns = [
 function confirm(e) {
     console.log(e);
 
-    fetch("http://localhost:8000/doctorA/status/" + e, {
+    fetch("http://localhost:8090/doctorA/status/" + e, {
         method: "POST",
         headers: {
             'Content-type': 'Application/json',
@@ -105,7 +105,7 @@ class FinApps extends Component {
 
     componentDidMount() {
         //fetch pending appointments
-        fetch("http://localhost:8000/doctorA/finished/" + window.localStorage.getItem('user_id'), {
+        fetch("http://localhost:8090/doctorA/finished/" + window.localStorage.getItem('user_id'), {
             headers: {
                 Authorization: "Bearer " + window.localStorage.getItem('token')
             }

@@ -10,11 +10,12 @@ import CollectionsChart from './CollectionsChart'
 import OverviewCard from '../DashboardCommon/OverviewCard'
 import JobQueueComponant from './JobQueueComponant'
 import Logo from '../../../assets/img/pmslogo.png'
+import ChatNur from '../../doctor/ChatNur';
 
 const { Title, Text, Link } = Typography;
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
-export default class NurseDashboard extends Component {
+export default class NurseChat extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -101,36 +102,15 @@ export default class NurseDashboard extends Component {
                                 <Menu.Item key="3" icon={<FileAddFilled />}  onClick={() => window.location.replace('/Nurse-samples')}>
                                     Sample Collections
                                 </Menu.Item>
-                                <Menu.Item key="4" icon={<FileAddFilled />}  onClick={() => window.location.replace('/Nurse-chat')}>
+                                <Menu.Item key="4" icon={<FileAddFilled />}  onClick={() => window.location.replace('/Nurse-samples')}>
                                     Chat
                                 </Menu.Item>
                             </Menu>
                         </Sider>
                         <Layout style={{ padding: '0 24px 24px' }}>
                             <WelcomeSection />
-                            <Row>
-                                <Col span={6}>
-                                    <SummerySection />
-                                </Col>
-                                <Col span={18}>
-                                    <Row>
-                                        <Col span={8}>
-                                            <AppointmentChart />
-                                        </Col>
-                                        <Col span={8}>
-                                            <CollectionsChart />
-                                        </Col>
-                                        <Col span={8}>
-                                            <OverviewCard />
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={24}>
-                                            <JobQueueComponant />
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
+
+                            <ChatNur/>
 
                         </Layout>
                     </Layout>
