@@ -55,7 +55,7 @@ class MyAppointments extends Component {
     }
 
     onDelete = (id) =>{
-        fetch('http://localhost:8000/appointment/delete/'+id).then((res) => {
+        fetch('http://localhost:8090/appointment/delete/'+id).then((res) => {
             if (res.data.status === 200){
                 // alert('Appointment Removed');
                 // history.push('');

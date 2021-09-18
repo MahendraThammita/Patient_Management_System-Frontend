@@ -60,6 +60,8 @@ class ChatPat extends Component {
             userType : 'patient'
         }
         socket.emit("join_room_patient", roomData)
+
+        window.location.reload()
     }
 
     onSearch = (val) => {

@@ -59,6 +59,8 @@ class ChatNur extends Component {
             userType : 'nurse'
         }
         socket.emit("join_room_nurse", roomData)
+
+        window.location.reload()
     }
 
     onSearch = (val) => {
