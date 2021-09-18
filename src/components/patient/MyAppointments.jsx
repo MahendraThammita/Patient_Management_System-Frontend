@@ -54,6 +54,20 @@ class MyAppointments extends Component {
         this.fetchAppointments()
     }
 
+    onDelete = (id) =>{
+        fetch('http://localhost:8000/appointment/delete/'+id).then((res) => {
+            if (res.data.status === 200){
+                // alert('Appointment Removed');
+                // history.push('');
+                message.success('Appointment Deleted!');
+                window.location.replace("/patient")
+            }
+            else{
+                alert('Something Went Wrong!')
+            }
+        })
+    }
+
     render() {
 
         this.state.columns = [
@@ -102,7 +116,8 @@ class MyAppointments extends Component {
             },
             {
                 title: 'Action',
-                key: 'action',
+                dataIndex: 'appointmentId',
+                key: 'appointmentId',
                 render: (text, record) => (
                     <Space size="middle">
                         {/* <Link to={"/appointment/" + record._id}>Show Appointment</Link> */}
@@ -113,10 +128,9 @@ class MyAppointments extends Component {
 
                         <Popconfirm
                             title="Are you sure yo want to delete this appointment?"
-                            onConfirm={confirm}
+                            onConfirm={() => this.onDelete()}
                             onCancel={cancel}
-                            okText="Yes"
-                            cancelText="No"
+                            okText="Delete"
                         >
                             <Button type="danger" >
                                 Delete

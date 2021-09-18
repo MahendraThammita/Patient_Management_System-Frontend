@@ -33,7 +33,7 @@ class PatientProfile extends Component {
         });
       };
 
-      fetchPatient = () =>{
+    fetchPatient = () =>{
         fetch(''+this.state.patient).then(res => res.json()).then(data =>{
           this.setState({appointments: data, doctor: data.doctor})
         //   console.log(data)
