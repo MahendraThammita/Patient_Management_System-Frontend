@@ -17,6 +17,7 @@ class DashPHeader extends Component {
 
     logout = () => {
         console.log('akila');
+        window.localStorage.clear()
         window.localStorage.removeItem('token')
         window.location.replace('/doctor')
     }
