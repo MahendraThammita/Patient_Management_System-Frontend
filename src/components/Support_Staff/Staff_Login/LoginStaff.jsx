@@ -51,6 +51,8 @@ export default class LoginStaff extends Component {
                     localStorage.setItem("name",res.data.user.Fname + " " + res.data.user.Lname);
                     localStorage.setItem("staffMember-role",res.data.Role);
                     localStorage.setItem("auth-token",res.data.token);
+                    localStorage.setItem("token",res.data.token);
+                    window.localStorage.setItem('user_type','nurse')
                     console.log("Res Is : " , res);
                     if(res.data.Role === "Nurse"){
                         setTimeout(function(){ window.location.replace('/NurseDashboard'); }, 4000);

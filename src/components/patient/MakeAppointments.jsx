@@ -50,7 +50,7 @@ class MakeAppointments extends Component {
 
     fetchTimeSlots = (id) => {
         console.log('docid = ',id)
-        fetch('http://localhost:8000/doctorA/get-timeslots/'+id).then(res => res.json()).then(data =>{
+        fetch('http://localhost:8090/doctorA/get-timeslots/'+id).then(res => res.json()).then(data =>{
             this.setState({timeslots : data.timeSlots})
             // console.log(data.timeSlots)
           }).catch(err =>{
@@ -59,7 +59,7 @@ class MakeAppointments extends Component {
     }
 
     fetchDoctors = () =>{
-        fetch('http://localhost:8000/doctorA/get-my-name').then(res => res.json()).then(data =>{
+        fetch('http://localhost:8090/doctorA/get-my-name').then(res => res.json()).then(data =>{
           this.setState({doctors : data})
         //   console.log(data)
         }).catch(err =>{
@@ -83,7 +83,7 @@ class MakeAppointments extends Component {
         }
         console.log(data);
     
-        fetch('http://localhost:8000/appointment/create',{
+        fetch('http://localhost:8090/appointment/create',{
             method : 'POST',
             headers: {
                 'Content-Type': 'application/json'

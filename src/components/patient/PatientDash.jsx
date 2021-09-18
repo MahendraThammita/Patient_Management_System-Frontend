@@ -18,6 +18,7 @@ import AllDoctors from './AllDoctors';
 
 
 import Logo from './../../assets/img/pmslogo.png'
+import ChatPat from '../doctor/ChatPat';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -56,6 +57,8 @@ class PatientDash extends Component {
         }
         else if(this.state.selectedItem === '5'){
             component = <AppointmentCalendar/>
+        }else if(this.state.selectedItem === '7'){
+            component = <ChatPat/>
         }
 
         const { collapsed } = this.state;
@@ -79,6 +82,9 @@ class PatientDash extends Component {
                     </SubMenu>
                     <Menu.Item key="6" icon={<FileOutlined />}>
                         Reports
+                    </Menu.Item>
+                    <Menu.Item key="7" icon={<FileOutlined />} onClick={() => {this.setState({ selectedItem: '7'})}}>
+                        Chats
                     </Menu.Item>
                 </Menu>
                 </Sider>

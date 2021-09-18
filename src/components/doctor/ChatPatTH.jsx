@@ -17,7 +17,7 @@ const { Option } = Select
 
 const { Search } = Input;
 
-function ChatNurTH({ socket, username, room, selItem, name, pmessage }) {
+function ChatPatTH({ socket, username, room, selItem, name, pmessage }) {
 
     const [currentMessage, setCurrentMessage] = useState("");
     const [messages, setMessages] = useState([]);
@@ -95,4 +95,4 @@ function ChatNurTH({ socket, username, room, selItem, name, pmessage }) {
     )
 }
 
-export default ChatNurTH;
+export default ChatPatTH;

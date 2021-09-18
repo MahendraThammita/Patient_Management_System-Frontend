@@ -11,7 +11,7 @@ import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-d
 import io from 'socket.io-client'
 import ChatTh from './ChatTh';
 
-const socket = io.connect("http://localhost:8000")
+const socket = io.connect("http://localhost:8090")
 
 const { Option } = Select
 const { TextArea } = Input;
@@ -66,7 +66,7 @@ class Chat extends Component {
     componentDidMount() {
 
         this.setState({username: window.localStorage.getItem('user_id'), name: window.localStorage.getItem('name')})
-        fetch('http://localhost:8000/doctorA/chat/all-docs', {
+        fetch('http://localhost:8090/doctorA/chat/all-docs', {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + window.localStorage.getItem('token')
@@ -81,7 +81,7 @@ class Chat extends Component {
 
         //fetch recent chats
         if(window.localStorage.getItem('user_type') === 'doctor'){
-            fetch('http://localhost:8000/doctorA/chat/recent/' +  window.localStorage.getItem('user_id') + "/doctor", {
+            fetch('http://localhost:8090/doctorA/chat/recent/' +  window.localStorage.getItem('user_id') + "/doctor", {
                 method: "GET",
                 headers: {
                     Authorization: "Bearer " + window.localStorage.getItem('token')
@@ -91,7 +91,7 @@ class Chat extends Component {
                 this.setState({ recent: data })
             })
         }else if(window.localStorage.getItem('user_type') === 'nurse'){
-            fetch('http://localhost:8000/doctorA/chat/recent/nurse/' +  window.localStorage.getItem('user_id') + "/nurse", {
+            fetch('http://localhost:8090/doctorA/chat/recent/nurse/' +  window.localStorage.getItem('user_id') + "/nurse", {
                 method: "GET",
                 headers: {
                     Authorization: "Bearer " + window.localStorage.getItem('token')

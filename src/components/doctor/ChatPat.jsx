@@ -11,6 +11,7 @@ import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-d
 import io from 'socket.io-client'
 import ChatTh from './ChatTh';
 import ChatNurTH from './ChatNurTH';
+import ChatPatTH from './ChatPatTH';
 
 const socket = io.connect("http://localhost:8090")
 
@@ -31,7 +32,7 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
   );
   
 
-class ChatNur extends Component {
+class ChatPat extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -56,9 +57,9 @@ class ChatNur extends Component {
             room_id: room_id,
             user1: window.localStorage.getItem('name'),
             user2: value,
-            userType : 'nurse'
+            userType : 'patient'
         }
-        socket.emit("join_room_nurse", roomData)
+        socket.emit("join_room_patient", roomData)
     }
 
     onSearch = (val) => {
@@ -68,7 +69,7 @@ class ChatNur extends Component {
     componentDidMount() {
 
         this.setState({username: window.localStorage.getItem('user_id'), name: window.localStorage.getItem('name')})
-        fetch('http://localhost:8090/doctorA/chat/all-nurses', {
+        fetch('http://localhost:8090/doctorA/chat/all-pats', {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + window.localStorage.getItem('token')
@@ -81,7 +82,9 @@ class ChatNur extends Component {
 
         //fetch recent chats
         if(window.localStorage.getItem('user_type') === 'doctor'){
-            fetch('http://localhost:8090/doctorA/chat/recent/' +  window.localStorage.getItem('user_id') + "/nurse", {
+
+            if(this.props.selUser === 'patient'){
+                fetch('http://localhost:8090/doctorA/chat/recent/' +  window.localStorage.getItem('user_id') + "/patient", {
                 method: "GET",
                 headers: {
                     Authorization: "Bearer " + window.localStorage.getItem('token')
@@ -90,11 +93,37 @@ class ChatNur extends Component {
                 console.log("nurses" + JSON.stringify(data));
                 this.setState({ recent: data })
             })
+            }else if(this.props.selUser === 'nurse'){
+                fetch('http://localhost:8090/doctorA/chat/recent/' +  window.localStorage.getItem('user_id') + "/nurse", {
+                    method: "GET",
+                    headers: {
+                        Authorization: "Bearer " + window.localStorage.getItem('token')
+                    }
+                }).then(res => res.json()).then(data => {
+                    console.log("nurses" + JSON.stringify(data));
+                    this.setState({ recent: data })
+                })
+            }
+
+            
         }else if(window.localStorage.getItem('user_type') === 'nurse'){
             let url = 'http://localhost:8090/doctorA/chat/recent/nurse/' +  window.localStorage.getItem('user_id') + "/nurse";
             console.log(url);
 
             fetch('http://localhost:8090/doctorA/chat/recent/nurse/' +  window.localStorage.getItem('user_id') + "/nurse", {
+                method: "GET",
+                headers: {
+                    Authorization: "Bearer " + window.localStorage.getItem('token')
+                }
+            }).then(res => res.json()).then(data => {
+                console.log("nurses" + JSON.stringify(data));
+                this.setState({ recent: data })
+            })
+        }else if(window.localStorage.getItem('user_type') === 'patient'){
+            let url = 'http://localhost:8090/doctorA/chat/recent/patient/' +  window.localStorage.getItem('user_id') + "/patient";
+            console.log(url);
+
+            fetch('http://localhost:8090/doctorA/chat/recent/patient/' +  window.localStorage.getItem('user_id') + "/patient", {
                 method: "GET",
                 headers: {
                     Authorization: "Bearer " + window.localStorage.getItem('token')
@@ -148,7 +177,7 @@ class ChatNur extends Component {
                         {this.state.allDocs.map(item => {
                             if (item.fullName !== window.localStorage.getItem('name')) {
                                 return (
-                                    <Option value={item.Fname}>{item.Fname}</Option>
+                                    <Option value={item.email}>{item.fullName}</Option>
                                 )
                             }
                         })}
@@ -183,7 +212,7 @@ class ChatNur extends Component {
                     </Col>
 
                     <Col span={17}>
-                        <ChatNurTH socket={socket} username={this.state.username} room={this.state.room} selItem={this.state.selItem} name={this.state.name} pmessage={this.state.pMessage}/>
+                        <ChatPatTH socket={socket} username={this.state.username} room={this.state.room} selItem={this.state.selItem} name={this.state.name} pmessage={this.state.pMessage}/>
                     </Col>
                 </Row>
             </div>
@@ -191,4 +220,4 @@ class ChatNur extends Component {
     }
 }
 
-export default ChatNur;
+export default ChatPat;

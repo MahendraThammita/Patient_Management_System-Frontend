@@ -19,6 +19,7 @@ import AppTabs from './AppTabs';
 import Chat from './Chat';
 import Reports from './Reports';
 import ChatNur from './ChatNur';
+import ChatPat from './ChatPat';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -98,6 +99,9 @@ class DocDashboard extends Component {
         else if(this.state.component === 'chatNur'){
             comp = <ChatNur/>
         }
+        else if(this.state.component === 'chatPat'){
+            comp = <ChatPat selUser={'patient'}/>
+        }
 
         
         return (
@@ -111,6 +115,7 @@ class DocDashboard extends Component {
                         <SubMenu key="sub2" icon={<TeamOutlined />} title="Chats" >
                             <Menu.Item key="6" onClick={() => this.setState({component : 'chatDoc'})}>Doctors</Menu.Item>
                             <Menu.Item key="8" onClick={() => this.setState({component : 'chatNur'})}>Nurses</Menu.Item>
+                            <Menu.Item key="10" onClick={() => this.setState({component : 'chatPat'})}>Patients</Menu.Item>
                         </SubMenu>
                         <Menu.Item key="3" icon={<DesktopOutlined />} onClick={() => this.setState({component : 'report'})}>
                             Reports

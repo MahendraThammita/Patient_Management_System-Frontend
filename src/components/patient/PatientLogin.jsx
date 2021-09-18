@@ -30,7 +30,7 @@ class PatientLogin extends Component {
       password : this.state.password
     }
 
-    fetch('http://localhost:8000/patient/login',{
+    fetch('http://localhost:8090/patient/login',{
       method : 'POST',
       headers : {
         'Content-type' : 'Application/json'
@@ -41,6 +41,7 @@ class PatientLogin extends Component {
         window.localStorage.setItem('id',data.id)
         window.localStorage.setItem('token',data.token)
         window.localStorage.setItem('user_type','patient')
+        window.localStorage.setItem('user_id',data.id)
         window.location.replace('/patient')
       }
       console.log(data);

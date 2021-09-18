@@ -11,7 +11,7 @@ import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-d
 import io from 'socket.io-client'
 
 const { TextArea } = Input;
-const socket = io.connect("http://localhost:8000")
+const socket = io.connect("http://localhost:8090")
 
 const { Option } = Select
 

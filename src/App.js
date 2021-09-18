@@ -44,7 +44,7 @@ function App() {
         <Route exact path="/doctor">
           <DocTemplate />
         </Route>
-        <Route path="/doctor/dashboard">
+        <Route exact path="/doctor/dashboard">
           <DocDashboard/>
         </Route>
         <Route path="/appointment/:id">
