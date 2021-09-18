@@ -18,6 +18,8 @@ import DecApps from './DecApps';
 import AppTabs from './AppTabs';
 import Chat from './Chat';
 import Reports from './Reports';
+import ChatNur from './ChatNur';
+import ChatPat from './ChatPat';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -89,10 +91,16 @@ class DocDashboard extends Component {
 
         if(this.state.component === 'tabs'){
             comp = <AppTabs/>
-        }else if(this.state.component === 'chat'){
+        }else if(this.state.component === 'chatDoc'){
             comp = <Chat/>
         }else if(this.state.component === 'report'){
             comp = <Reports/>
+        }
+        else if(this.state.component === 'chatNur'){
+            comp = <ChatNur/>
+        }
+        else if(this.state.component === 'chatPat'){
+            comp = <ChatPat selUser={'patient'}/>
         }
 
         
@@ -104,16 +112,15 @@ class DocDashboard extends Component {
                         <Menu.Item key="1" icon={<PieChartOutlined />} onClick={() => this.setState({component : 'tabs'})}>
                             Appointments
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<DesktopOutlined />} onClick={() => this.setState({component : 'chat'})}>
-                            Chats
-                        </Menu.Item>
+                        <SubMenu key="sub2" icon={<TeamOutlined />} title="Chats" >
+                            <Menu.Item key="6" onClick={() => this.setState({component : 'chatDoc'})}>Doctors</Menu.Item>
+                            <Menu.Item key="8" onClick={() => this.setState({component : 'chatNur'})}>Nurses</Menu.Item>
+                            <Menu.Item key="10" onClick={() => this.setState({component : 'chatPat'})}>Patients</Menu.Item>
+                        </SubMenu>
                         <Menu.Item key="3" icon={<DesktopOutlined />} onClick={() => this.setState({component : 'report'})}>
                             Reports
                         </Menu.Item>
-                        <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                            <Menu.Item key="6">Team 1</Menu.Item>
-                            <Menu.Item key="8">Team 2</Menu.Item>
-                        </SubMenu>
+                        
                         <Menu.Item key="9" icon={<FileOutlined />}>
                             Files
                         </Menu.Item>

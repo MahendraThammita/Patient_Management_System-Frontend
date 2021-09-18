@@ -10,6 +10,7 @@ import moment from 'moment';
 import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
 import io from 'socket.io-client'
 import ChatTh from './ChatTh';
+import ChatNurTH from './ChatNurTH';
 
 const socket = io.connect("http://localhost:8090")
 
@@ -30,7 +31,7 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
   );
   
 
-class Chat extends Component {
+class ChatNur extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -54,9 +55,10 @@ class Chat extends Component {
         const roomData = {
             room_id: room_id,
             user1: window.localStorage.getItem('name'),
-            user2: value
+            user2: value,
+            userType : 'nurse'
         }
-        socket.emit("join_room", roomData)
+        socket.emit("join_room_nurse", roomData)
     }
 
     onSearch = (val) => {
@@ -66,7 +68,7 @@ class Chat extends Component {
     componentDidMount() {
 
         this.setState({username: window.localStorage.getItem('user_id'), name: window.localStorage.getItem('name')})
-        fetch('http://localhost:8090/doctorA/chat/all-docs', {
+        fetch('http://localhost:8090/doctorA/chat/all-nurses', {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + window.localStorage.getItem('token')
@@ -78,10 +80,8 @@ class Chat extends Component {
 
 
         //fetch recent chats
-
-        //fetch recent chats
         if(window.localStorage.getItem('user_type') === 'doctor'){
-            fetch('http://localhost:8090/doctorA/chat/recent/' +  window.localStorage.getItem('user_id') + "/doctor", {
+            fetch('http://localhost:8090/doctorA/chat/recent/' +  window.localStorage.getItem('user_id') + "/nurse", {
                 method: "GET",
                 headers: {
                     Authorization: "Bearer " + window.localStorage.getItem('token')
@@ -91,6 +91,9 @@ class Chat extends Component {
                 this.setState({ recent: data })
             })
         }else if(window.localStorage.getItem('user_type') === 'nurse'){
+            let url = 'http://localhost:8090/doctorA/chat/recent/nurse/' +  window.localStorage.getItem('user_id') + "/nurse";
+            console.log(url);
+
             fetch('http://localhost:8090/doctorA/chat/recent/nurse/' +  window.localStorage.getItem('user_id') + "/nurse", {
                 method: "GET",
                 headers: {
@@ -101,6 +104,9 @@ class Chat extends Component {
                 this.setState({ recent: data })
             })
         }
+        
+
+        
     }
 
     passRecentChat = (item) =>{
@@ -110,8 +116,7 @@ class Chat extends Component {
         const roomData = {
             room_id: item.roomId,
             user1: window.localStorage.getItem('name'),
-            user2: item.user1,
-            userType : 'doctor'
+            user2: item.user1
         }
         socket.emit("join_room_recent", roomData)
     }
@@ -134,14 +139,16 @@ class Chat extends Component {
                         optionFilterProp="children"
                         onChange={this.onChange}
                         onSearch={this.onSearch}
+                        disabled={window.location.pathname === '/Nurse-chat' ? true : false}
                         filterOption={(input, option) =>
                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
+                        
                     >
                         {this.state.allDocs.map(item => {
                             if (item.fullName !== window.localStorage.getItem('name')) {
                                 return (
-                                    <Option value={item.fullName}>{item.fullName}</Option>
+                                    <Option value={item.Fname}>{item.Fname}</Option>
                                 )
                             }
                         })}
@@ -176,7 +183,7 @@ class Chat extends Component {
                     </Col>
 
                     <Col span={17}>
-                        <ChatTh socket={socket} username={this.state.username} room={this.state.room} selItem={this.state.selItem} name={this.state.name} pmessage={this.state.pMessage}/>
+                        <ChatNurTH socket={socket} username={this.state.username} room={this.state.room} selItem={this.state.selItem} name={this.state.name} pmessage={this.state.pMessage}/>
                     </Col>
                 </Row>
             </div>
@@ -184,4 +191,4 @@ class Chat extends Component {
     }
 }
 
-export default Chat;
+export default ChatNur;
