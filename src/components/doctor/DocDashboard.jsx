@@ -20,6 +20,7 @@ import Chat from './Chat';
 import Reports from './Reports';
 import ChatNur from './ChatNur';
 import ChatPat from './ChatPat';
+import GetReports from './GetReports';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
