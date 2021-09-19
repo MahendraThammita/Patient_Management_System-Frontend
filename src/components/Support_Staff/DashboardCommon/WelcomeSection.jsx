@@ -40,7 +40,7 @@ export default class WelcomeSection extends Component {
                                 </Col>
                                 <Col span={13}>
                                     <Row>
-                                        <Title level={4}>Good morning, Jenny Keller, have a great day!</Title>
+                                        <Title level={4}>{"Good morning, " + window.localStorage.getItem('name') +" , have a great day!"}</Title>
                                     </Row>
                                     <Row>
                                         <Title level={5} type="secondary">Assistant Nursing Officer / OPD</Title>

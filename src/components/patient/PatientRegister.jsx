@@ -98,7 +98,7 @@ class PatientRegister extends Component {
           }
           console.log(data);
   
-          fetch('http://localhost:8000/patient/reg',{
+          fetch('http://localhost:8090/patient/reg',{
               method : 'POST',
               headers: {
                   'Content-Type': 'application/json'
