@@ -71,8 +71,8 @@ class AllDoctors extends Component {
                                 title = {item.fullName}
                                 cover={<img alt="example" src={"http://localhost:8090/doctor/" + item.profileImage} style={{matgin:'2%'}}/>}
                             >
-                                <Meta title={item.specialty} description="lorem xxxxxxxxx xxxxxxxxx x x x xx" />
-                                <Button type="primary" onClick={() => this.showModal(item._id)}>
+                                <Meta title={item.specialty} description="lorem xxxxxxxxx xxxxxxxxx xxxxx" />
+                                <Button type="primary" onClick={() => this.showModal(item._id)} style={{marginTop:'5%'}}>
                                     View More
                                 </Button>
                             </Card>

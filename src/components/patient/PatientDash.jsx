@@ -45,17 +45,13 @@ class PatientDash extends Component {
         var component
         if(this.state.selectedItem === '1'){
             component = <Profile/>
-        }
-        else if(this.state.selectedItem === '2'){
+        }else if(this.state.selectedItem === '2'){
             component = <AllDoctors/>
-        }
-        else if(this.state.selectedItem === '3'){
+        }else if(this.state.selectedItem === '3'){
             component = <MyAppointments/>
-        }
-        else if(this.state.selectedItem === '4'){
+        }else if(this.state.selectedItem === '4'){
             component = <MakeAppointments/>
-        }
-        else if(this.state.selectedItem === '5'){
+        }else if(this.state.selectedItem === '5'){
             component = <AppointmentCalendar/>
         }else if(this.state.selectedItem === '7'){
             component = <ChatPat/>
