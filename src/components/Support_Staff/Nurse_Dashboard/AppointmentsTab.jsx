@@ -16,11 +16,55 @@ export default class AppointmentsTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            form: Form
+            form: Form,
+            appointments : [],
+            labRequests : [],
+            appointment1 : {},
+            appointment2 : {},
+            patientName1: '',
+            patientName2: '',
+            doctorName1: '',
+            appointmentTimeSlot: '',
+            totalAppointmentCOunt: '',
+            appointmentsToComplete: '',
+            compleatedAppointments: '',
+            appointmentsCountForToday: '',
+            completePercentage: '',
+            incompletePercentage: ''
         }
         this.onDropdownMenuClick = this.onDropdownMenuClick.bind(this);
 
     }
+
+    componentDidMount() {
+        //fetch appointments
+        fetch("http://localhost:8090/appointment/getAppoinments_today", {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('auth-token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            if(data.message === 'Authentication failed!'){
+                window.location.replace('/staff-login')
+            }
+            this.setState({ appointments : data.sortedtodayAppointments })
+            this.setState({ appointment1 : data.sortedtodayAppointments[0] })
+            this.setState({ appointment2 : data.sortedtodayAppointments[1] })
+            this.setState({ patientName1 : data.sortedtodayAppointments[0].patient.fullName })
+            this.setState({ patientName2 : data.sortedtodayAppointments[1].patient.fullName })
+            this.setState({ doctorName1 : data.sortedtodayAppointments[0].doctor.fullName })
+            this.setState({ appointmentTimeSlot : data.sortedtodayAppointments[1].appointmentTimeSlot})
+            this.setState({ totalAppointmentCOunt : data.totalAppointmentCOunt,
+                appointmentsToComplete : data.appointmentsToComplete,
+                compleatedAppointments : data.compleatedAppointments,
+                appointmentsCountForToday : data.appointmentsCountForToday,
+                completePercentage : data.completePercentage,
+                incompletePercentage : data.incompletePercentage
+            })
+            console.log("Appointments in parent" , this.state.appointments)
+        })
+    }
+
 
     onDropdownMenuClick = ({ key }) => {
         message.info(`Click on item ${key}`);
@@ -35,11 +79,11 @@ export default class AppointmentsTab extends Component {
         var data = [
             {
                 type: 'Compleated',
-                value: 28,
+                value: this.state.completePercentage,
             },
             {
                 type: 'To be Compleated',
-                value: 72,
+                value: this.state.incompletePercentage,
             },
         ];
         var config = {
@@ -74,7 +118,7 @@ export default class AppointmentsTab extends Component {
                         textOverflow: 'ellipsis',
                         fontSize: 32,
                     },
-                    content: '28%',
+                    content: this.state.completePercentage + '%',
                 },
             },
         };
@@ -146,7 +190,12 @@ export default class AppointmentsTab extends Component {
                             </Menu>
                         </Sider>
                         <Layout style={{ padding: '0 24px 24px' }}>
-                            <WelcomeSection />
+                        {this.state.appointmentsCountForToday != '' &&
+                            this.state.totalAppointmentCOunt != '' &&
+                            <WelcomeSection 
+                                appointmentsCountForToday ={this.state.appointmentsCountForToday}
+                                totalAppointmentCOunt ={this.state.totalAppointmentCOunt}
+                            />}
                             <Row>
                                 <Col span={18}>
                                     <Content
@@ -162,14 +211,14 @@ export default class AppointmentsTab extends Component {
                                             </Col>
                                             <Col span={15} offset={1}>
                                                 <Row justify='start'>
-                                                    <Title level={3}>Appontment</Title>
+                                                    <Title level={3}>Appointment</Title>
                                                 </Row>
                                                 <Row justify='start' style={{ marginTop: 10 }}>
                                                     <Col span={8}>
                                                         <Badge color="#39C0ED" /> <Text type="secondary" strong>Compleated </Text>
                                                     </Col>
                                                     <Col span={2}>
-                                                        <Text strong>28 </Text>
+                                                        <Text strong>{this.state.compleatedAppointments} </Text>
                                                     </Col>
                                                 </Row>
                                                 <Row justify='start' style={{ marginTop: 10 }}>
@@ -177,7 +226,7 @@ export default class AppointmentsTab extends Component {
                                                         <Badge color="#cccccc" /><Text type="secondary" strong>To be Compleated </Text>
                                                     </Col>
                                                     <Col span={2}>
-                                                        <Text strong>28 </Text>
+                                                        <Text strong>{this.state.appointmentsToComplete} </Text>
                                                     </Col>
                                                 </Row>
                                                 <Row justify='start' style={{ marginTop: 30 }}>
@@ -192,10 +241,10 @@ export default class AppointmentsTab extends Component {
                                                     </Col>
                                                     <Col span={20} offset={1}>
                                                         <Row>
-                                                            <Text strong>Lorem, ipsum dolor <Link href="#" target="_blank"> Appointment </Link> for doctor  <Text type="success"> Doctor Name. </Text></Text>
+                                                            <Text strong>{this.state.patientName1} <Link href="#" target="_blank"> Appointment </Link> for doctor  <Text type="success"> {this.state.doctorName1}. </Text></Text>
                                                         </Row>
                                                         <Row>
-                                                            <Title strong type="danger" level={4}>16:25:00</Title>
+                                                            <Title strong type="danger" level={4}>{this.state.appointmentTimeSlot + ':00'}</Title>
                                                         </Row>
                                                         <Row>
                                                             <Col span={14} offset={10}>
@@ -218,7 +267,9 @@ export default class AppointmentsTab extends Component {
 
                             <Row>
                                 <Col span={24}>
-                                    <CompleteAppointmentListComponant />
+                                    {this.state.appointments != {} &&
+                                        <CompleteAppointmentListComponant appointments={this.state.appointments}/>
+                                    }
                                 </Col>
 
                             </Row>

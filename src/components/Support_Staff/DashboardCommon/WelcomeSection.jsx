@@ -55,7 +55,7 @@ export default class WelcomeSection extends Component {
                                         <Text strong type="secondary">Total Appointments(Today)</Text>
                                     </Row>
                                     <Row>
-                                        <Title level={3}>56</Title>
+                                        <Title level={3}>{this.props.appointmentsCountForToday}</Title>
                                     </Row>
                                 </Col>
                                 <Col span={7}>
@@ -71,7 +71,7 @@ export default class WelcomeSection extends Component {
                                         <Text strong type="secondary"> Total Appointments(Month)</Text>
                                     </Row>
                                     <Row>
-                                        <Title level={3}>56</Title>
+                                        <Title level={3}>{this.props.totalAppointmentCOunt}</Title>
                                     </Row>
                                 </Col>
                             </Row>

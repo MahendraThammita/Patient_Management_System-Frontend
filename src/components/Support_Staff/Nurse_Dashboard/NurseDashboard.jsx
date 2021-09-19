@@ -28,6 +28,12 @@ export default class NurseDashboard extends Component {
             patientName2: '',
             doctorName1: '',
             doctorName2: '',
+            totalAppointmentCOunt: '',
+            appointmentsToComplete: '',
+            compleatedAppointments: '',
+            appointmentsCountForToday: '',
+            completePercentage: '',
+            incompletePercentage: ''
         }
         this.onDropdownMenuClick = this.onDropdownMenuClick.bind(this);
 
@@ -55,6 +61,13 @@ export default class NurseDashboard extends Component {
             this.setState({ patientName2 : data.sortedtodayAppointments[1].patient.fullName })
             this.setState({ doctorName1 : data.sortedtodayAppointments[0].doctor.fullName })
             this.setState({ doctorName2 : data.sortedtodayAppointments[1].doctor.fullName })
+            this.setState({ totalAppointmentCOunt : data.totalAppointmentCOunt,
+                appointmentsToComplete : data.appointmentsToComplete,
+                compleatedAppointments : data.compleatedAppointments,
+                appointmentsCountForToday : data.appointmentsCountForToday,
+                completePercentage : data.completePercentage,
+                incompletePercentage : data.incompletePercentage
+            })
             console.log("Appointments in parent" , this.state.appointments)
         })
     }
@@ -141,15 +154,29 @@ export default class NurseDashboard extends Component {
                             </Menu>
                         </Sider>
                         <Layout style={{ padding: '0 24px 24px' }}>
-                            <WelcomeSection />
+                            {this.state.appointmentsCountForToday != '' &&
+                            this.state.totalAppointmentCOunt != '' &&
+                            <WelcomeSection 
+                                appointmentsCountForToday ={this.state.appointmentsCountForToday}
+                                totalAppointmentCOunt ={this.state.totalAppointmentCOunt}
+                            />}
                             <Row>
                                 <Col span={6}>
-                                    <SummerySection />
+                                    {this.state.appointmentsCountForToday != '' &&
+                                        <SummerySection appointmentsCountForToday ={this.state.appointmentsCountForToday}/>
+                                    }
                                 </Col>
                                 <Col span={18}>
                                     <Row>
                                         <Col span={8}>
-                                            <AppointmentChart />
+                                            {
+                                            this.state.appointmentsToComplete != '' &&
+                                            <AppointmentChart 
+                                                compleatedAppointments ={this.state.compleatedAppointments}
+                                                appointmentsToComplete ={this.state.appointmentsToComplete}
+                                                completePercentage ={this.state.completePercentage}
+                                                incompletePercentage ={this.state.incompletePercentage}
+                                            />}
                                         </Col>
                                         <Col span={8}>
                                             <CollectionsChart />
@@ -160,9 +187,7 @@ export default class NurseDashboard extends Component {
                                     </Row>
                                     <Row>
                                         <Col span={24}>
-                                        
-                                            {/* //{this.state.appointments && <JobQueueComponant topAppointment={rest} secoundAppointment={rest}/>} */}
-                                            {this.state.appointment1.patient && this.state.appointment2.patient &&  
+                                            {this.state.appointment1 != {} && this.state.appointment2 != {} &&  
                                             this.state.patientName1 != '' &&  this.state.patientName2 != '' && 
                                             this.state.doctorName1 != '' && this.state.doctorName2 != '' && 
                                             <JobQueueComponant  

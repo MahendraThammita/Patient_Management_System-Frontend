@@ -16,11 +16,11 @@ export default class AppointmentChart extends Component {
         var data = [
             {
                 type: 'Compleated',
-                value: 28,
+                value: this.props.completePercentage,
             },
             {
                 type: 'To be Compleated',
-                value: 72,
+                value: this.props.incompletePercentage,
             },
         ];
         var config = {
@@ -55,7 +55,7 @@ export default class AppointmentChart extends Component {
                         textOverflow: 'ellipsis',
                         fontSize: 32,
                     },
-                    content: '28%',
+                    content: this.props.completePercentage + "%",
                 },
             },
         };
@@ -81,7 +81,7 @@ export default class AppointmentChart extends Component {
                             <Badge color="#39C0ED" /> <Text type="secondary" strong>Compleated </Text>
                         </Col>
                         <Col span={2}>
-                            <Text strong>28 </Text>
+                            <Text strong>{this.props.compleatedAppointments}  </Text>
                         </Col>
                     </Row>
                     <Row justify='space-around' style={{ marginTop: 10 }}>
@@ -89,7 +89,7 @@ export default class AppointmentChart extends Component {
                             <Badge color="#cccccc" /><Text type="secondary" strong>To be Compleated </Text>
                         </Col>
                         <Col span={2}>
-                            <Text strong>28 </Text>
+                            <Text strong>{this.props.appointmentsToComplete} </Text>
                         </Col>
                     </Row>
                 </Content>

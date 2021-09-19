@@ -15,7 +15,12 @@ export default class CompleteAppointmentListComponant extends Component {
             searchText: '',
             searchedColumn: '',
         }
+        this.createPrescription = this.createPrescription.bind(this);
 
+    }
+    createPrescription = (appointmentId) =>{
+      localStorage.setItem("selected_appointment",appointmentId);
+      window.location.replace('/create-prescription')
     }
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -98,11 +103,24 @@ export default class CompleteAppointmentListComponant extends Component {
     render() {
         const columns = [
             {
+              title: "Id",
+              key: "id",
+              dataIndex: "id",
+              hidden: true
+            },
+            {
                 title: 'Name',
-                dataIndex: 'name',
-                key: 'name',
+                dataIndex: 'fullName',
+                key: 'fullName',
                 render: text => <a>{text}</a>,
-                ...this.getColumnSearchProps('name'),
+                ...this.getColumnSearchProps('fullName'),
+            },
+            {
+              title: 'Age',
+              dataIndex: 'age',
+              key: 'age',
+              render: text => <a>{text}</a>,
+              ...this.getColumnSearchProps('age'),
             },
             {
                 title: 'Doctor',
@@ -117,46 +135,37 @@ export default class CompleteAppointmentListComponant extends Component {
                 ...this.getColumnSearchProps('time'),
             },
             {
+              title: 'Status',
+              dataIndex: 'status',
+              key: 'status',
+              ...this.getColumnSearchProps('status'),
+            },
+            {
                 title: 'Action',
                 key: 'action',
                 render: (text, record) => (
                     <div>
                         <Tag color={'green'}>
-                            <a onClick={() => window.location.replace('/update-Prescription')}>Create Prescription</a>
-                        </Tag>
-                        <Tag color={'geekblue'}>
-                            <a onClick={() => window.location.replace('/update-Prescription')}>Edit Prescription</a>
-                        </Tag>
-                        <Tag color={'volcano'}>
-                            <a>Delete Prescription</a>
+                            <a onClick={() => this.createPrescription(record.id)}>Create Prescription</a>
                         </Tag>
                     </div>
 
                 ),
             },
         ];
-
-        const data = [
-            {
-                key: '1',
-                name: 'Allen Brian',
-                doctor: 'Eric burg',
-                time: '19:20:00',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                doctor: 'Mark Wood',
-                time: '19:30:00',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                doctor: 'Mark Wood',
-                time: '19:40:00',
-            },
-        ];
-
+        console.log('inside child : ' , this.props.appointments)
+        var appointmentList = [];
+        this.props.appointments.map((item)=>{   
+          var appointmentObj = {}
+          appointmentObj.id = item._id;
+          appointmentObj.fullName = item.patient.fullName;
+          appointmentObj.age = item.patient.age;
+          appointmentObj.doctor = item.doctor.fullName;
+          appointmentObj.time = item.appointmentTimeSlot;
+          appointmentObj.status = item.status;
+          appointmentList.push(appointmentObj);
+          console.log('appointment List : ' , appointmentList);
+        }); 
         return (
             <div>
                 <Content
@@ -171,7 +180,7 @@ export default class CompleteAppointmentListComponant extends Component {
                     </Row>
                     <Row>
                         <Col span={24}>
-                            <Table columns={columns} dataSource={data} pagination={{ pageSize: 3 }}/>
+                            <Table columns={columns} dataSource={appointmentList} pagination={{ pageSize: 3 }}/>
                         </Col>
                     </Row>
                 </Content>
