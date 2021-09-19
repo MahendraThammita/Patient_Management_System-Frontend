@@ -7,6 +7,7 @@ import WelcomeSection from '../DashboardCommon/WelcomeSection'
 import OverviewCard from '../DashboardCommon/OverviewCard'
 import PatientCard from '../DashboardCommon/PatientCard'
 import Logo from '../../../assets/img/pmslogo.png'
+import axios from "axios";
 
 const { Title, Text, Link } = Typography;
 const { SubMenu } = Menu;
@@ -16,13 +17,43 @@ export default class CreatePrescriptionComponant extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            form: Form
+            form: Form,
+            appointment : {},
+            patientName : '',
+            patientage : '',
+            patient_Id : '',
+            doctor_Id : '',
+            appointmentId : ''
         }
         this.onDropdownMenuClick = this.onDropdownMenuClick.bind(this);
         this.onFinish = this.onFinish.bind(this);
         this.onFinishFailed = this.onFinishFailed.bind(this);
 
 
+    }
+
+    fetchAppointments = () =>{
+        console.log(window.localStorage.getItem('selected_appointment'))
+        fetch('http://localhost:8090/appointment/getById/'+window.localStorage.getItem('selected_appointment'))
+        .then(res => res.json()).then(data =>{
+          this.setState({appointment: data.data[0] , 
+            patientName: data.data[0].patient.fullName , 
+            patientage: data.age , 
+            patient_Id : data.data[0].patient._id , 
+            doctor_Id : data.data[0].doctor._id ,
+            appointmentId : data.data[0]._id});
+          console.log(this.state.appointmentId);
+          window.localStorage.removeItem("selected_appointment");
+        }).catch(err =>{
+          console.log(err);
+        })
+    }
+
+    componentDidMount(){
+        if(typeof(window.localStorage.getItem('selected_appointment')) == 'undefined' || window.localStorage.getItem('selected_appointment') == null){
+            window.location.replace('/NurseDashboard')
+        }
+        this.fetchAppointments()
     }
 
     savePrescription = ()=>{
@@ -38,7 +69,36 @@ export default class CreatePrescriptionComponant extends Component {
     };
 
     onFinish = (values) => {
-        console.log('Success:', values);
+        const data = {
+            weight: values.weight,
+            height: values.height,
+            sys_pressure: values.sys_pressure,
+            dis_pressure: values.dis_pressure,
+            specialRemarks_By_Nurse: values.remarks,
+            fullName: this.state.patientName,
+            previouslyVisited: values.visitedStatus === "1" ? true : false,
+            age: this.state.patientage,
+            patient : this.state.patient_Id,
+            doctor : this.state.doctor_Id,
+            status : "Submit By Nurse",
+            appointmentId : this.state.appointmentId,
+        }
+        const url = "http://localhost:8090/prescription/create";
+            axios.post(url, data).then((res) => {
+                if(res.data.message === "ok"){
+                    notification['success']({
+                        message: 'Successfully Submited the prescription',
+                        duration:10,
+                        description:
+                          'You have submited the basic prescriptions details for the appointment',
+                      });
+                      setTimeout(function(){ window.location.replace('/NurseDashboard'); }, 3000);
+                    
+                }
+                else{
+                    alert("Something went wrong");
+                }
+            })
     };
 
     onFinishFailed = (errorInfo) => {
@@ -51,6 +111,8 @@ export default class CreatePrescriptionComponant extends Component {
                 <Menu.Item key="1" icon={<LogoutOutlined />}>Log Out</Menu.Item>
             </Menu>
         );
+        if(this.state.patientName === '')
+            return null;
         return (
             <div>
                 <Layout>
@@ -144,20 +206,20 @@ export default class CreatePrescriptionComponant extends Component {
                                                     name="basic"
                                                     labelCol={{ span: 6 }}
                                                     wrapperCol={{ span: 12 }}
-                                                    onFinish={this.state.onFinish}
-                                                    onFinishFailed={this.state.onFinishFailed}
+                                                    onFinish={this.onFinish}
+                                                    onFinishFailed={this.onFinishFailed}
                                                 >
                                                     <Form.Item
                                                         label="Full Name"
                                                         name="fullName"
                                                         //rules={[{ required: true, message: 'Please input the fullname of the patient!' }]}
                                                     >
-                                                        <Input defaultValue="Allen Brian"/>
+                                                        <Input disabled={true} defaultValue={this.state.appointment.patient.fullName}/>
                                                     </Form.Item>
 
                                                     <Form.Item label="Age">
                                                         <Form.Item name="patient-age" noStyle>
-                                                            <InputNumber min={0} defaultValue="34"/>
+                                                            <InputNumber disabled={true} min={0} defaultValue={this.state.patientage}/>
                                                         </Form.Item>
                                                         <span className="ant-form-text"> Years</span>
                                                     </Form.Item>
@@ -173,21 +235,21 @@ export default class CreatePrescriptionComponant extends Component {
                                                         <span className="ant-form-text"> Weight(Kg)</span>
                                                     </Form.Item>
                                                     <Form.Item label="Blood Pressure">
-                                                        <Form.Item name="sys-pressure" noStyle>
+                                                        <Form.Item name="sys_pressure" noStyle>
                                                             <InputNumber min={0} />
                                                         </Form.Item>
                                                         <span className="ant-form-text"> Systolic(mmHg)</span>
                                                         <span style={{ marginRight: 15, marginLeft: 15 }}></span>
-                                                        <Form.Item name="dis-pressure" noStyle>
+                                                        <Form.Item name="dis_pressure" noStyle>
                                                             <InputNumber min={0} />
                                                         </Form.Item>
                                                         <span className="ant-form-text"> Diastolic(mmHg)</span>
                                                     </Form.Item>
-                                                    <Form.Item name={['patient', 'remarks']} label="Special Remarks(Optional)">
+                                                    <Form.Item name='remarks' label="Special Remarks(Optional)">
                                                         <Input.TextArea />
                                                     </Form.Item>
                                                     <Form.Item
-                                                        name="radio-button"
+                                                        name="visitedStatus"
                                                         label="Previously Visited ?"
                                                         rules={[{ required: true, message: 'Please pick an option!' }]}
                                                     >
@@ -213,7 +275,7 @@ export default class CreatePrescriptionComponant extends Component {
                                 </Col>
                                 <Col span={6}>
                                     <OverviewCard />
-                                    <PatientCard />
+                                    <PatientCard patientName={this.state.patientName} age={this.state.patientage} doctorName = {this.state.appointment.doctor.fullName} time={this.state.appointment.appointmentTimeSlot}/>
                                 </Col>
                             </Row>
 

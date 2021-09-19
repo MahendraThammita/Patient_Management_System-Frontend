@@ -39,10 +39,10 @@ export default class PatientCard extends Component {
                         </Col>
                         <Col span={14} offset={2}>
                             <Row>
-                                <Title strong level={4}>Allen Brian</Title>
+                                <Title strong level={4}>{this.props.patientName}</Title>
                             </Row>
                             <Row>
-                                <Title strong type="secondary" level={5}>34 Years</Title>
+                                <Title strong type="secondary" level={5}>{this.props.age} Years</Title>
                             </Row>
                         </Col>
                         <Title strong level={1}> </Title>
@@ -51,13 +51,13 @@ export default class PatientCard extends Component {
                         <Title type="secondary" strong level={3}>Appointment To </Title>
                     </Row>
                     <Row justify='end'>
-                        <Title strong level={4}>Dr.Eric Burg </Title>
+                        <Title strong level={4}>{this.props.doctorName} </Title>
                     </Row>
                     <Row justify='start'>
                         <Title type="secondary" strong level={3}>Appointment Time </Title>
                     </Row>
                     <Row justify='end'>
-                    <Title strong level={4}>19:20:00 </Title>
+                    <Title strong level={4}>{this.props.time + ":00"} </Title>
                     </Row>
                 </Content>
             </div>

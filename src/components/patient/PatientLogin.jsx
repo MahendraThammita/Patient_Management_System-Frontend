@@ -30,7 +30,7 @@ class PatientLogin extends Component {
       password : this.state.password
     }
 
-    fetch('http://localhost:8000/patient/login',{
+    fetch('http://localhost:8090/patient/login',{
       method : 'POST',
       headers : {
         'Content-type' : 'Application/json'

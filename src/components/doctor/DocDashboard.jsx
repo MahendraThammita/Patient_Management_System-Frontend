@@ -45,7 +45,7 @@ class DocDashboard extends Component {
         this.startTime()
 
         //fetch appointments
-        fetch("http://localhost:8000/doctorA/count/" + window.localStorage.getItem('user_id'), {
+        fetch("http://localhost:8090/doctorA/count/" + window.localStorage.getItem('user_id'), {
             headers: {
                 Authorization: "Bearer " + window.localStorage.getItem('token')
             }

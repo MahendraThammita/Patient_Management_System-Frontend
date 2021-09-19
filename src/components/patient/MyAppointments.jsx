@@ -42,7 +42,7 @@ class MyAppointments extends Component {
     };
 
     fetchAppointments = () =>{
-        fetch('http://localhost:8000/appointment/get/'+this.state.patient).then(res => res.json()).then(data =>{
+        fetch('http://localhost:8090/appointment/get/'+this.state.patient).then(res => res.json()).then(data =>{
           this.setState({appointments: data, doctor: data.doctor})
           console.log(data)
         }).catch(err =>{
