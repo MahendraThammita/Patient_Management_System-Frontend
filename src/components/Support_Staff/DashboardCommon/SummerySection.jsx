@@ -38,7 +38,7 @@ export default class SummerySection extends Component {
                         <Title level={3} type="secondary">Appontments <CarryOutOutlined /></Title>
                     </Row>
                     <Row justify="end" align="top">
-                        <Title level={2}>28</Title>
+                        <Title level={2}>{this.props.appointmentsCountForToday}</Title>
                     </Row>
 
                     <Row justify="end" align="bottom">
