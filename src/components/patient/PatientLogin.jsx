@@ -40,6 +40,9 @@ class PatientLogin extends Component {
       if(data.token){
         window.localStorage.setItem('id',data.id)
         window.localStorage.setItem('token',data.token)
+        window.localStorage.setItem('user_type','patient')
+        window.localStorage.setItem('user_id',data.id)
+        window.localStorage.setItem('name',data.email)
         window.location.replace('/patient')
       }
       console.log(data);
@@ -85,8 +88,8 @@ class PatientLogin extends Component {
               onFinishFailed={onFinishFailed}
             >
               <Form.Item
-                label="email"
-                name="username"
+                label="Email"
+                name="email"
                 rules={[
                   {
                     required: true,

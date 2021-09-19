@@ -6,6 +6,7 @@ import { Popconfirm, message } from 'antd';
 // import Drawer from './PatientDrawer'
 
 const { Option } = Select;
+const { TextArea } = Input;
 
 function confirm(e) {
     console.log(e);
@@ -25,13 +26,28 @@ class MyAppointments extends Component {
             appointments:[],
             doctor:{},
             visible: false,
-            columns:[]
+            columns:[],
+            record:{},
+            selectedAppointment:{},
+            doctors:[],
+            timeslots:[],
+            selectedDoctor:'',
+            preferedDate: '',
+            preferedTimeSlot: '',
+            patientMeaasage:'',
         }
     }
 
-    showDrawer = () => {
+    showDrawer = (record1) => {
+        this.forceUpdate()
+        console.log(record1.appointmentId)
+
+        this.state.appointments
+            .filter((item) => item.appointmentId === record1.appointmentId)
+            .map((filterdItem) => this.setState({ selectedAppointment: filterdItem })); 
+
         this.setState({
-          visible: true,
+            visible: true
         });
     };
     
@@ -40,6 +56,28 @@ class MyAppointments extends Component {
           visible: false,
         });
     };
+
+    onSelectDoctor = (value) => {
+        console.log(`selected ${value}`);
+        this.setState({selectedDoctor : value})
+        this.fetchTimeSlots(value)
+        // console.log(this.state.patient)
+    }
+
+    onSelectTimeslot = (value) => {
+        console.log(`selected ${value}`);
+        this.setState({preferedTimeSlot : value})
+    }
+
+    onDateChange = (dateString) => {
+        this.setState({preferedDate : dateString})
+        console.log(dateString);
+    }
+
+    handleChange = (e) =>{
+        this.setState({[e.target.name]:e.target.value})
+        console.log({[e.target.name]:e.target.value})
+    }
 
     fetchAppointments = () =>{
         fetch('http://localhost:8090/appointment/get/'+this.state.patient).then(res => res.json()).then(data =>{
@@ -52,10 +90,86 @@ class MyAppointments extends Component {
 
     componentDidMount(){
         this.fetchAppointments()
+        this.fetchDoctors()
+    }
+
+    fetchTimeSlots = (id) => {
+        console.log('docid = ',id)
+        fetch('http://localhost:8090/doctorA/get-timeslots/'+id).then(res => res.json()).then(data =>{
+            this.setState({timeslots : data.timeSlots})
+            console.log(data.timeSlots)
+          }).catch(err =>{
+            console.log(err);
+          })
+    }
+
+    fetchDoctors = () =>{
+        fetch('http://localhost:8090/doctorA/get-my-name').then(res => res.json()).then(data =>{
+          this.setState({doctors : data})
+        //   console.log(data)
+        }).catch(err =>{
+          console.log(err);
+        })
+    }
+
+
+    onDelete = (id) =>{
+        console.log(id);
+        fetch('http://localhost:8090/appointment/delete/'+id).then((res) => {
+            if (res.status === 200){
+                // alert('Appointment Removed');
+                // history.push('');
+                message.success('Appointment Deleted!');
+                window.location.replace("/patient")
+            }
+            else{
+                alert('Something Went Wrong!')
+            }
+        })
+    }
+
+    handleSubmit = (id) => {
+
+        console.log(id);
+        if(this.state.selectedDoctor === ''){
+            
+            this.setState({selectedDoctor : this.state.selectedAppointment.doctorID})
+            
+        }
+        console.log("assigned "+this.state.selectedDoctor);
+        const data = {
+            patientMessage: this.state.patientMeaasage,
+            appointmentDate: this.state.selectedAppointment.appointmentDate,
+            appointmentTimeSlot: this.state.selectedAppointment.appointmentTimeSlot,
+            doctor: this.state.selectedAppointment.doctorID,
+            patient: this.state.patient
+        }
+        console.log(data);
+    
+        // fetch('http://localhost:8090/appointment/update/'+id,{
+        //     method : 'PUT',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body : JSON.stringify(data)
+        // }).then(res => res.json()).then(data =>{
+        //     console.log(data.message)
+  
+        //     if(data.message === 'ok'){
+        //         this.onClose()
+        //         message.success('Appointment Updated Successfully!');
+        //         window.location.replace("/patient")
+        //     }
+                
+        // }).catch(err =>{
+        //         console.log(err)
+        // })
     }
 
     render() {
 
+        // const record2 = this.state.record;
+        // console.log(record2)
         this.state.columns = [
             {
                 title: 'Appointment ID',
@@ -102,21 +216,21 @@ class MyAppointments extends Component {
             },
             {
                 title: 'Action',
-                key: 'action',
+                dataIndex: 'appointmentId',
+                key: 'appointmentId',
                 render: (text, record) => (
                     <Space size="middle">
                         {/* <Link to={"/appointment/" + record._id}>Show Appointment</Link> */}
                         
-                        <Button type="primary" onClick={this.showDrawer}>
+                        <Button type="primary" onClick={()=> this.showDrawer(record)}>
                             Update
                         </Button>
 
                         <Popconfirm
                             title="Are you sure yo want to delete this appointment?"
-                            onConfirm={confirm}
+                            onConfirm={() => this.onDelete(record.appointmentId)}
                             onCancel={cancel}
-                            okText="Yes"
-                            cancelText="No"
+                            okText="Delete"
                         >
                             <Button type="danger" >
                                 Delete
@@ -151,70 +265,113 @@ class MyAppointments extends Component {
                         <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                             Cancel
                         </Button>
-                        <Button onClick={this.onClose} type="primary">
+                        <Button onClick={()=>this.handleSubmit(this.state.selectedAppointment.appointmentId)} type="primary">
                             Submit
                         </Button>
                         </div>
                     }
                     >
-                    <Form layout="vertical" hideRequiredMark>
-                        <Row gutter={16}>
-                            <Col span={24}>
-                                <Form.Item
-                                name="doctor"
-                                label="Doctor"
-                                rules={[{ required: true, message: 'Please select the docor' }]}
-                            >
-                                <Select placeholder="Please select an owner">
-                                    <Option value="xiao">Xiaoxiao Fu</Option>
-                                    <Option value="mao">Maomao Zhou</Option>
-                                </Select>
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                            name="preferedTimeslot"
-                            label="Prefered Timeslot"
-                            rules={[{ required: true, message: 'Please select an owner' }]}
+                        
+                        <Form
+                            style={{marginLeft:"10%", marginTop:"5%", width:"90%", textAlign:"center"}}
+                            labelCol={{
+                            span: 8,
+                            }}
+                            wrapperCol={{
+                            span: 14,
+                            }}
+                            layout="horizontal"
+                            initialValues={{
+                            size: this.state.componentSize,
+                            }}
+                            size={this.state.componentSize}
                         >
-                            <Select placeholder="Please select an owner">
-                                <Option value="xiao">Xiaoxiao Fu</Option>
-                                <Option value="mao">Maomao Zhou</Option>
-                            </Select>
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                            name="dateTime"
-                            label="DateTime"
-                            rules={[{ required: true, message: 'Please choose the dateTime' }]}
-                        >
-                            <DatePicker
-                                style={{ width: '100%' }}
-                                getPopupContainer={trigger => trigger.parentElement}
-                            />
-                            </Form.Item>
-                        </Col>
-                        </Row>
-                        <Row gutter={16}>
-                        <Col span={24}>
-                            <Form.Item
-                            name="message"
-                            label="Message"
+                            
+                            <Form.Item 
+                            label="Doctor"
                             rules={[
                                 {
                                 required: true,
-                                message: 'please enter url description',
+                                message: 'Please select the doctor!',
                                 },
                             ]}
-                        >
-                            <Input.TextArea rows={4} placeholder="" />
+                            >
+                                <Select
+                                    showSearch
+                                    style={{ width: "100%" }}
+                                    placeholder="Select your doctor"
+                                    optionFilterProp="children"
+                                    onFocus={this.onFocus}
+                                    onBlur={this.onBlur}
+                                    onSearch={this.onSearch}
+                                    filterOption={(input, option) =>
+                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                    placeholder="Select your doctor"
+                                    onChange={this.onSelectDoctor}
+                                    defaultValue={this.state.selectedAppointment.doctor}
+                                >
+                                    {this.state.doctors.map(item =>{
+                                        return(<Select.Option value={item._id}>{item.fullName}</Select.Option>)
+                                    })}
+                                </Select>
+
                             </Form.Item>
-                        </Col>
-                        </Row>
-                    </Form>
+
+                            <Form.Item 
+                                label="Prefered time slot"
+                                rules={[
+                                    {
+                                    required: true,
+                                    message: 'Please select your Prefered time slot!',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    placeholder="Select your Prefered time slot!"
+                                    onChange={this.onSelectTimeslot}
+                                    defaultValue={this.state.selectedAppointment.appointmentTimeSlot}
+                                    onFocus={this.onFocus}
+                                    onBlur={this.onBlur}
+                                    onSearch={this.onSearch}
+                                    filterOption={(input, option) =>
+                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    {this.state.timeslots.map(item =>{
+                                        return(<Select.Option value={item.timeSlot}>{item.timeSlot}</Select.Option>)
+                                    })}   
+                                </Select>
+                            </Form.Item>
+
+                            <Form.Item 
+                                label="Prefered Date"
+                                rules={[
+                                    {
+                                    required: true,
+                                    message: 'Please input your prefered date!',
+                                    },
+                                ]}
+                                >
+                                <DatePicker name="preferedDate" onChange={this.onDateChange}/>
+                            </Form.Item>
+
+                            <Form.Item 
+                                label="Message"
+                                rules={[
+                                    {
+                                    required: true,
+                                    message: 'Please input your message to the doctor',
+                                    },
+                                ]}
+                                >
+                                <TextArea rows={4} name="patientMeaasage" onChange={this.handleChange} defaultValue={this.state.selectedAppointment.appointmentMsg} placeholder="Please input your message to the doctor (Your condition)"/>
+                            </Form.Item>
+
+                            {/* <Form.Item label="">
+                                <Button type="primary" htmlType="submit"  style={{width:"100%", marginLeft:"60%"}}>Create Appointment</Button>
+                            </Form.Item> */}
+                        </Form>
                 </Drawer>
             </div>
         )

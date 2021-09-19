@@ -10,24 +10,17 @@ import CollectionsChart from './CollectionsChart'
 import OverviewCard from '../DashboardCommon/OverviewCard'
 import JobQueueComponant from './JobQueueComponant'
 import Logo from '../../../assets/img/pmslogo.png'
+import ChatNur from '../../doctor/ChatNur';
 
 const { Title, Text, Link } = Typography;
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
-export default class NurseDashboard extends Component {
+export default class NurseChat extends Component {
     constructor(props) {
         super(props);
         this.state = {
             form: Form,
-            component : 'tabs',
-            appointments : [],
-            labRequests : [],
-            appointment1 : {},
-            appointment2 : {},
-            patientName1: '',
-            patientName2: '',
-            doctorName1: '',
-            doctorName2: '',
+            component : 'tabs'
         }
         this.onDropdownMenuClick = this.onDropdownMenuClick.bind(this);
 
@@ -37,30 +30,7 @@ export default class NurseDashboard extends Component {
         message.info(`Click on item ${key}`);
     };
 
-    componentDidMount() {
-        //fetch appointments
-        fetch("http://localhost:8090/appointment/getAppoinments_today", {
-            headers: {
-                Authorization: "Bearer " + window.localStorage.getItem('auth-token')
-            }
-        }).then(res => res.json()).then(data => {
-            console.log(data);
-            if(data.message === 'Authentication failed!'){
-                window.location.replace('/staff-login')
-            }
-            this.setState({ appointments : data.sortedtodayAppointments })
-            this.setState({ appointment1 : data.sortedtodayAppointments[0] })
-            this.setState({ appointment2 : data.sortedtodayAppointments[1] })
-            this.setState({ patientName1 : data.sortedtodayAppointments[0].patient.fullName })
-            this.setState({ patientName2 : data.sortedtodayAppointments[1].patient.fullName })
-            this.setState({ doctorName1 : data.sortedtodayAppointments[0].doctor.fullName })
-            this.setState({ doctorName2 : data.sortedtodayAppointments[1].doctor.fullName })
-            console.log("Appointments in parent" , this.state.appointments)
-        })
-    }
-
     render() {
-        var rest = this.state.appointments && this.state.appointments[0];
         const menu = (
             <Menu onClick={this.onDropdownMenuClick}>
                 <Menu.Item key="1" icon={<LogoutOutlined />}>Log Out</Menu.Item>
@@ -68,9 +38,6 @@ export default class NurseDashboard extends Component {
         );
         let comp;
         return (
-            // if(this.state.sortedtodayAppointments != []){
-            //     console.log(sortedtodayAppointments[0]);
-            // }
             <div>
                 <Layout>
                     <Header className="header">
@@ -135,48 +102,15 @@ export default class NurseDashboard extends Component {
                                 <Menu.Item key="3" icon={<FileAddFilled />}  onClick={() => window.location.replace('/Nurse-samples')}>
                                     Sample Collections
                                 </Menu.Item>
-                                <Menu.Item key="4" icon={<FileAddFilled />}  onClick={() => window.location.replace('/Nurse-chat')}>
+                                <Menu.Item key="4" icon={<FileAddFilled />}  onClick={() => window.location.replace('/Nurse-samples')}>
                                     Chat
                                 </Menu.Item>
                             </Menu>
                         </Sider>
                         <Layout style={{ padding: '0 24px 24px' }}>
                             <WelcomeSection />
-                            <Row>
-                                <Col span={6}>
-                                    <SummerySection />
-                                </Col>
-                                <Col span={18}>
-                                    <Row>
-                                        <Col span={8}>
-                                            <AppointmentChart />
-                                        </Col>
-                                        <Col span={8}>
-                                            <CollectionsChart />
-                                        </Col>
-                                        <Col span={8}>
-                                            <OverviewCard />
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={24}>
-                                        
-                                            {/* //{this.state.appointments && <JobQueueComponant topAppointment={rest} secoundAppointment={rest}/>} */}
-                                            {this.state.appointment1.patient && this.state.appointment2.patient &&  
-                                            this.state.patientName1 != '' &&  this.state.patientName2 != '' && 
-                                            this.state.doctorName1 != '' && this.state.doctorName2 != '' && 
-                                            <JobQueueComponant  
-                                                topAppointment={this.state.appointment1} 
-                                                patientName1={this.state.patientName1}
-                                                doctorName1={this.state.doctorName1}
-                                                secoundAppointment={this.state.appointment2}
-                                                patientName2={this.state.patientName2}
-                                                doctorName2={this.state.doctorName2}
-                                            />}
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
+
+                            <ChatNur/>
 
                         </Layout>
                     </Layout>

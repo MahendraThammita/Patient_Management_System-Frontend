@@ -9,7 +9,9 @@ import {
     InputNumber,
 
 } from 'antd';
+import moment from 'moment';
 
+const dateFormat = 'YYYY-MM-DD';
 const { TextArea } = Input;
 
 class MakeAppointments extends Component {
@@ -61,7 +63,7 @@ class MakeAppointments extends Component {
     fetchDoctors = () =>{
         fetch('http://localhost:8090/doctorA/get-my-name').then(res => res.json()).then(data =>{
           this.setState({doctors : data})
-        //   console.log(data)
+          console.log(data)
         }).catch(err =>{
           console.log(err);
         })
@@ -207,7 +209,7 @@ class MakeAppointments extends Component {
                             },
                         ]}
                         >
-                        <DatePicker name="preferedDate" onChange={this.onDateChange}/>
+                        <DatePicker name="preferedDate" onChange={this.onDateChange} format={dateFormat}/>
                     </Form.Item>
 
                     <Form.Item 

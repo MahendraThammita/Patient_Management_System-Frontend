@@ -4,6 +4,7 @@ import { Card } from 'antd';
 import Doctor from './../../assets/img/Doctor.png'
 import { Input, Space } from 'antd';
 import { AudioOutlined } from '@ant-design/icons';
+import { Modal, Button } from 'antd';
 
 const { Search } = Input;
 
@@ -12,6 +13,45 @@ const { Meta } = Card;
 const onSearch = value => console.log(value);
 
 class AllDoctors extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            patient:window.localStorage.getItem('id'),
+            doctors:[],
+            visible:false
+        }
+    }
+    fetchDoctors = () =>{
+        fetch('http://localhost:8090/doctorA/get-my-name').then(res => res.json()).then(data =>{
+          this.setState({doctors : data})
+           console.log(data)
+        }).catch(err =>{
+          console.log(err);
+        })
+    }
+
+    componentDidMount(){
+        this.fetchDoctors()
+    }
+
+    showModal = (id) => {
+        this.setState({
+            visible : true
+        });
+      };
+
+    handleOk = () => {
+        this.setState({
+            visible : false
+        });
+    };
+    
+    handleCancel = () => {
+        this.setState({
+            visible : false
+        });
+    };
+
   render() {
     return (
         <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
@@ -22,90 +62,33 @@ class AllDoctors extends Component {
                 
             </Row><br /><br />
             <Row >
-                <Col span={6}>
-                    <Card
-                        hoverable
-                        style={{ width: 240}}
-                        // title = 'Doctor 001'
-                        cover={<img alt="example" src={Doctor} />}
-                    >
-                        <Meta title="Name of the doctor" description="Specialization" />
-                    </Card>
-                </Col>
-                <Col span={6}>
-                    <Card
-                        hoverable
-                        style={{ width: 240}}
-                        // title = 'Doctor 001'
-                        cover={<img alt="example" src={Doctor} />}
-                    >
-                        <Meta title="Name of the doctor" description="Specialization" />
-                    </Card>
-                </Col>
-                <Col span={6}>
-                    <Card
-                        hoverable
-                        style={{ width: 240}}
-                        // title = 'Doctor 001'
-                        cover={<img alt="example" src={Doctor} />}
-                    >
-                        <Meta title="Name of the doctor" description="Specialization" />
-                    </Card>
-                </Col>
-                <Col span={6}>
-                    <Card
-                        hoverable
-                        style={{ width: 240}}
-                        // title = 'Doctor 001'
-                        cover={<img alt="example" src={Doctor} />}
-                    >
-                        <Meta title="Name of the doctor" description="Specialization" />
-                    </Card>
-                </Col>
+                {this.state.doctors.map(item =>{
+                    return(
+                        <Col span={6}>
+                            <Card
+                                hoverable
+                                style={{ width: 240}}
+                                title = {item.fullName}
+                                cover={<img alt="example" src={"http://localhost:8090/doctor/" + item.profileImage} style={{matgin:'2%'}}/>}
+                            >
+                                <Meta title={item.specialty} description="lorem xxxxxxxxx xxxxxxxxx xxxxx" />
+                                <Button type="primary" onClick={() => this.showModal(item._id)} style={{marginTop:'5%'}}>
+                                    View More
+                                </Button>
+                            </Card>
+                        </Col>
+                    )
+                })}
+
             </Row>
             <br /><br />
-            <Row >
-                <Col span={6}>
-                    <Card
-                        hoverable
-                        style={{ width: 240}}
-                        // title = 'Doctor 001'
-                        cover={<img alt="example" src={Doctor} />}
-                    >
-                        <Meta title="Name of the doctor" description="Specialization" />
-                    </Card>
-                </Col>
-                <Col span={6}>
-                    <Card
-                        hoverable
-                        style={{ width: 240}}
-                        // title = 'Doctor 001'
-                        cover={<img alt="example" src={Doctor} />}
-                    >
-                        <Meta title="Name of the doctor" description="Specialization" />
-                    </Card>
-                </Col>
-                <Col span={6}>
-                    <Card
-                        hoverable
-                        style={{ width: 240}}
-                        // title = 'Doctor 001'
-                        cover={<img alt="example" src={Doctor} />}
-                    >
-                        <Meta title="Name of the doctor" description="Specialization" />
-                    </Card>
-                </Col>
-                <Col span={6}>
-                    <Card
-                        hoverable
-                        style={{ width: 240}}
-                        // title = 'Doctor 001'
-                        cover={<img alt="example" src={Doctor} />}
-                    >
-                        <Meta title="Name of the doctor" description="Specialization" />
-                    </Card>
-                </Col>
-            </Row>
+            
+            <Modal title="Basic Modal" visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
+            
         </div>
 
     )
