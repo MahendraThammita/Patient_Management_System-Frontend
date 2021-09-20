@@ -24,7 +24,7 @@ import { RightOutlined } from '@ant-design/icons';
 
 import { Comment, Tooltip } from 'antd';
 import moment from 'moment';
-import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled,FileDoneOutlined } from '@ant-design/icons';
+import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled, FileDoneOutlined } from '@ant-design/icons';
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { Radio } from 'antd';
@@ -104,9 +104,9 @@ class Appointment extends Component {
             freq: '',
             meds: [],
             reports: [],
-            selItem : '',
-            ui : '',
-            prescription : {}
+            selItem: '',
+            ui: '',
+            prescription: {}
         }
     }
 
@@ -121,15 +121,15 @@ class Appointment extends Component {
                 Authorization: "Bearer " + window.localStorage.getItem('token')
             }
         }).then(res => res.json()).then(data => {
-            console.log("appointment" +data.prescription);
-            
-            this.setState({ data, patient: data.patient, meds: data.patient.medications, reports: data.reports, prescription : data.prescription })
+            console.log("appointment" + data.prescription);
+
+            this.setState({ data, patient: data.patient, meds: data.patient.medications, reports: data.reports, prescription: data.prescription })
         }).catch(err => {
             console.log(err);
         })
     }
 
-    changeStatus = (status) =>{
+    changeStatus = (status) => {
 
         this.setState(({ loadings }) => {
             const newLoadings = [...loadings];
@@ -150,8 +150,10 @@ class Appointment extends Component {
             });
         }, 6000);
 
+        message.info(`Appointment ${status} successfully!`)
+
         const data = {
-            status : status
+            status: status
         }
         fetch("http://localhost:8090/doctorA/status/" + this.props.match.params.id, {
             method: "POST",
@@ -162,7 +164,9 @@ class Appointment extends Component {
             body: JSON.stringify(data)
         }).then(res => res.json()).then(data => {
             console.log(data);
-        }).catch(err =>{
+            message.error('Appointment declined successfully!')
+            window.location.reload()
+        }).catch(err => {
             console.log(err);
         })
     }
@@ -177,7 +181,7 @@ class Appointment extends Component {
     };
 
     enterLoading = index => {
-        
+
     };
 
     addMedication = () => {
@@ -206,9 +210,9 @@ class Appointment extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    onclose = () =>{
+    onclose = () => {
         console.log('close called');
-        this.setState({selItem : ''})
+        this.setState({ selItem: '' })
     }
     render() {
         const { collapsed } = this.state;
@@ -218,8 +222,13 @@ class Appointment extends Component {
         var meds = Array(this.state.patient.medications)
         let component;
 
-        if(this.state.selItem === 'pres'){
-            component = <Prescription onclose={this.onclose} patient={this.state.patient} prescription={this.state.prescription} appId={this.state.data._id} appData={this.state.data}/>
+        if (this.state.selItem === 'pres') {
+            if (this.state.prescription) {
+                component = <Prescription onclose={this.onclose} patient={this.state.patient} prescription={this.state.prescription} appId={this.state.data._id} appData={this.state.data} />
+
+            }else{
+                message.error('Sorry! the prescription can not be issued at this moment. There are pending tasks available to fulfill. Please contact the hospital staff for more information.');
+            }
         }
         //meds = meds[0]
         console.log(this.state.meds);
@@ -255,7 +264,7 @@ class Appointment extends Component {
                             <br />
                             <br />
 
-                            <Button type="primary" block onClick={() => {this.setState({selItem : 'pres'})}}>Issue Prescription</Button>
+                            <Button type="primary" block onClick={() => { this.setState({ selItem: 'pres' }) }}>Issue Prescription</Button>
                             {component}
                             <br />
                             <br />
@@ -275,7 +284,7 @@ class Appointment extends Component {
                                         <Row>
                                             <Col span={14}>
                                                 <Title level={4}>Date</Title>
-                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>{String(this.state.data.appointmentDate).slice(0,10)}</Title>
+                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>{String(this.state.data.appointmentDate).slice(0, 10)}</Title>
                                             </Col>
                                             <Col span={10} >
                                                 <Title level={4}>Time</Title>
@@ -300,6 +309,7 @@ class Appointment extends Component {
                                                     icon={<RightOutlined />}
                                                     loading={loadings[1]}
                                                     onClick={() => this.changeStatus('declined')}
+                                                    disabled = {this.state.data.status === 'declined' ? true : false}
                                                 >
                                                     Decline
                                                 </Button>
@@ -379,9 +389,9 @@ class Appointment extends Component {
                                                     renderItem={item => (
                                                         <List.Item>
                                                             <List.Item.Meta
-                                                                avatar={<Avatar icon={<FileDoneOutlined />} size={30} style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}/>}
+                                                                avatar={<Avatar icon={<FileDoneOutlined />} size={30} style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} />}
                                                                 title={<a href={item.url}>{item.name}</a>}
-                                                                //description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                                            //description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                                                             />
                                                         </List.Item>
                                                     )}
