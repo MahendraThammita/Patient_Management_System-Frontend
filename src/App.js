@@ -33,6 +33,7 @@ import LabStaffDashboard from './components/Support_Staff/Laboratory_Staff_Dashb
 import AppointmentReport from "./components/Receptionist/Appointments/AppointmentReport";
 import UpdatePres from './components/Support_Staff/Nurse_Dashboard/UpdatePres';
 import NurseChat from './components/Support_Staff/Nurse_Dashboard/NurseChat';
+import CoLogin from './components/CoLogin/CoLogin';
 
 
 
@@ -41,6 +42,9 @@ function App() {
     <Router>
       <div>
       <Switch>
+      <Route exact path="/">
+          <CoLogin/>
+        </Route>
         <Route exact path="/doctor">
           <DocTemplate />
         </Route>

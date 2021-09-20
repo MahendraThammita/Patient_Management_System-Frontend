@@ -108,7 +108,8 @@ class Prescription extends Component {
     handleOk = () => {
 
         console.log('inside the handel OK');
-        message.loading('Action in progress..', 0);
+        const hide = message.loading('Action in progress.. Page will be refreshd once the action is compleated', 0);
+        
 
         const date = new Date()
 
@@ -129,6 +130,9 @@ class Prescription extends Component {
                 country: 'Sri Lanka'
             },
             weight: this.props.prescription.weight,
+            bp_Systolic : this.props.prescription.bp_Systolic,
+            bp_Diastolic : this.props.prescription.bp_Diastolic,
+            age : this.props.prescription.age,
             doctor: window.localStorage.getItem('name'),
             memo: 'This document is strictly private, confidential and personal to its recipients and should not be copied, distributed or reproduced in whole or in part, nor passed to any third party.',
 
@@ -147,6 +151,7 @@ class Prescription extends Component {
         }).then(res => res.json()).then(data => {
             console.log(data);
             if (data) {
+                setTimeout(hide, 2500);
                 window.location.reload();
             }
         })

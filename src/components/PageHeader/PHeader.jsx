@@ -7,12 +7,21 @@ class PHeader extends Component {
         this.state = {
             h : '',
             m : '',
-            s : ''
+            s : '',
+            doc : 0,
+            pat : 0
+
         }
     }
 
     componentDidMount(){
         this.startTime()
+
+        fetch('http://localhost:8090/doctorA/get/tot/count')
+        .then(res => res.json()).then(data =>{
+            console.log(data);
+            this.setState({doc : data.doc, pat : data.pat})
+        })
     }
 
     startTime = () => {
@@ -43,12 +52,12 @@ class PHeader extends Component {
                     <Statistic
                         title="Total Patients"
                         prefix=""
-                        value={1000}
+                        value={this.state.pat}
                         style={{
                             margin: '0 32px',
                         }}
                     />
-                    <Statistic title="Total Doctors" prefix="" value={100} />
+                    <Statistic title="Total Doctors" prefix="" value={this.state.doc} />
                 </Row>
             </PageHeader>
         );

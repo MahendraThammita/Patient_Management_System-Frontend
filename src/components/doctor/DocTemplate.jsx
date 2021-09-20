@@ -113,7 +113,7 @@ class DocTemplate extends Component {
     return (
       <Layout className="layout" style={{ height: "100vh" }}>
         <Header>
-          <div className="logo" />
+          
         </Header>
         <PHeader/>
         <Content style={{ padding: '50px 50px' }}>
