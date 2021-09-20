@@ -8,6 +8,7 @@ import AppointmentTimeSlots from "../AppointmentTimeSlot";
 import TimeSlots from "../TimeSlots";
 import RecepPHeader from "../commonComponents/RecepHeader";
 import SideMenu from "../commonComponents/Menu";
+import moment from "moment";
 
 const layout = {
     labelCol: {
@@ -96,7 +97,7 @@ const ViewAppointment = () => {
                     <List.Item>
                         <List.Item.Meta
                             title={'Date'}
-                            description={date}
+                            description={moment(date).format('YYYY-MM-DD')}
                         />
                     </List.Item>
                     <List.Item>

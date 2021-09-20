@@ -9,6 +9,7 @@ import NotificationMessage from "./NotificationMessage";
 import RecepPHeader from "../commonComponents/RecepHeader";
 import SideMenu from "../commonComponents/Menu";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import moment from "moment";
 
 const layout = {
     labelCol: {
@@ -102,16 +103,16 @@ const ReviewAppointment = () => {
                 <div >
                     <Form
                         name="basic"
-                           labelCol={{
-                               span: 5,
-                           }}
-                           wrapperCol={{
-                               span: 16,
-                           }}
-                           initialValues={{
-                               remember: true,
-                           }}
-                           autoComplete="off" >
+                        labelCol={{
+                            span: 5,
+                        }}
+                        wrapperCol={{
+                            span: 16,
+                        }}
+                        initialValues={{
+                            remember: true,
+                        }}
+                        autoComplete="off" >
                         <Form.Item label="Patient">
                             <Input disabled={true} value={patient}/>
                         </Form.Item>
@@ -119,7 +120,7 @@ const ReviewAppointment = () => {
                             <Input disabled={true} value={doctor}/>
                         </Form.Item>
                         <Form.Item  label="Date">
-                            <Input disabled={true} value={date}/>
+                            <Input disabled={true} value={moment(date).format('YYYY-MM-DD')}/>
                         </Form.Item>
                         <Form.Item  label="Time">
                             <Input disabled={true} value={time}/>
@@ -134,7 +135,7 @@ const ReviewAppointment = () => {
                                 Approve
                             </Button>
                             <Button onClick={onDecline} style={{marginLeft: '5px'}} type="danger" htmlType="submit">
-                                 Decline
+                                Decline
                             </Button>
 
                         </Form.Item>

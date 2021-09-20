@@ -91,7 +91,7 @@ function UpdateTimeSlots(props){
                         renderItem={schedule => (
 
                             <List.Item
-                                actions={[ <Button value={schedule._id} type="primary" danger onClick={e => onDelete(e.target.value)}>Remove</Button> ]}
+                                actions={[ <CloseCircleOutlined value={schedule._id} onClick={e => onDelete(e.target.value)}>Remove</CloseCircleOutlined> ]}
                             >
                                 <List.Item.Meta
                                     title={<p>{schedule.timeSlot}</p>}
