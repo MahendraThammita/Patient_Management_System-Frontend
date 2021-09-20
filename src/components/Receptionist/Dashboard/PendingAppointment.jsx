@@ -4,6 +4,7 @@ import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/ico
 import '../../../assets/css/uditha.css'
 import {Link} from "react-router-dom";
 import axios from "axios";
+import moment from "moment";
 
 const PendingAppointment = () => {
 
@@ -22,11 +23,17 @@ const PendingAppointment = () => {
         })
     },[])
 
-    const onSearch = value => console.log(value);
+    const onSearch = value => {
+        const url = "http://localhost:8090/receptionist/appointments/pending/search/"+value;
+        axios.get(url).then((res) => {
+
+            setAppointments(res.data.appointments);
+        })
+    }
 
 
     return(
-        <div style={{marginLeft: '20px', marginRight:'30px'}}>
+        <div style={{ marginRight:'30px'}}>
             <Search style={{marginBottom: '5px'}} placeholder="Search Pending Appointments" onSearch={onSearch} enterButton />
             <Card
 
@@ -40,13 +47,13 @@ const PendingAppointment = () => {
             >
 
 
-                <List style={{height:'150px',overflowY:'auto' }}
+                <List style={{height:'250px', overflow: 'hidden' }}
                       itemLayout="horizontal"
                       dataSource={appointments}
                       renderItem={appointment => (
 
                           <List.Item
-                              actions={[<Tag color="purple">{appointment.appointmentDate}</Tag>, <Tag color="purple">{appointment.appointmentTimeSlot}</Tag>,
+                              actions={[<Tag color="purple">{moment(appointment.appointmentDate).format('YYYY-MM-DD')}</Tag>, <Tag color="purple">{appointment.appointmentTimeSlot}</Tag>,
                                   <Link to ={`/receptionist/appointment/review/${appointment._id}`}>View</Link>]}
                           >
                               <List.Item.Meta

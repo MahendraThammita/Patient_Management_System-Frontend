@@ -101,6 +101,7 @@ const ReceptionistProfile = (props) => {
             }
         }
         axios.put(url, formData, config).then((res) => {
+            console.log(profileImage);
             if(res.data.status === 200){
                 alert('Profile updated successfully')
                 history.push("/receptionist-dashboard");

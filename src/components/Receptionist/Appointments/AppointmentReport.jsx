@@ -2,9 +2,11 @@ import React, {useEffect, useState} from "react";
 import { Input, Button,  Card, Space, List, DatePicker, Tag } from 'antd';
 import '../../../assets/css/uditha.css'
 import axios from "axios";
-import { DownloadOutlined } from '@ant-design/icons';
+import { DownloadOutlined, CloseOutlined } from '@ant-design/icons';
 import RecepPHeader from "../commonComponents/RecepHeader";
 import SideMenu from "../commonComponents/Menu";
+import moment from "moment";
+import JsPDF from 'jspdf';
 
 const AppointmentReport = () => {
 
@@ -12,12 +14,7 @@ const AppointmentReport = () => {
 
 
     useEffect(() => {
-        const url = "http://localhost:8090/receptionist/appointments/current";
-        axios.get(url).then((res) => {
-
-            setAppointments(res.data.appointments);
-
-        })
+      getAppointments();
     },[]);
 
     function onChange(date, dateString) {
@@ -28,7 +25,21 @@ const AppointmentReport = () => {
             })
     }
 
-    const onSearch = value => console.log(value);
+    const getAppointments = () => {
+        const url = "http://localhost:8090/receptionist/appointments/current";
+        axios.get(url).then((res) => {
+
+            setAppointments(res.data.appointments);
+        })
+    }
+
+    const generatePDF = () => {
+
+        const report = new JsPDF('portrait', 'pt', 'a3');
+        report.html(document.querySelector('#report')).then(() => {
+            report.save('report.pdf');
+        });
+    }
 
     return(
         <div>
@@ -39,7 +50,11 @@ const AppointmentReport = () => {
         <div style={{marginLeft: '20%', marginTop: '-35%'}}>
 
             <div style={{float:'right', marginRight:'5%'}}>
-                <Button type="primary" shape="round" icon={<DownloadOutlined />}>Get Report </Button>
+                <Button onClick={generatePDF} type="primary" shape="round" icon={<DownloadOutlined />}>Get Report </Button>
+
+            <br/>
+                <br/>
+                <Button onClick={getAppointments} type="danger" shape="round" icon={<CloseOutlined />}>Clear filters </Button>
             </div>
 
             <Card
@@ -49,14 +64,14 @@ const AppointmentReport = () => {
                 }
             >
 
-
+<div id="report">
                 <List
                     itemLayout="horizontal"
                     dataSource={appointments}
                     renderItem={appointment => (
 
                         <List.Item
-                            actions={[<Tag color="green">{appointment.appointmentDate}</Tag>,<Tag color="purple">{appointment.status}</Tag>]}
+                            actions={[<Tag color="green">{moment(appointment.appointmentDate).format('YYYY-MM-DD')}</Tag>,<Tag color="purple">{appointment.status}</Tag>]}
                         >
                             <List.Item.Meta
                                 title={<a href="https://ant.design">{appointment.patient.fullName}</a>}
@@ -65,7 +80,8 @@ const AppointmentReport = () => {
                             />
                         </List.Item>
                     )}
-                />,
+                />
+</div>
 
             </Card>,
         </div>

@@ -9,6 +9,7 @@ import NotificationMessage from "./NotificationMessage";
 import RecepPHeader from "../commonComponents/RecepHeader";
 import SideMenu from "../commonComponents/Menu";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import moment from "moment";
 
 const layout = {
     labelCol: {
@@ -119,7 +120,7 @@ const ReviewAppointment = () => {
                             <Input disabled={true} value={doctor}/>
                         </Form.Item>
                         <Form.Item  label="Date">
-                            <Input disabled={true} value={date}/>
+                            <Input disabled={true} value={moment(date).format('YYYY-MM-DD')}/>
                         </Form.Item>
                         <Form.Item  label="Time">
                             <Input disabled={true} value={time}/>
