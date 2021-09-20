@@ -105,7 +105,8 @@ class Appointment extends Component {
             meds: [],
             reports: [],
             selItem : '',
-            ui : ''
+            ui : '',
+            prescription : {}
         }
     }
 
@@ -120,8 +121,9 @@ class Appointment extends Component {
                 Authorization: "Bearer " + window.localStorage.getItem('token')
             }
         }).then(res => res.json()).then(data => {
-            console.log(data);
-            this.setState({ data, patient: data.patient, meds: data.patient.medications, reports: data.reports })
+            console.log("appointment" +data.prescription);
+            
+            this.setState({ data, patient: data.patient, meds: data.patient.medications, reports: data.reports, prescription : data.prescription })
         }).catch(err => {
             console.log(err);
         })
@@ -217,7 +219,7 @@ class Appointment extends Component {
         let component;
 
         if(this.state.selItem === 'pres'){
-            component = <Prescription onclose={this.onclose} patient={this.state.patient}/>
+            component = <Prescription onclose={this.onclose} patient={this.state.patient} prescription={this.state.prescription} appId={this.state.data._id} appData={this.state.data}/>
         }
         //meds = meds[0]
         console.log(this.state.meds);
@@ -228,21 +230,6 @@ class Appointment extends Component {
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                         <Menu.Item key="1" icon={<PieChartOutlined />}>
                             Appointments
-                        </Menu.Item>
-                        <Menu.Item key="2" icon={<DesktopOutlined />}>
-                            Option 2
-                        </Menu.Item>
-                        <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-                            <Menu.Item key="3">Tom</Menu.Item>
-                            <Menu.Item key="4">Bill</Menu.Item>
-                            <Menu.Item key="5">Alex</Menu.Item>
-                        </SubMenu>
-                        <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                            <Menu.Item key="6">Team 1</Menu.Item>
-                            <Menu.Item key="8">Team 2</Menu.Item>
-                        </SubMenu>
-                        <Menu.Item key="9" icon={<FileOutlined />}>
-                            Files
                         </Menu.Item>
                     </Menu>
                 </Sider>
@@ -281,15 +268,14 @@ class Appointment extends Component {
                                             </Col>
                                             <Col span={10} >
                                                 <Title level={4}>{this.state.patient.fullName}</Title>
-                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>Active since 2020</Title>
                                             </Col>
                                         </Row>
 
                                         <hr />
                                         <Row>
-                                            <Col span={10}>
+                                            <Col span={14}>
                                                 <Title level={4}>Date</Title>
-                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>{this.state.data.appointmentDate}</Title>
+                                                <Title level={5} type="secondary" style={{ lineHeight: '1px' }}>{String(this.state.data.appointmentDate).slice(0,10)}</Title>
                                             </Col>
                                             <Col span={10} >
                                                 <Title level={4}>Time</Title>
@@ -315,7 +301,7 @@ class Appointment extends Component {
                                                     loading={loadings[1]}
                                                     onClick={() => this.changeStatus('declined')}
                                                 >
-                                                    Decline Appointment
+                                                    Decline
                                                 </Button>
 
                                                 <Button
