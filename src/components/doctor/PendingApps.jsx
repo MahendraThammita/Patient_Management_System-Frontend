@@ -102,6 +102,8 @@ class PendingApps extends Component {
 
     componentDidMount() {
         //fetch pending appointments
+        let url = "http://localhost:8090/doctorA/pending/" + window.localStorage.getItem('user_id');
+        console.log(url);
         fetch("http://localhost:8090/doctorA/pending/" + window.localStorage.getItem('user_id'), {
             headers: {
                 Authorization: "Bearer " + window.localStorage.getItem('token')
