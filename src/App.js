@@ -34,7 +34,7 @@ import AppointmentReport from "./components/Receptionist/Appointments/Appointmen
 import UpdatePres from './components/Support_Staff/Nurse_Dashboard/UpdatePres';
 import NurseChat from './components/Support_Staff/Nurse_Dashboard/NurseChat';
 import CoLogin from './components/CoLogin/CoLogin';
-
+import ConductTest from './components/Support_Staff/Laboratory_Staff_Dashboard/ConductTest';
 
 
 function App() {
@@ -134,6 +134,9 @@ function App() {
         </Route>
         <Route path="/update-prescription">
           <UpdatePres />
+        </Route>
+        <Route path="/conduct-test">
+          <ConductTest />
         </Route>
       </Switch>
     </div>
