@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb,Button , Dropdown} from 'antd';
 import {
   FileOutlined,
   TeamOutlined,
@@ -9,6 +9,8 @@ import {
   CheckSquareOutlined,
   CalendarOutlined
 } from '@ant-design/icons';
+
+import { Avatar, Image } from 'antd';
 
 import MakeAppointments from './MakeAppointments'
 import MyAppointments from './MyAppointments'
@@ -33,14 +35,31 @@ class PatientDash extends Component {
         }
     }
 
+    logout = () => {
+        // console.log('akila');
+        window.localStorage.clear()
+        // window.localStorage.removeItem('token')
+        window.location.replace('/')
+    }
     
     onCollapse = collapsed => {
         console.log(collapsed);
         this.setState({ collapsed });
     };
 
+    
 
     render() {
+
+        const menu = (
+            <Menu>
+              <Menu.Item onClick={this.logout}>
+                <a target="_blank" rel="noopener noreferrer" >
+                    <Button block type="primary" danger onClick={this.logout}>LOG OUT</Button>
+                </a>
+              </Menu.Item>
+            </Menu>
+        );
 
         var component
         if(this.state.selectedItem === '1'){
@@ -64,6 +83,7 @@ class PatientDash extends Component {
                 {/* <div className="logo"> */}
                     <img src={Logo} alt="" style={{width:"70%", paddingLeft:"20%", paddingTop:"5%", paddingBottom:"5%"}}/>
                 {/* </div> */}
+                
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1" icon={<UserOutlined />} onClick={() => {this.setState({ selectedItem: '1'})}}>
                         My Profile
@@ -88,6 +108,14 @@ class PatientDash extends Component {
                     <Header className="site-layout-background" style={{ padding: "1.2%", display:"flex",backgroundColor:"#001529"}} >
                         <h4 style={{color:"white"}}>Patient Management System</h4>
                         {/* <h6 style={{color:"white"}}>Logout</h6> */}
+                        {/* <Menu.Item onClick={this.logout}>
+                            <Button block type="primary" danger onClick={this.logout}>LOG OUT</Button>
+                        </Menu.Item> */}
+                         {/* <p  >Logout</p> */}
+                         
+                         <Dropdown  overlay={menu} placement="bottomRight" arrow>
+                            <Avatar style={{color:"white",  marginLeft:'70%'}} src={<Image src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}  />
+                        </Dropdown>
                     </Header>
                     <Content style={{ margin: '0 16px' }}>
                         <Breadcrumb style={{ margin: '16px 0' }}>
