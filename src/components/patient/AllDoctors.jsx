@@ -5,7 +5,10 @@ import Doctor from './../../assets/img/Doctor.png'
 import { Input, Space } from 'antd';
 import { AudioOutlined } from '@ant-design/icons';
 import { Modal, Button } from 'antd';
+import { Avatar, Image } from 'antd';
+import { Typography } from 'antd';
 
+const { Title } = Typography;
 const { Search } = Input;
 
 const { Meta } = Card;
@@ -18,7 +21,8 @@ class AllDoctors extends Component {
         this.state = {
             patient:window.localStorage.getItem('id'),
             doctors:[],
-            visible:false
+            visible:false,
+            selectedDoc:{}
         }
     }
     fetchDoctors = () =>{
@@ -34,9 +38,11 @@ class AllDoctors extends Component {
         this.fetchDoctors()
     }
 
-    showModal = (id) => {
+    showModal = (item) => {
+        console.log(item);
         this.setState({
-            visible : true
+            visible : true,
+            selectedDoc : item
         });
       };
 
@@ -72,7 +78,7 @@ class AllDoctors extends Component {
                                 cover={<img alt="example" src={"http://localhost:8090/doctor/" + item.profileImage} style={{matgin:'2%'}}/>}
                             >
                                 <Meta title={item.specialty} description="lorem xxxxxxxxx xxxxxxxxx xxxxx" />
-                                <Button type="primary" onClick={() => this.showModal(item._id)} style={{marginTop:'5%'}}>
+                                <Button type="primary" onClick={() => this.showModal(item)} style={{marginTop:'5%'}}>
                                     View More
                                 </Button>
                             </Card>
@@ -83,10 +89,23 @@ class AllDoctors extends Component {
             </Row>
             <br /><br />
             
-            <Modal title="Basic Modal" visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+            <Modal title={this.state.selectedDoc.fullName} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
+                <Row >
+                    <Col span={8}>
+                        <Avatar size={120} src={<Image src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}  />
+                    </Col>
+                    <Col span={16}>
+                        <Title level={5}>Specialization</Title>
+                        <p>{this.state.selectedDoc.specialty}</p>
+                        <br />
+                        <Title level={5}>About Doctor</Title>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Nisi ipsam corrupti voluptatibus ut itaque modi ullam in reprehenderit, 
+                            quaerat corporis ea nesciunt natus dolor voluptates, 
+                            asperiores aspernatur harum ducimus quibusdam.</p>
+                    </Col>
+                    
+                </Row>
             </Modal>
             
         </div>

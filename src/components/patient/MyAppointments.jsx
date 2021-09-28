@@ -146,24 +146,24 @@ class MyAppointments extends Component {
         }
         console.log(data);
     
-        // fetch('http://localhost:8090/appointment/update/'+id,{
-        //     method : 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body : JSON.stringify(data)
-        // }).then(res => res.json()).then(data =>{
-        //     console.log(data.message)
+        fetch('http://localhost:8090/appointment/update/'+id,{
+            method : 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(data)
+        }).then(res => res.json()).then(data =>{
+            console.log(data.message)
   
-        //     if(data.message === 'ok'){
-        //         this.onClose()
-        //         message.success('Appointment Updated Successfully!');
-        //         window.location.replace("/patient")
-        //     }
+            if(data.message === 'ok'){
+                this.onClose()
+                message.success('Appointment Updated Successfully!');
+                window.location.replace("/patient")
+            }
                 
-        // }).catch(err =>{
-        //         console.log(err)
-        // })
+        }).catch(err =>{
+                console.log(err)
+        })
     }
 
     render() {
