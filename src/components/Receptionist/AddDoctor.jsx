@@ -68,6 +68,8 @@ const AddDoctor = () => {
 
     const onFinish = (e) => {
 
+        console.log(doctor_image);
+
         const formData = new FormData();
         formData.append("fullName",fullName);
         formData.append("email",email);
