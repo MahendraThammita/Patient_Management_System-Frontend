@@ -114,12 +114,14 @@ const ViewAppointment = () => {
                     </List.Item>
                 </List>
                     </div>
-                <Button onClick={onDelete} style={{marginLeft:'60%'}} type="danger" htmlType="submit">
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
+                <Button onClick={onDelete} type="danger" htmlType="submit">
                     Delete
                 </Button>
-                <Button onClick={onSubmit} style={{marginLeft:'60%'}} type="primary" htmlType="submit">
+                <Button onClick={onSubmit} style={{marginLeft:'5%'}} type="primary" htmlType="submit">
                     Back
                 </Button>
+                </Form.Item>
             </div>
         </div>
     );

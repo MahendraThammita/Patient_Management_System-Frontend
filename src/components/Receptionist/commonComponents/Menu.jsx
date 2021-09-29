@@ -2,8 +2,8 @@ import {Menu, Button, Layout} from 'antd';
 import React, {useEffect, useState} from "react";
 import {Link, useHistory} from "react-router-dom";
 import {
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
+    SnippetsOutlined ,
+    UnorderedListOutlined ,
     PieChartOutlined, DesktopOutlined, UserOutlined, TeamOutlined, FileOutlined,
 } from '@ant-design/icons';
 
@@ -25,22 +25,22 @@ const SideMenu = () => {
                 <Sider collapsible collapsed={collapsed} onCollapse={toggleCollapsed}>
                     <div className="logo" />
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                        <Menu.Item key="1" icon={<PieChartOutlined />}>
+                        <Menu.Item key="1" icon={<UnorderedListOutlined  />}>
                             <Link to = "/add-doctor">
                                 Appointments
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<PieChartOutlined />}>
+                        <Menu.Item key="2" icon={<TeamOutlined   />}>
                             <Link to = "/add-doctor">
                                 Doctors
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="3" icon={<PieChartOutlined />}>
+                        <Menu.Item key="3" icon={<UserOutlined  />}>
                             <Link to = "/add-doctor">
                                 My Profile
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="4" icon={<PieChartOutlined />}>
+                        <Menu.Item key="4" icon={<SnippetsOutlined  />}>
                             <Link to = "/receptionist-report">
                                 Reports
                             </Link>

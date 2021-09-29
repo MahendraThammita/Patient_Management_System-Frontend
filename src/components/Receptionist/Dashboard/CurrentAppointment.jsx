@@ -48,13 +48,13 @@ const CurrentAppointment = () => {
             >
 
 
-                <List style={{height:'250px', overflow: 'hidden' }}
+                <List style={{height:'250px', overflowY: 'auto' }}
                       itemLayout="horizontal"
                       dataSource={appointments}
                       renderItem={appointment => (
 
                           <List.Item
-                              actions={[<Tag color="purple">{moment(appointment.appointmentDate).format('YYYY-MM-DD')}</Tag>, <Tag color="purple">{appointment.appointmentTimeSlot}</Tag>,
+                              actions={[<Tag color="purple">{moment(appointment.appointmentDate).format('YYYY-MM-DD')}</Tag>, <Tag color="purple">{appointment.appointmentTimeSlot + ((appointment.appointmentTimeSlot >= 12) ? " PM" : " AM") }</Tag>,
                                   <Link to ={`/receptionist/appointment/view/${appointment.doctor._id}/${appointment._id}`}>View</Link>]}
                           >
                               <List.Item.Meta
