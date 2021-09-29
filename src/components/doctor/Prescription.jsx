@@ -151,8 +151,11 @@ class Prescription extends Component {
         }).then(res => res.json()).then(data => {
             console.log(data);
             if (data) {
-                setTimeout(hide, 2500);
-                window.location.reload();
+                setTimeout(hide, 3500);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3500);
+                
             }
         })
 

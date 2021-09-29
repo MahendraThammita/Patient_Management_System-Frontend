@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Layout, Menu, Breadcrumb, Row, Col, Card } from 'antd';
+import { Layout, Menu, Breadcrumb, Row, Col, Card, message } from 'antd';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { Avatar, Image } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
@@ -87,6 +87,8 @@ class DocTemplate extends Component {
         window.localStorage.setItem('user_type','doctor')
         console.log(data.msg._id);
         window.location.replace('/doctor/dashboard')
+      }else{
+        message.error("Authentication failed! check password")
       }
       console.log(data);
     }).catch(err =>{
