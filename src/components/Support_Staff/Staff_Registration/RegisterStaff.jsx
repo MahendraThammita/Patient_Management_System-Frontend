@@ -27,32 +27,6 @@ export default class RegisterStaff extends Component {
         }
     }
 
-    // onFirstnameSelect = (value) => {
-    //     this.setState({firstName : value})
-    // }
-    //
-    // onLastnameSelect = (value) => {
-    //     this.setState({lastName : value})
-    // }
-    //
-    // onNicSelect = (value) => {
-    //     this.setState({NIC : value})
-    // }
-    //
-    // onMobileSelect = (value) => {
-    //     this.setState({mobileNumber : value})
-    // }
-    //
-    // onEmailSelect = (value) => {
-    //     this.setState({email : value})
-    // }
-    // onPasswordSelect = (value) => {
-    //     this.setState({password : value})
-    // }
-    // onRoleSelect = (value) => {
-    //     this.setState({role : value})
-    // }
-
     componentDidUpdate() {
         document.querySelector("body").style.backgroundColor = "#f0f0f0";
     }
