@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import { Table, Tag, Space } from 'antd';
-import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker , Modal} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Popconfirm, message } from 'antd';
 // import Drawer from './PatientDrawer'
+import { Typography } from 'antd';
+import Logo from './../../assets/img/outlined logo.png'
+import JsPDF from 'jspdf';
 
+const { Title } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -26,9 +30,11 @@ class MyAppointments extends Component {
             appointments:[],
             doctor:{},
             visible: false,
+            visibleModal:false,
             columns:[],
             record:{},
             selectedAppointment:{},
+            printAppointment:{},
             doctors:[],
             timeslots:[],
             selectedDoctor:'',
@@ -36,6 +42,35 @@ class MyAppointments extends Component {
             preferedTimeSlot: '',
             patientMeaasage:'',
         }
+    }
+
+    showModal = (record) => {
+        
+        console.log(record.appointmentId)
+        this.setState({
+            visibleModal : true,
+            printAppointment : record
+        });
+    };
+
+    handleOk = () => {
+        this.setState({
+            visibleModal : false
+        });
+    };
+    
+    handleCancel = () => {
+        this.setState({
+            visibleModal : false
+        });
+    };
+
+    generatePDF = () => {
+
+        const report = new JsPDF('portrait', 'pt', 'a3');
+        report.html(document.querySelector('#appointmentReciept')).then(() => {
+            report.save('reciept.pdf');
+        });
     }
 
     showDrawer = (record1) => {
@@ -215,6 +250,29 @@ class MyAppointments extends Component {
                 ),
             },
             {
+                title: 'Reciept',
+                dataIndex: 'appointmentStatus',
+                key: 'appointmentStatus',
+                render: (appointmentStatus, record) => (
+                    <>
+                        {
+                            appointmentStatus.map(item => {
+                                let status = item == "true" ? '' : 'disable'
+                                return(
+                                    // <Tag color={color}>
+                                    //     {status.toUpperCase()}
+                                    // </Tag>
+                                    <Button disabled={status} onClick={()=> this.showModal(record)}>
+                                        Print Reciept
+                                    </Button>
+                                )
+                            })
+                            
+                        }
+                    </>
+                ),
+            },
+            {
                 title: 'Action',
                 dataIndex: 'appointmentId',
                 key: 'appointmentId',
@@ -227,7 +285,7 @@ class MyAppointments extends Component {
                         </Button>
 
                         <Popconfirm
-                            title="Are you sure yo want to delete this appointment?"
+                            title="Are you sure you want to delete this appointment?"
                             onConfirm={() => this.onDelete(record.appointmentId)}
                             onCancel={cancel}
                             okText="Delete"
@@ -249,6 +307,45 @@ class MyAppointments extends Component {
                 <h3 style={{textAlign:"center", marginTop:"1%", marginBottom:"3%"}}>My Appointments</h3>
                 
                 <Table columns={this.state.columns} dataSource={this.state.appointments}/>
+
+
+                <Modal title={'Appointment : '+this.state.printAppointment.appointmentId} visible={this.state.visibleModal} onOk={this.generatePDF} onCancel={this.handleCancel}>
+
+                    <div id="appointmentReciept">
+                        <img src={Logo} alt="" width="150px" style={{ marginLeft:"150px", marginBottom:"10px"}}/>
+                        <Title level={4} style={{ marginLeft:"125px", marginBottom:"30px"}}>Appointment Receipt</Title>
+                        <hr />
+                        <div style={{display:'flex', textAlign:'center', marginLeft:"40px"}}>
+                            <div>
+                                <Title level={5}>Appointment ID</Title>
+                                <p>{this.state.printAppointment.appointmentId}</p>
+                            </div>
+                            <div style={{ marginLeft:"25px"}}>
+                                <Title level={5}>Appointment Date</Title>
+                                <p>{this.state.printAppointment.appointmentDate}</p>
+                            </div>
+                        </div>
+                        <div style={{display:'flex', textAlign:'center', marginLeft:"55px"}}>
+                            <div>
+                                <Title level={5}>Appointment Time Slot</Title>
+                                <p>{this.state.printAppointment.appointmentTimeSlot}</p>
+                            </div>
+                            <div style={{ marginLeft:"30px"}}>
+                                <Title level={5}>Doctor</Title>
+                                <p>{this.state.printAppointment.doctor}</p>
+                            </div>
+                        </div>
+                        <div style={{ marginLeft:"30px", marginRight:"20px", textAlign:'center'}}>
+                            <Title level={5}>Instructions</Title>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                                Nisi ipsam corrupti voluptatibus ut itaque modi ullam in reprehenderit, 
+                                quaerat corporis ea nesciunt natus dolor voluptates, 
+                                asperiores aspernatur harum ducimus quibusdam.</p>
+                        </div>
+                        
+                    </div>
+
+                </Modal>
 
                 <Drawer
                     title="Update Your appointment"
