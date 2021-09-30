@@ -44,7 +44,7 @@ class AllDoctors extends Component {
             visible : true,
             selectedDoc : item
         });
-      };
+    };
 
     handleOk = () => {
         this.setState({

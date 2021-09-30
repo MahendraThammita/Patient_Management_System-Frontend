@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Tag, Space } from 'antd';
-import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker , Modal} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Popconfirm, message } from 'antd';
 // import Drawer from './PatientDrawer'
@@ -26,6 +26,7 @@ class MyAppointments extends Component {
             appointments:[],
             doctor:{},
             visible: false,
+            visibleModal:false,
             columns:[],
             record:{},
             selectedAppointment:{},
@@ -37,6 +38,25 @@ class MyAppointments extends Component {
             patientMeaasage:'',
         }
     }
+
+    showModal = (item) => {
+        console.log(item);
+        this.setState({
+            visibleModal : true
+        });
+    };
+
+    handleOk = () => {
+        this.setState({
+            visible : false
+        });
+    };
+    
+    handleCancel = () => {
+        this.setState({
+            visible : false
+        });
+    };
 
     showDrawer = (record1) => {
         this.forceUpdate()
@@ -215,6 +235,30 @@ class MyAppointments extends Component {
                 ),
             },
             {
+                title: 'Reciept',
+                dataIndex: 'appointmentStatus',
+                key: 'appointmentStatus',
+                render: appointmentStatus => (
+                    <>
+                        {
+                            appointmentStatus.map(item => {
+                                let color = item == "true" ? 'green' : 'red'
+                                let status = item == "true" ? 'Approved' : 'Pending'
+                                return(
+                                    // <Tag color={color}>
+                                    //     {status.toUpperCase()}
+                                    // </Tag>
+                                    <Button type="primary" onClick={()=> this.showModal(record)}>
+                                        Update
+                                    </Button>
+                                )
+                            })
+                            
+                        }
+                    </>
+                ),
+            },
+            {
                 title: 'Action',
                 dataIndex: 'appointmentId',
                 key: 'appointmentId',
@@ -227,7 +271,7 @@ class MyAppointments extends Component {
                         </Button>
 
                         <Popconfirm
-                            title="Are you sure yo want to delete this appointment?"
+                            title="Are you sure you want to delete this appointment?"
                             onConfirm={() => this.onDelete(record.appointmentId)}
                             onCancel={cancel}
                             okText="Delete"
@@ -249,6 +293,20 @@ class MyAppointments extends Component {
                 <h3 style={{textAlign:"center", marginTop:"1%", marginBottom:"3%"}}>My Appointments</h3>
                 
                 <Table columns={this.state.columns} dataSource={this.state.appointments}/>
+
+
+                <Modal title="{this.state.selectedDoc.fullName} " visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
+
+                            <Title level={5}>Specialization</Title>
+                            <p>"{this.state.selectedDoc.specialty} "</p>
+                            <br />
+                            <Title level={5}>About Doctor</Title>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                                Nisi ipsam corrupti voluptatibus ut itaque modi ullam in reprehenderit, 
+                                quaerat corporis ea nesciunt natus dolor voluptates, 
+                                asperiores aspernatur harum ducimus quibusdam.</p>
+
+                </Modal>
 
                 <Drawer
                     title="Update Your appointment"

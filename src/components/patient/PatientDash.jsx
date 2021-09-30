@@ -17,7 +17,7 @@ import MyAppointments from './MyAppointments'
 import AppointmentCalendar from './AppointmentCalendar';
 import Profile from './PatientProfile';
 import AllDoctors from './AllDoctors';
-
+import AppointmentRecipts from './AppointmentRecipts';
 
 import Logo from './../../assets/img/pmslogo.png'
 import ChatPat from '../doctor/ChatPat';
@@ -72,6 +72,8 @@ class PatientDash extends Component {
             component = <MakeAppointments/>
         }else if(this.state.selectedItem === '5'){
             component = <AppointmentCalendar/>
+        }else if(this.state.selectedItem === '6'){
+            component = <AppointmentRecipts/>
         }else if(this.state.selectedItem === '7'){
             component = <ChatPat/>
         }
@@ -96,7 +98,7 @@ class PatientDash extends Component {
                         <Menu.Item key="4" icon={<PlusCircleOutlined />} onClick={() => {this.setState({ selectedItem: '4'})}}>Create a new one</Menu.Item>
                         <Menu.Item key="5" icon={<CalendarOutlined />} onClick={() => {this.setState({ selectedItem: '5'})}}>Schedule</Menu.Item>
                     </SubMenu>
-                    <Menu.Item key="6" icon={<FileOutlined />}>
+                    <Menu.Item key="6" icon={<FileOutlined />} onClick={() => {this.setState({ selectedItem: '6'})}}>
                         Reports
                     </Menu.Item>
                     <Menu.Item key="7" icon={<FileOutlined />} onClick={() => {this.setState({ selectedItem: '7'})}}>
@@ -113,7 +115,7 @@ class PatientDash extends Component {
                         </Menu.Item> */}
                          {/* <p  >Logout</p> */}
                          
-                         <Dropdown  overlay={menu} placement="bottomRight" arrow>
+                        <Dropdown  overlay={menu} placement="bottomRight" arrow>
                             <Avatar style={{color:"white",  marginLeft:'70%'}} src={<Image src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}  />
                         </Dropdown>
                     </Header>
