@@ -17,27 +17,56 @@ export default class SampleColectionsTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            ComponantData : {},
+            firstTestPatientName : '',
+            firstTestName : '',
+            firstTestDoctorName : '',
+            firstTestTimeSlot : '',
+            firstTestId : '',
         }
         this.onDropdownMenuClick = this.onDropdownMenuClick.bind(this);
 
     }
+    handleChange = (e) =>{
+        localStorage.setItem("selected_test",this.state.firstTestId);
+        window.location.replace('/test-request')
+    }
+
     onDropdownMenuClick = ({ key }) => {
         message.info(`Click on item ${key}`);
     };
+
+    componentDidMount() {
+        //fetch pending appointments
+        fetch("http://localhost:8090/tests/getSampleCollections_today", {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ ComponantData:data , 
+            firstTestPatientName : data.sortedtodayTests[0].patient.fullName,
+            firstTestName : data.sortedtodayTests[0].testName,
+            firstTestDoctorName : data.sortedtodayTests[0].doctor.fullName,
+            firstTestTimeSlot:data.sortedtodayTests[0].TimeSlot,
+            firstTestId:data.sortedtodayTests[0]._id})
+        })
+    }
     render() {
         const menu = (
             <Menu onClick={this.onDropdownMenuClick}>
                 <Menu.Item key="1" icon={<LogoutOutlined />}>Log Out</Menu.Item>
             </Menu>
         );
+        var test = this.state.sortedtodayTests ? this.state.sortedtodayTests[0].patient.fullName : '';
         var data = [
             {
                 type: 'Compleated',
-                value: 28,
+                value: this.state.ComponantData.completePercentage,
             },
             {
                 type: 'To be Compleated',
-                value: 72,
+                value: this.state.ComponantData.incompletePercentage,
             },
         ];
         var config = {
@@ -72,7 +101,7 @@ export default class SampleColectionsTab extends Component {
                         textOverflow: 'ellipsis',
                         fontSize: 32,
                     },
-                    content: '28%',
+                    content: this.state.ComponantData.completePercentage+'%',
                 },
             },
         };
@@ -167,7 +196,7 @@ export default class SampleColectionsTab extends Component {
                                                         <Badge color="#39C0ED" /> <Text type="secondary" strong>Compleated </Text>
                                                     </Col>
                                                     <Col span={2}>
-                                                        <Text strong>28 </Text>
+                                                        <Text strong>{this.state.ComponantData.compleatedTests} </Text>
                                                     </Col>
                                                 </Row>
                                                 <Row justify='start' style={{ marginTop: 10 }}>
@@ -175,7 +204,7 @@ export default class SampleColectionsTab extends Component {
                                                         <Badge color="#cccccc" /><Text type="secondary" strong>To be Compleated </Text>
                                                     </Col>
                                                     <Col span={2}>
-                                                        <Text strong>28 </Text>
+                                                        <Text strong>{this.state.ComponantData.testsToComplete} </Text>
                                                     </Col>
                                                 </Row>
                                                 <Row justify='start' style={{ marginTop: 30 }}>
@@ -190,14 +219,14 @@ export default class SampleColectionsTab extends Component {
                                                     </Col>
                                                     <Col span={20} offset={1}>
                                                         <Row>
-                                                            <Text strong>Lorem, ipsum dolor <Link href="#" target="_blank"> Blood Sugar report </Link> requested by doctor  <Text type="success"> Doctor Name. </Text></Text>
+                                                            <Text strong> {this.state.firstTestPatientName}<Link href="#" target="_blank">  {this.state.firstTestName} </Link> requested by doctor  <Text type="success"> {this.state.firstTestDoctorName}. </Text></Text>
                                                         </Row>
                                                         <Row>
-                                                            <Title strong type="danger" level={4}>16:25:00</Title>
+                                                            <Title strong type="danger" level={4}>{this.state.firstTestTimeSlot + ':00'}</Title>
                                                         </Row>
                                                         <Row>
                                                             <Col span={14} offset={10}>
-                                                                <Link href="https://ant.design" target="_blank" strong>
+                                                                <Link onClick={this.handleChange} target="_blank" strong>
                                                                     <EditTwoTone /> Record Collection
                                                                 </Link>
                                                             </Col>

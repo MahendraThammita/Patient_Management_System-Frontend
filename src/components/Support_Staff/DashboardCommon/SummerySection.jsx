@@ -11,7 +11,21 @@ export default class SummerySection extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            ComponantData : {},
         }
+        
+    }
+
+    componentDidMount() {
+        //fetch pending appointments
+        fetch("http://localhost:8090/tests/getSampleCollections_today", {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ ComponantData:data })
+        })
     }
 
     render() {
@@ -31,7 +45,7 @@ export default class SummerySection extends Component {
 
                     </Row>
                     <Row justify="end" align="top">
-                        <Title level={2}>56</Title>
+                        <Title level={2}>{this.props.appointmentsCountForToday + this.state.ComponantData.testsCountForToday}</Title>
                     </Row>
 
                     <Row justify="end" align="bottom">
@@ -45,7 +59,7 @@ export default class SummerySection extends Component {
                         <Title level={3} type="secondary">Sample Collections <ExperimentOutlined /></Title>
                     </Row>
                     <Row justify="end" align="top">
-                        <Title level={2}>28</Title>
+                        <Title level={2}>{this.state.ComponantData.testsCountForToday}</Title>
                     </Row>
                 </Content>
             </div>

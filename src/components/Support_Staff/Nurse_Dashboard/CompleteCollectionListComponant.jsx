@@ -15,9 +15,31 @@ export default class CompleteCollectionListComponant extends Component {
         this.state = {
             searchText: '',
             searchedColumn: '',
+            ComponantData:{},
+            testsList:[]
         }
-
+        this.createRequest = this.createRequest.bind(this);
     }
+
+    createRequest = (testId) =>{
+        localStorage.setItem("selected_test",testId);
+        window.location.replace('/test-request')
+      }
+
+    componentDidMount() {
+        //fetch pending appointments
+        fetch("http://localhost:8090/tests/getSampleCollections_today", {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ ComponantData:data , 
+            testsList : data.sortedtodayTests})
+        })
+    }
+
+
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -99,17 +121,29 @@ export default class CompleteCollectionListComponant extends Component {
 
         const columns = [
             {
-                title: 'Name',
-                dataIndex: 'name',
-                key: 'name',
+                title: "Id",
+                key: "id",
+                dataIndex: "id",
+                hidden: true
+              },
+            {
+                title: 'Test Name',
+                dataIndex: 'testName',
+                key: 'testName',
                 render: text => <a>{text}</a>,
-                ...this.getColumnSearchProps('name'),
+                ...this.getColumnSearchProps('testName'),
             },
             {
-                title: 'Doctor',
-                dataIndex: 'doctor',
-                key: 'doctor',
-                ...this.getColumnSearchProps('doctor'),
+                title: 'Patient Name',
+                dataIndex: 'patientName',
+                key: 'patientName',
+                ...this.getColumnSearchProps('patientName'),
+            },
+            {
+                title: 'Reffered By',
+                dataIndex: 'doctorName',
+                key: 'doctorName',
+                ...this.getColumnSearchProps('doctorName'),
             },
             {
                 title: 'Time',
@@ -125,7 +159,7 @@ export default class CompleteCollectionListComponant extends Component {
                     <>
                         {(status => {
                             let color = 'black';
-                            if (status === 'New') {
+                            if (status === 'Speciman Pending') {
                                 color = 'volcano';
                             }
                             else if (status === 'Sample Collected') {
@@ -151,13 +185,7 @@ export default class CompleteCollectionListComponant extends Component {
                 render: (text, record) => (
                     <div>
                         <Tag color={'green'}>
-                            <a onClick={() => window.location.replace('/test-request')}>Create Test Request</a>
-                        </Tag>
-                        <Tag color={'geekblue'}>
-                            <a onClick={() => window.location.replace('/test-request')}>Edit Test Request</a>
-                        </Tag>
-                        <Tag color={'green'}>
-                            <a onClick={() => window.location.replace('/test-request')}>Send Test Request</a>
+                            <a onClick={() => this.createRequest(record.id)}>Create Test Request</a>
                         </Tag>
                     </div>
 
@@ -165,29 +193,18 @@ export default class CompleteCollectionListComponant extends Component {
             },
         ];
 
-        const data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                doctor: 'Mark Wood',
-                time: '19:20:00',
-                status: 'Closed',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                doctor: 'Mark Wood',
-                time: '19:30:00',
-                status: 'Sample Collected',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                doctor: 'Mark Wood',
-                time: '19:40:00',
-                status: 'New',
-            },
-        ];
+        var testList = [];
+        this.state.testsList.map((item)=>{   
+            var testObj = {}
+            testObj.id = item._id;
+            testObj.testName = item.testName;
+            testObj.patientName = item.patient.fullName;
+            testObj.doctorName = item.doctor.fullName;
+            testObj.time = item.TimeSlot;
+            testObj.status = item.status;
+            testList.push(testObj);
+            console.log('appointment List : ' , testList);
+          }); 
 
 
         return (
@@ -205,7 +222,7 @@ export default class CompleteCollectionListComponant extends Component {
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <Table columns={columns} dataSource={data} pagination={{ pageSize: 3 }} />
+                                <Table columns={columns} dataSource={testList} pagination={{ pageSize: 3 }} />
                             </Col>
                         </Row>
                     </Content>

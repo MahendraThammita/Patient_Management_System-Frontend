@@ -10,17 +10,31 @@ export default class CollectionsChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            ComponantData:{},
         }
     }
+
+    componentDidMount() {
+        //fetch pending appointments
+        fetch("http://localhost:8090/tests/getSampleCollections_today", {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ ComponantData:data })
+        })
+    }
+
     render() {
         var data = [
             {
                 type: 'Compleated',
-                value: 28,
+                value: this.state.ComponantData.completePercentage,
             },
             {
                 type: 'To be Compleated',
-                value: 72,
+                value: this.state.ComponantData.incompletePercentage,
             },
         ];
         var config = {
@@ -55,7 +69,7 @@ export default class CollectionsChart extends Component {
                         textOverflow: 'ellipsis',
                         fontSize: 32,
                     },
-                    content: '28%',
+                    content: this.state.ComponantData.completePercentage+'%',
                 },
             },
         };
@@ -81,7 +95,7 @@ export default class CollectionsChart extends Component {
                             <Badge color="#00B74A" /> <Text type="secondary" strong>Compleated </Text>
                         </Col>
                         <Col span={2}>
-                            <Text strong>28 </Text>
+                            <Text strong>{this.state.ComponantData.testsToComplete} </Text>
                         </Col>
                     </Row>
                     <Row justify='space-around' style={{ marginTop: 10 }}>
@@ -89,7 +103,7 @@ export default class CollectionsChart extends Component {
                             <Badge color="#cccccc" /><Text type="secondary" strong>To be Compleated </Text>
                         </Col>
                         <Col span={2}>
-                            <Text strong>28 </Text>
+                            <Text strong>{this.state.ComponantData.compleatedTests}  </Text>
                         </Col>
                     </Row>
                 </Content>
