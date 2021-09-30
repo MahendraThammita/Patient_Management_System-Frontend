@@ -83,14 +83,14 @@ export default class CategorizedTests extends Component {
                             <Menu
                                 theme="dark"
                                 mode="inline"
-                                defaultSelectedKeys={['1']}
+                                defaultSelectedKeys={['2']}
                                 defaultOpenKeys={['sub1']}
                                 style={{ height: '100%', borderRight: 0 }}
                             >
-                                <Menu.Item key="1" icon={<HomeFilled />}>
+                                <Menu.Item key="1" icon={<HomeFilled />} onClick={() => window.location.replace('/labStaff-dashboard')}>
                                     Home
                                 </Menu.Item>
-                                <Menu.Item key="2" icon={<TabletFilled />}>
+                                <Menu.Item key="2" icon={<TabletFilled />} onClick={() => window.location.replace('/categorized-tests')}>
                                     Tests
                                 </Menu.Item>
                             </Menu>
