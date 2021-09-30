@@ -12,6 +12,10 @@ export default class JobQueueItemComponant extends Component {
         this.state = {
         }
     }
+    handleChange = (e) =>{
+        localStorage.setItem("selected_labTest",this.props.test._id);
+        window.location.replace('/conduct-test')
+    }
     render() {
         return (
             <div>
@@ -24,14 +28,19 @@ export default class JobQueueItemComponant extends Component {
                     </Col>
                     <Col span={20}>
                         <Row>
-                            <Text strong><Link href="#" target="_blank"> Fasting Blood Sugar Test : </Link><Text type="success"> Allen Brian </Text></Text>
+                            {this.props.test.testName && this.props.test.patient.fullName &&
+                                <Text strong><Link href="#" target="_blank"> {this.props.test.testName} : </Link><Text type="success"> {this.props.test.patient.fullName} </Text></Text>
+                            }
                         </Row>
                         <Row>
-                            <Text strong>Collection Time : <Text strong type="danger" level={4}>16:25:00</Text></Text>
+                            {this.props.test.TimeSlot && 
+                                <Text strong>Collection Time : <Text strong type="danger" level={4}>{this.props.test.TimeSlot}:00</Text></Text>
+                            }
+                            
                         </Row>
                         <Row>
                             <Col span={14} offset={10}>
-                                <Link href="https://ant.design" target="_blank" strong>
+                                <Link onClick={this.handleChange} target="_blank" strong>
                                     <EditTwoTone /> Start Testing
                                 </Link>
                             </Col>
