@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Row, Col, Image, Layout, Typography, Dropdown, Menu, Badge, Avatar, message, Input, Button, InputNumber, Radio, Select } from 'antd';
+import { Form, Row, Col, Image, Layout, Typography, Dropdown, Menu, Badge, Avatar, message, Input, Button, InputNumber, notification, Select } from 'antd';
 import { TabletFilled, FileAddFilled, HomeFilled, BellOutlined, DownOutlined, LogoutOutlined, DashboardOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import '../../../assets/css/mahen_general.css';
@@ -7,6 +7,7 @@ import WelcomeSection from '../DashboardCommon/WelcomeSection'
 import OverviewCard from '../DashboardCommon/OverviewCard'
 import PatientCard from '../DashboardCommon/PatientCard'
 import Logo from '../../../assets/img/pmslogo.png'
+import axios from "axios";
 
 const { Title, Text } = Typography;
 const { Header, Content, Sider } = Layout;
@@ -15,7 +16,13 @@ export default class NurseLabRequestComponant extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            form: Form
+            form: Form,
+            patientName: '', 
+            patientage: '', 
+            patient_Id : '' , 
+            testName : '',
+            appointmentId : '',
+            testId : ''
         }
         this.onDropdownMenuClick = this.onDropdownMenuClick.bind(this);
         this.onFinish = this.onFinish.bind(this);
@@ -25,13 +32,61 @@ export default class NurseLabRequestComponant extends Component {
 
     }
 
+    fetchTests = () =>{
+        console.log('selTest : ' , window.localStorage.getItem('selected_test'))
+        fetch('http://localhost:8090/tests/getById/'+window.localStorage.getItem('selected_test'))
+        .then(res => res.json()).then(data =>{
+          this.setState({appointment: data.data[0] , 
+            patientName: data.data[0].patient.fullName , 
+            patientage: data.age , 
+            patient_Id : data.data[0].patient._id , 
+            testName : data.data[0].testName ,
+            appointmentId : data.data[0]._id,
+            testId:data.data[0]._id});
+          console.log(data);
+          window.localStorage.removeItem("selected_test");
+        }).catch(err =>{
+          console.log(err);
+        })
+    }
+
+    componentDidMount(){
+        if(typeof(window.localStorage.getItem('selected_test')) == 'undefined' || window.localStorage.getItem('selected_test') == null){
+            window.location.replace('/Nurse-samples')
+        }
+        this.fetchTests()
+    }
+
     onDropdownMenuClick = ({ key }) => {
         message.info(`Click on item ${key}`);
     };
 
     onFinish = (values) => {
-        console.log('Success:', values);
+        console.log('Inside on finish ,: ' , values)
+        const data = {
+            _id : this.state.testId,
+            specimonNumber: values.specimanNo,
+            specimonType: values.SpecimanType,
+            status : "New",
+        }
+        const url = "http://localhost:8090/tests/createRequest";
+            axios.put(url, data).then((res) => {
+                if(res.data.message === "ok"){
+                    notification['success']({
+                        message: 'Successfully Created the lab test request!',
+                        duration:10,
+                        description:
+                          'You have provided the sample and successfully created a lab test request to the lab staff',
+                      });
+                      setTimeout(function(){ window.location.replace('/Nurse-samples'); }, 3000);
+                    
+                }
+                else{
+                    alert("Something went wrong");
+                }
+            })
     };
+
 
     onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -45,7 +100,10 @@ export default class NurseLabRequestComponant extends Component {
                 <Menu.Item key="1" icon={<LogoutOutlined />}>Log Out</Menu.Item>
             </Menu>
         );
+        if(this.state.patientName === '')
+            return null;
         return (
+            
             <div>
                 <Layout>
                     <Header className="header">
@@ -138,20 +196,19 @@ export default class NurseLabRequestComponant extends Component {
                                                     name="basic"
                                                     labelCol={{ span: 6 }}
                                                     wrapperCol={{ span: 12 }}
-                                                    onFinish={this.state.onFinish}
-                                                    onFinishFailed={this.state.onFinishFailed}
+                                                    onFinish={this.onFinish}
+                                                    onFinishFailed={this.onFinishFailed}
                                                 >
                                                     <Form.Item
                                                         label="Full Name"
                                                         name="fullName"
-                                                        rules={[{ required: true, message: 'Please input the fullname of the patient!' }]}
                                                     >
-                                                        <Input />
+                                                        <Input disabled={true} defaultValue={this.state.patientName}/>
                                                     </Form.Item>
 
                                                     <Form.Item label="Age">
                                                         <Form.Item name="patient-age" noStyle>
-                                                            <InputNumber min={0} />
+                                                            <InputNumber disabled={true} min={0} defaultValue={this.state.patientage}/>
                                                         </Form.Item>
                                                         <span className="ant-form-text"> Years</span>
                                                     </Form.Item>
@@ -159,9 +216,8 @@ export default class NurseLabRequestComponant extends Component {
                                                     <Form.Item
                                                         label="Test Name"
                                                         name="testName"
-                                                        rules={[{ required: true, message: 'Please input the name of the test!' }]}
                                                     >
-                                                        <Input />
+                                                        <Input disabled={true} defaultValue={this.state.testName}/>
                                                     </Form.Item>
                                                     <Form.Item
                                                         label="Speciman Number"
@@ -172,8 +228,8 @@ export default class NurseLabRequestComponant extends Component {
                                                     </Form.Item>
                                                     <Form.Item
                                                         label="Speciman Type"
-                                                        name="specimanNo"
-                                                        rules={[{ required: true, message: 'Please input the speciman number!' }]}
+                                                        name="SpecimanType"
+                                                        rules={[{ required: true, message: 'Please Select the speciman type!' }]}
                                                     >
                                                         <Select defaultValue="Selecr Speciman Type" style={{ width: 120 }} onChange={this.state.handleChange}>
                                                             <Option value="1">Blood</Option>
@@ -187,7 +243,7 @@ export default class NurseLabRequestComponant extends Component {
                                                                 Submit
                                                             </Button>
                                                             <Button style={{ marginLeft: 15 }}>
-                                                                Save
+                                                                Cancel
                                                             </Button></Col>
                                                     </Row>
                                                 </Form>
@@ -198,7 +254,7 @@ export default class NurseLabRequestComponant extends Component {
                                 </Col>
                                 <Col span={6}>
                                     <OverviewCard />
-                                    <PatientCard />
+                                    <PatientCard patientName={this.state.patientName} age={this.state.patientage} doctorName = {this.state.appointment.doctor.fullName} time={this.state.appointment.TimeSlot}/>
                                 </Col>
                             </Row>
 
