@@ -11,6 +11,21 @@ const { Header, Content, Sider } = Layout;
 export default class WelcomeSection extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            ComponantData:{},
+        }
+    }
+
+    componentDidMount() {
+        //fetch pending appointments
+        fetch("http://localhost:8090/tests/getSampleCollections_today", {
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            this.setState({ ComponantData:data })
+        })
     }
     render() {
         return (
@@ -63,7 +78,7 @@ export default class WelcomeSection extends Component {
                                         <Text strong type="secondary"> Sample Gatherings(Today)</Text>
                                     </Row>
                                     <Row>
-                                        <Title level={3}>56</Title>
+                                        <Title level={3}>{this.state.ComponantData.testsCountForToday}</Title>
                                     </Row>
                                 </Col>
                                 <Col span={8}>

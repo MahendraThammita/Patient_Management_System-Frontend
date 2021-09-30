@@ -157,12 +157,11 @@ export default class NurseLabRequestComponant extends Component {
                                                     </Form.Item>
 
                                                     <Form.Item
-                                                        label="Test List"
+                                                        label="Test Name"
                                                         name="testName"
                                                         rules={[{ required: true, message: 'Please input the name of the test!' }]}
                                                     >
                                                         <Input />
-                                                        <Input style={{ marginTop: 10 }} />
                                                     </Form.Item>
                                                     <Form.Item
                                                         label="Speciman Number"
@@ -172,7 +171,7 @@ export default class NurseLabRequestComponant extends Component {
                                                         <Input />
                                                     </Form.Item>
                                                     <Form.Item
-                                                        label="Speciman Number"
+                                                        label="Speciman Type"
                                                         name="specimanNo"
                                                         rules={[{ required: true, message: 'Please input the speciman number!' }]}
                                                     >
