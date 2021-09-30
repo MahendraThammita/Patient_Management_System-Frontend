@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Form, Input, Select, Radio, Button, Tooltip, AutoComplete, Row, Col, Image, Layout, Typography, Dropdown, Menu, Badge, Avatar, message } from 'antd';
+import { Form, Input, Select, Radio, Button, Tooltip, AutoComplete, Row, Col, Image, Layout, Typography, Dropdown, Menu, Badge, Avatar, notification } from 'antd';
 import { TabletFilled, HomeFilled, BellOutlined, DownOutlined, LogoutOutlined, MinusOutlined, DashboardOutlined, PlusOutlined, CarryOutFilled, EditFilled, CopyFilled, SkinFilled, ReconciliationFilled } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import '../../../assets/css/mahen_general.css';
 import WelcomeSection from '../DashboardCommon/WelcomeSection'
 import OverviewCard from '../DashboardCommon/OverviewCard'
 import Logo from '../../../assets/img/pmslogo.png'
+import axios from "axios";
 
 const { Option } = Select;
 const { Title, Text, Link } = Typography;
@@ -18,13 +19,78 @@ export default class ConductTest extends Component {
         this.state = {
             form: Form,
             testOption: 'New',
-            testCategoryObjectsArray: [{ Item: "", ItemValue: "", Remark: "" }]
+            testCategoryObjectsArray: [{ Item: "", ItemValue: "", Remark: "" }],
+            patientName: '', 
+            patientage: '', 
+            patient_Id : '' , 
+            testName : '',
+            appointmentId : '',
+            testId : '',
+            doctorName: '',
+            specialRemarks:''
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleRemoveClick = this.handleRemoveClick.bind(this);
         this.handleAddClick = this.handleAddClick.bind(this);
+        this.saveReport = this.saveReport.bind(this);
+
     }
 
+    saveReport = () =>{
+        const data = {
+            _id : this.state.testId,
+            specialRemarks: this.state.specialRemarks,
+            results: this.state.testCategoryObjectsArray,
+            status : "InProgress",
+        }
+        const url = "http://localhost:8090/tests/saveReport";
+            axios.put(url, data).then((res) => {
+                if(res.data.message === "ok"){
+                    notification['success']({
+                        message: 'Successfully Saved the lab test with result!',
+                        duration:10,
+                        description:
+                          'You have saved the lab test with "In Progress" and you will be able to edi the report at any time.',
+                      });
+                      setTimeout(function(){ window.location.replace('/categorized-tests'); }, 2000);
+                    
+                }
+                else{
+                    alert("Something went wrong");
+                }
+            })
+    }
+
+    fetchTests = () =>{
+        console.log('selTest : ' , window.localStorage.getItem('selected_labTest'))
+        fetch('http://localhost:8090/tests/getByIdForStaff/'+window.localStorage.getItem('selected_labTest'))
+        .then(res => res.json()).then(data =>{
+          this.setState({appointment: data.data[0] , 
+            patientName: data.data[0].patient.fullName , 
+            patientage: data.age , 
+            patient_Id : data.data[0].patient._id , 
+            testName : data.data[0].testName ,
+            appointmentId : data.data[0]._id,
+            testId:data.data[0]._id,
+            doctorName:data.data[0].doctor.fullName});
+          console.log(data);
+          window.localStorage.removeItem("selected_labTest");
+        }).catch(err =>{
+          console.log(err);
+        })
+    }
+
+    componentDidMount(){
+        if(typeof(window.localStorage.getItem('selected_labTest')) == 'undefined' || window.localStorage.getItem('selected_labTest') == null){
+            window.location.replace('/categorized-tests')
+        }
+        this.fetchTests()
+    }
+
+    handleRemarkChange = (e) =>{
+        this.setState({specialRemarks:e.target.value});
+        console.log(this.state.specialRemarks)
+    }
     // handle input change
     handleInputChange = (e, index) => {
         let id = '';
@@ -68,6 +134,8 @@ export default class ConductTest extends Component {
                 <Menu.Item key="1" icon={<LogoutOutlined />}>Log Out</Menu.Item>
             </Menu>
         );
+        if(this.state.patientName === '' && this.state.doctorName === '')
+            return null;
         return (
             <div>
                 <Layout>
@@ -160,7 +228,7 @@ export default class ConductTest extends Component {
                                                         </Row>
                                                         <Row style={{ paddingTop: 0 }}>
                                                             <Col span={3}></Col>
-                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>Fasting Blood Sugar</Text>
+                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>{this.state.testName}</Text>
                                                         </Row>
 
                                                     </Col>
@@ -182,7 +250,7 @@ export default class ConductTest extends Component {
                                                         </Row>
                                                         <Row style={{ paddingTop: 0 }}>
                                                             <Col span={3}></Col>
-                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>Fasting Blood Sugar</Text>
+                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>{this.state.patientName }</Text>
                                                         </Row>
 
                                                     </Col>
@@ -204,7 +272,7 @@ export default class ConductTest extends Component {
                                                         </Row>
                                                         <Row style={{ paddingTop: 0 }}>
                                                             <Col span={3}></Col>
-                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>Fasting Blood Sugar</Text>
+                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>SPEC0159</Text>
                                                         </Row>
 
                                                     </Col>
@@ -228,7 +296,7 @@ export default class ConductTest extends Component {
                                                         </Row>
                                                         <Row style={{ paddingTop: 0 }}>
                                                             <Col span={3}></Col>
-                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>Fasting Blood Sugar</Text>
+                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>{this.state.doctorName}</Text>
                                                         </Row>
 
                                                     </Col>
@@ -250,7 +318,7 @@ export default class ConductTest extends Component {
                                                         </Row>
                                                         <Row style={{ paddingTop: 0 }}>
                                                             <Col span={3}></Col>
-                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>Fasting Blood Sugar</Text>
+                                                            <Text strong type="secondary" style={{ fontSize: '16px' }}>{this.state.patientage}</Text>
                                                         </Row>
 
                                                     </Col>
@@ -371,7 +439,11 @@ export default class ConductTest extends Component {
                                         })}
 
                                         <Row>
-                                            <Form.Item name={['user', 'SpecialRemarks']} label="Special Remarks(Optional) : ">
+                                            <Form.Item 
+                                            name={['user', 'SpecialRemarks']}
+                                             label="Special Remarks(Optional) : "
+                                             onChange={e => this.handleRemarkChange(e)}
+                                            >
                                                 <Input.TextArea style={{ width: 540 }} />
                                             </Form.Item>
                                         </Row>
@@ -386,7 +458,7 @@ export default class ConductTest extends Component {
                                         </Row>
                                         <Row style={{ marginTop: 20, marginBottom: 20 }}>
                                             <Col span={12}></Col>
-                                            <Button style={{ marginLeft: 10, marginRight: 10 }} type="primary" size='large'>Save</Button>
+                                            <Button style={{ marginLeft: 10, marginRight: 10 }} onClick={this.saveReport} type="primary" size='large'>Save</Button>
                                             <Button style={{ marginLeft: 10, marginRight: 10 }} size='large'>Submit</Button>
                                             <Button style={{ marginLeft: 10, marginRight: 10 }} size='large'>Publish</Button>
                                         </Row>
