@@ -4,7 +4,11 @@ import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker , Modal} from
 import { PlusOutlined } from '@ant-design/icons';
 import { Popconfirm, message } from 'antd';
 // import Drawer from './PatientDrawer'
+import { Typography } from 'antd';
+import Logo from './../../assets/img/outlined logo.png'
+import JsPDF from 'jspdf';
 
+const { Title } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -30,6 +34,7 @@ class MyAppointments extends Component {
             columns:[],
             record:{},
             selectedAppointment:{},
+            printAppointment:{},
             doctors:[],
             timeslots:[],
             selectedDoctor:'',
@@ -39,24 +44,34 @@ class MyAppointments extends Component {
         }
     }
 
-    showModal = (item) => {
-        console.log(item);
+    showModal = (record) => {
+        
+        console.log(record.appointmentId)
         this.setState({
-            visibleModal : true
+            visibleModal : true,
+            printAppointment : record
         });
     };
 
     handleOk = () => {
         this.setState({
-            visible : false
+            visibleModal : false
         });
     };
     
     handleCancel = () => {
         this.setState({
-            visible : false
+            visibleModal : false
         });
     };
+
+    generatePDF = () => {
+
+        const report = new JsPDF('portrait', 'pt', 'a3');
+        report.html(document.querySelector('#appointmentReciept')).then(() => {
+            report.save('reciept.pdf');
+        });
+    }
 
     showDrawer = (record1) => {
         this.forceUpdate()
@@ -238,18 +253,17 @@ class MyAppointments extends Component {
                 title: 'Reciept',
                 dataIndex: 'appointmentStatus',
                 key: 'appointmentStatus',
-                render: appointmentStatus => (
+                render: (appointmentStatus, record) => (
                     <>
                         {
                             appointmentStatus.map(item => {
-                                let color = item == "true" ? 'green' : 'red'
-                                let status = item == "true" ? 'Approved' : 'Pending'
+                                let status = item == "true" ? '' : 'disable'
                                 return(
                                     // <Tag color={color}>
                                     //     {status.toUpperCase()}
                                     // </Tag>
-                                    <Button type="primary" onClick={()=> this.showModal(record)}>
-                                        Update
+                                    <Button disabled={status} onClick={()=> this.showModal(record)}>
+                                        Print Reciept
                                     </Button>
                                 )
                             })
@@ -295,16 +309,41 @@ class MyAppointments extends Component {
                 <Table columns={this.state.columns} dataSource={this.state.appointments}/>
 
 
-                <Modal title="{this.state.selectedDoc.fullName} " visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
+                <Modal title={'Appointment : '+this.state.printAppointment.appointmentId} visible={this.state.visibleModal} onOk={this.generatePDF} onCancel={this.handleCancel}>
 
-                            <Title level={5}>Specialization</Title>
-                            <p>"{this.state.selectedDoc.specialty} "</p>
-                            <br />
-                            <Title level={5}>About Doctor</Title>
+                    <div id="appointmentReciept">
+                        <img src={Logo} alt="" width="150px" style={{ marginLeft:"150px", marginBottom:"10px"}}/>
+                        <Title level={4} style={{ marginLeft:"125px", marginBottom:"30px"}}>Appointment Receipt</Title>
+                        <hr />
+                        <div style={{display:'flex', textAlign:'center', marginLeft:"40px"}}>
+                            <div>
+                                <Title level={5}>Appointment ID</Title>
+                                <p>{this.state.printAppointment.appointmentId}</p>
+                            </div>
+                            <div style={{ marginLeft:"25px"}}>
+                                <Title level={5}>Appointment Date</Title>
+                                <p>{this.state.printAppointment.appointmentDate}</p>
+                            </div>
+                        </div>
+                        <div style={{display:'flex', textAlign:'center', marginLeft:"55px"}}>
+                            <div>
+                                <Title level={5}>Appointment Time Slot</Title>
+                                <p>{this.state.printAppointment.appointmentTimeSlot}</p>
+                            </div>
+                            <div style={{ marginLeft:"30px"}}>
+                                <Title level={5}>Doctor</Title>
+                                <p>{this.state.printAppointment.doctor}</p>
+                            </div>
+                        </div>
+                        <div style={{ marginLeft:"30px", marginRight:"20px", textAlign:'center'}}>
+                            <Title level={5}>Instructions</Title>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                                 Nisi ipsam corrupti voluptatibus ut itaque modi ullam in reprehenderit, 
                                 quaerat corporis ea nesciunt natus dolor voluptates, 
                                 asperiores aspernatur harum ducimus quibusdam.</p>
+                        </div>
+                        
+                    </div>
 
                 </Modal>
 
