@@ -325,6 +325,7 @@ class MyAppointments extends Component {
                                 <p>{this.state.printAppointment.appointmentDate}</p>
                             </div>
                         </div>
+                        <br />
                         <div style={{display:'flex', textAlign:'center', marginLeft:"55px"}}>
                             <div>
                                 <Title level={5}>Appointment Time Slot</Title>
@@ -335,6 +336,7 @@ class MyAppointments extends Component {
                                 <p>{this.state.printAppointment.doctor}</p>
                             </div>
                         </div>
+                        <br />
                         <div style={{ marginLeft:"30px", marginRight:"20px", textAlign:'center'}}>
                             <Title level={5}>Instructions</Title>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 

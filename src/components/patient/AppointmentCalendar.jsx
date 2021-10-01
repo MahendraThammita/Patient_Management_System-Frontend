@@ -11,10 +11,10 @@ function getListData(value) {
         break;
       case 10:
         listData = [
-          { type: 'error', content: 'Dr John Doe | 04.15' },
+          { type: 'error', content: 'Dr akila liyanage | 04.15' },
         ];
         break;
-      case 15:
+      case 14:
         listData = [
           { type: 'error', content: 'Dr John Doe | 04.15' },
         ];
