@@ -164,8 +164,8 @@ class PatientProfile extends Component {
                         <br /><br /><Text strong>Address :</Text><Text>{this.state.addressLine1+','+this.state.addressLine2+','+this.state.city}</Text>
                     </Col>
                     <Col span={8}>
-                        <Statistic title="Appointments" value={112893} />
-                        <Statistic title="Pending Appoitments" value={112893} precision={0}  style={{marginTop:"5%"}}/>
+                        <Statistic title="Approved Appointments" value={1} />
+                        <Statistic title="Pending Appoitments" value={2} precision={0}  style={{marginTop:"5%"}}/>
                         <Button style={{ marginTop: 16 }} type="link">
                             Check Appointments
                         </Button>
