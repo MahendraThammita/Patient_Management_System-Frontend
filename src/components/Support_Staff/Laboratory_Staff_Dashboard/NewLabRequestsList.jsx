@@ -15,9 +15,29 @@ export default class NewLabRequestsList extends Component {
         this.state = {
             searchText: '',
             searchedColumn: '',
+            Data:{},
+            todayNewAppointments: [],
         }
 
     }
+
+    componentDidMount() {
+        //fetch appointments
+        fetch("http://localhost:8090/tests/caregorizedTests", {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem('auth-token')
+          }
+        }).then(res => res.json()).then(data => {
+          console.log(data);
+          if (data.message === 'Authentication failed!') {
+            window.location.replace('/staff-login')
+          }
+          this.setState({ Data: data ,
+            todayNewAppointments:data.todayNewAppointments})
+          console.log("Appointments in parent", this.state.Data)
+        })
+      }
+
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -99,23 +119,38 @@ export default class NewLabRequestsList extends Component {
 
         const columns = [
             {
-                title: 'Name',
-                dataIndex: 'name',
-                key: 'name',
+                title: 'Test Id',
+                dataIndex: 'id',
+                key: 'id',
                 render: text => <a>{text}</a>,
-                ...this.getColumnSearchProps('name'),
+                ...this.getColumnSearchProps('id'),
             },
             {
-                title: 'Doctor',
+                title: 'Patient Name',
+                dataIndex: 'fullName',
+                key: 'fullName',
+                render: text => <a>{text}</a>,
+                ...this.getColumnSearchProps('fullName'),
+            },
+            {
+                title: 'Patient Age',
+                dataIndex: 'age',
+                key: 'age',
+                render: text => <a>{text}</a>,
+                ...this.getColumnSearchProps('age'),
+            },
+            {
+                title: 'Test Name',
+                dataIndex: 'testName',
+                key: 'testName',
+                render: text => <a>{text}</a>,
+                ...this.getColumnSearchProps('testName'),
+            },
+            {
+                title: 'Reffered By',
                 dataIndex: 'doctor',
                 key: 'doctor',
                 ...this.getColumnSearchProps('doctor'),
-            },
-            {
-                title: 'Time',
-                dataIndex: 'time',
-                key: 'time',
-                ...this.getColumnSearchProps('time'),
             },
             {
                 title: 'Status',
@@ -151,7 +186,7 @@ export default class NewLabRequestsList extends Component {
                 render: (text, record) => (
                     <div>
                         <Tag color={'green'}>
-                            <a onClick={() => window.location.replace('/test-request')}>Create Test Request</a>
+                            <a onClick={() => window.location.replace('/test-request')}>Create Test Report</a>
                         </Tag>
                     </div>
 
@@ -159,32 +194,25 @@ export default class NewLabRequestsList extends Component {
             },
         ];
 
-        const data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                doctor: 'Mark Wood',
-                time: '19:20:00',
-                status: 'Closed',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                doctor: 'Mark Wood',
-                time: '19:30:00',
-                status: 'Sample Collected',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                doctor: 'Mark Wood',
-                time: '19:40:00',
-                status: 'New',
-            },
-        ];
+        var processedTestList = [];
+        this.state.todayNewAppointments.map((item)=>{   
+          var testObj = {}
+          testObj.id = item._id;
+          testObj.fullName = item.patient.fullName;
+          testObj.age = item.patient.age;
+          testObj.doctor = item.doctor.fullName;
+          testObj.testName = item.testName;
+          testObj.status = item.status;
+          processedTestList.push(testObj);
+          console.log('appointment List : ' , processedTestList);
+        }); 
 
+        if(processedTestList == []){
+            return null;
+        }
 
         return (
+            
             <div>
                 <div>
                     <Content
@@ -199,7 +227,7 @@ export default class NewLabRequestsList extends Component {
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <Table columns={columns} dataSource={data} pagination={{ pageSize: 3 }} />
+                                <Table columns={columns} dataSource={processedTestList} pagination={{ pageSize: 3 }} />
                             </Col>
                         </Row>
                     </Content>

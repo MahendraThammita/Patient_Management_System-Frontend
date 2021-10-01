@@ -9,14 +9,14 @@ const { Title, Text } = Typography;
 const { Content } = Layout;
 
 
-export default class InProgressLabRequestsList extends Component {
+export default class PublishedLabRequestsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             searchText: '',
             searchedColumn: '',
             Data:{},
-            InProgressAppointments:[],
+            publishedAppointments:[]
         }
 
     }
@@ -33,11 +33,10 @@ export default class InProgressLabRequestsList extends Component {
             window.location.replace('/staff-login')
           }
           this.setState({ Data: data ,
-            InProgressAppointments:data.InProgressAppointments})
+            publishedAppointments:data.publishedAppointments})
           console.log("Appointments in parent", this.state.Data)
         })
       }
-
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -182,11 +181,12 @@ export default class InProgressLabRequestsList extends Component {
             },
             {
                 title: 'Action',
+                dataIndex: 'action',
                 key: 'action',
                 render: (text, record) => (
                     <div>
-                        <Tag color={'geekblue'}>
-                            <a onClick={() => window.location.replace('/test-request')}>Edit Test Report</a>
+                        <Tag color={'volcano'}>
+                            <a href={text}>Download Report</a>
                         </Tag>
                     </div>
 
@@ -219,7 +219,7 @@ export default class InProgressLabRequestsList extends Component {
         ];
 
         var processedTestList = [];
-        this.state.InProgressAppointments.map((item)=>{   
+        this.state.publishedAppointments.map((item)=>{   
           var testObj = {}
           testObj.id = item._id;
           testObj.fullName = item.patient.fullName;
@@ -227,6 +227,7 @@ export default class InProgressLabRequestsList extends Component {
           testObj.doctor = item.doctor.fullName;
           testObj.testName = item.testName;
           testObj.status = item.status;
+          testObj.action = item.reportUrl;
           processedTestList.push(testObj);
           console.log('appointment List : ' , processedTestList);
         }); 
@@ -247,7 +248,7 @@ export default class InProgressLabRequestsList extends Component {
                         }}
                     >
                         <Row justify='start'>
-                            <Title level={3}>Tests In Progress</Title>
+                            <Title level={3}>Compleated Tests</Title>
                         </Row>
                         <Row>
                             <Col span={24}>

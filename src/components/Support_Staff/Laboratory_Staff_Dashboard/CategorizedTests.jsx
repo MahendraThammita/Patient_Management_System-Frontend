@@ -6,6 +6,7 @@ import '../../../assets/css/mahen_general.css';
 import WelcomeSection from '../DashboardCommon/WelcomeSection'
 import NewLabRequestsList from './NewLabRequestsList'
 import InProgressLabRequestsList from './InProgressLabRequestsList'
+import PublishedLabRequestsList from './PublishedLabRequestsList'
 import Logo from '../../../assets/img/pmslogo.png'
 
 const { Title, Text, Link } = Typography;
@@ -101,15 +102,17 @@ export default class CategorizedTests extends Component {
                                 <Col span={24}>
                                     <NewLabRequestsList />
                                 </Col>
-
                             </Row>
                             <Row>
                                 <Col span={24}>
                                     <InProgressLabRequestsList />
                                 </Col>
-
                             </Row>
-
+                            <Row>
+                                <Col span={24}>
+                                    <PublishedLabRequestsList />
+                                </Col>
+                            </Row>
                         </Layout>
                     </Layout>
                 </Layout>
