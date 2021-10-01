@@ -33,6 +33,7 @@ export default class ConductTest extends Component {
         this.handleRemoveClick = this.handleRemoveClick.bind(this);
         this.handleAddClick = this.handleAddClick.bind(this);
         this.saveReport = this.saveReport.bind(this);
+        this.publishReport = this.publishReport.bind(this);
 
     }
 
@@ -44,6 +45,31 @@ export default class ConductTest extends Component {
             status : "InProgress",
         }
         const url = "http://localhost:8090/tests/saveReport";
+            axios.put(url, data).then((res) => {
+                if(res.data.message === "ok"){
+                    notification['success']({
+                        message: 'Successfully published the lab test!',
+                        duration:10,
+                        description:
+                          'You have screated the lab test report successfully',
+                      });
+                      setTimeout(function(){ window.location.replace('/categorized-tests'); }, 2000);
+                    
+                }
+                else{
+                    alert("Something went wrong");
+                }
+            })
+    }
+
+    publishReport = () =>{
+        const data = {
+            _id : this.state.testId,
+            specialRemarks: this.state.specialRemarks,
+            results: this.state.testCategoryObjectsArray,
+            status : "Published",
+        }
+        const url = "http://localhost:8090/tests/publishReport";
             axios.put(url, data).then((res) => {
                 if(res.data.message === "ok"){
                     notification['success']({
@@ -459,8 +485,9 @@ export default class ConductTest extends Component {
                                         <Row style={{ marginTop: 20, marginBottom: 20 }}>
                                             <Col span={12}></Col>
                                             <Button style={{ marginLeft: 10, marginRight: 10 }} onClick={this.saveReport} type="primary" size='large'>Save</Button>
-                                            <Button style={{ marginLeft: 10, marginRight: 10 }} size='large'>Submit</Button>
-                                            <Button style={{ marginLeft: 10, marginRight: 10 }} size='large'>Publish</Button>
+                                            <Button style={{ marginLeft: 10, marginRight: 10 }}  size='large'>Submit</Button>
+                                            <Button style={{ marginLeft: 10, marginRight: 10 }} onClick={this.publishReport} size='large'>Publish</Button>
+                                            <Button style={{ marginLeft: 10, marginRight: 10 }} size='large'>Cancel</Button>
                                         </Row>
 
                                     </Content>
