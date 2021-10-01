@@ -36,6 +36,7 @@ import NurseChat from './components/Support_Staff/Nurse_Dashboard/NurseChat';
 import CoLogin from './components/CoLogin/CoLogin';
 import ConductTest from './components/Support_Staff/Laboratory_Staff_Dashboard/ConductTest';
 import CategorizedTests from './components/Support_Staff/Laboratory_Staff_Dashboard/CategorizedTests';
+import EditTest from './components/Support_Staff/Laboratory_Staff_Dashboard/EditTest';
 
 function App() {
   return (
@@ -140,6 +141,9 @@ function App() {
         </Route>
         <Route path="/categorized-tests">
           <CategorizedTests />
+        </Route>
+        <Route path="/edit-tests">
+          <EditTest />
         </Route>
       </Switch>
     </div>
