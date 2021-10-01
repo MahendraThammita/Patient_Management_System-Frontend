@@ -229,7 +229,16 @@ class Prescription extends Component {
                             <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                                 Cancel
                             </Button>
-                            <Button onClick={() => this.setState({ isModalVisible: true })} type="primary" htmlType="submit">
+                            <Button onClick={() => {
+
+                                if(this.state.startWeek == '' || this.state.endWeek == '' || this.state.description == ''){
+                                    message.error('You are missing out required fields. Please fill the start week, end week and the description.')
+                                }else{
+                                    this.setState({ isModalVisible: true })
+                                }
+
+                                 
+                                 }} type="primary" htmlType="submit">
                                 Submit
                             </Button>
                         </div>
