@@ -20,7 +20,6 @@ export default class NewLabRequestsList extends Component {
         }
 
     }
-
     componentDidMount() {
         //fetch appointments
         fetch("http://localhost:8090/tests/caregorizedTests", {
@@ -182,11 +181,15 @@ export default class NewLabRequestsList extends Component {
             },
             {
                 title: 'Action',
+                dataIndex: 'action',
                 key: 'action',
                 render: (text, record) => (
                     <div>
                         <Tag color={'green'}>
-                            <a onClick={() => window.location.replace('/test-request')}>Create Test Report</a>
+                            <a onClick={() => {
+                                localStorage.setItem("selected_labTest",text);
+                                window.location.replace('/conduct-test')
+                            }}>Create Test Report</a>
                         </Tag>
                     </div>
 
@@ -203,6 +206,7 @@ export default class NewLabRequestsList extends Component {
           testObj.doctor = item.doctor.fullName;
           testObj.testName = item.testName;
           testObj.status = item.status;
+          testObj.action = item._id;
           processedTestList.push(testObj);
           console.log('appointment List : ' , processedTestList);
         }); 

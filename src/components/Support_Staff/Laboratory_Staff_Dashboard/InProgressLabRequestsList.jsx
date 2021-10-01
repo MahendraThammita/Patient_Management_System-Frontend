@@ -18,9 +18,13 @@ export default class InProgressLabRequestsList extends Component {
             Data:{},
             InProgressAppointments:[],
         }
-
+        this.handleChange = this.handleChange.bind(this);
     }
-
+    handleChange = (testId) =>{
+        console.log(testId);
+        // localStorage.setItem("selected_labTest",this.props.test._id);
+        // window.location.replace('/conduct-test')
+    }
     componentDidMount() {
         //fetch appointments
         fetch("http://localhost:8090/tests/caregorizedTests", {
@@ -183,10 +187,14 @@ export default class InProgressLabRequestsList extends Component {
             {
                 title: 'Action',
                 key: 'action',
+                dataIndex: 'action',
                 render: (text, record) => (
                     <div>
                         <Tag color={'geekblue'}>
-                            <a onClick={() => window.location.replace('/test-request')}>Edit Test Report</a>
+                            <a onClick={() => {
+                                localStorage.setItem("selected_labTest",text);
+                                window.location.replace('/edit-tests')
+                            }}>Edit Test Report</a>
                         </Tag>
                     </div>
 
@@ -194,29 +202,6 @@ export default class InProgressLabRequestsList extends Component {
             },
         ];
 
-        const data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                doctor: 'Mark Wood',
-                time: '19:20:00',
-                status: 'Closed',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                doctor: 'Mark Wood',
-                time: '19:30:00',
-                status: 'Sample Collected',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                doctor: 'Mark Wood',
-                time: '19:40:00',
-                status: 'New',
-            },
-        ];
 
         var processedTestList = [];
         this.state.InProgressAppointments.map((item)=>{   
@@ -227,6 +212,7 @@ export default class InProgressLabRequestsList extends Component {
           testObj.doctor = item.doctor.fullName;
           testObj.testName = item.testName;
           testObj.status = item.status;
+          testObj.action = item._id;
           processedTestList.push(testObj);
           console.log('appointment List : ' , processedTestList);
         }); 
