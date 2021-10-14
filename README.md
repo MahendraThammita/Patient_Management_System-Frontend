@@ -21,7 +21,21 @@ Backend - `Node JS`
 
 Database - `Mongo db`
 
-Project management - `Microsoft Azure`
+Project management - `Microsoft Azure Boards`
 
 Version control - `Git`
+
+## How to get started with this app
+
+### Prerequisites
+
+1. `Node JS runtime environment `
+
+### Procedure of setting up prerequisities and run the project
+
+1.
+2.
+3.
+
+
 
