@@ -13,6 +13,12 @@ Nethsara Liyanage   | IT19188546  |  nethsaraLiyanage
 ### Project Description
 
 This App was implemented for the hospital patient management system.
+Patients can make appointments with doctors through the system and receptionist can manage doctors and appointments.
+Each patient have a profile related to their medications.
+Doctor and nurse can update and maintain the patient's profile.
+Laboratary staff can keep records about patient's tests and issued drugs.
+There is a chat feature for better communication between all users.
+
 
 ### Technologies
 Frontend - `React JS`
@@ -30,6 +36,8 @@ Version control - `Git`
 ### Prerequisites
 
 1. `Node JS runtime environment `
+2. `mongodb cluster`
+3. `AWS S3 bucket storage `
 
 ### Procedure of setting up prerequisities and run the project
 
@@ -37,12 +45,10 @@ Version control - `Git`
 2. Add .env file in  Patient_Management_System-Backend directory as following:
 
 - MONGODB_URI = your mongodb connection Uri
-- ACCESS_TOKEN_SECRET_KEY= your secret key
-- PORT = backend server port
-- SEC_KEY=ONuDQEiVMpHgrqWl0V8J
-- AWS_S3_K=AKIAY2Y7WEJQIVZZG6HC
-- AWS_S3_SK=M/K24Yzwh4ivpFdvlHjvNwogejYWu35mKKQyQJO5
-- BKT_NAME=spm-sliit
+- ACCESS_TOKEN_SECRET_KEY= your secret key for the user authontication
+- PORT = Backend server port
+- AWS_S3_SK= AWS S3 Storage key
+- BKT_NAME=spm-AWS S3 bucket name
 
 
 3. Run `npm install` command from Patient_Management_System-Frontend directory
